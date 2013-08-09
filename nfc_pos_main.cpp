@@ -1,4 +1,3 @@
-
 #include "Arduino.h"
 
 
@@ -10,7 +9,7 @@
 #include <Adafruit_TFTLCD.h> // Hardware-specific library
 #include <TouchScreen.h>
 
-#include "display.h"
+#include "nfc_pos.h"
 
 
 
