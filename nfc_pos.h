@@ -55,7 +55,7 @@ void displayRefreshAmount();
 
 
 void processTouch();
-void nfc_pos_transact(void);
+void nfc_pos_transact(int moneyAmount);
 
 typedef struct cursorType {
 	int hor;

@@ -130,8 +130,10 @@ void processMain()
 	case 21: // The page after the merchant enter the price
 		displayUpdates();
 		printLine("Detecting mobile phone...");
-		nfc_pos_transact();
-		state = 0;
+		nfc_pos_transact(moneyAmount);
+		while(!keyPressed){
+			state = 0;
+		}
 		break;
 	case 3: // Menu screen, waiting for user input
 		if(keyPressed)

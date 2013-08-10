@@ -66,7 +66,7 @@ void displayUpdates()
 	cursor.ver = 37;
     tft.fillScreen(BLACK);
 	tft.drawLine(0, 30, 320, 30, RED);
-	tft.setCursor(15, 7);
+	tft.setCursor(cursor.hor, cursor.ver);
 	tft.setTextColor(YELLOW);
 	tft.setTextSize(2);
 }
@@ -75,6 +75,7 @@ void printLine(char *line)
 {
 	tft.println(line);
 	cursor.ver += 15;
+	tft.setCursor(cursor.hor, cursor.ver);
 }
 
 void displayIdle()
