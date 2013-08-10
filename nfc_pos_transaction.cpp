@@ -27,17 +27,18 @@ void nfc_pos_chip_config(void){
 	nfc.SAMConfig();
 }
 
-void nfc_pos_transact(int paymentAmount) {
-	 nfc_pos_chip_config();
-	 const char* amount = (char*)paymentAmount;
+int nfc_pos_transact(int paymentAmount) {
+	int status = 0;
 
-	 char DataOut1[]="Connecting..."; //HACK 16bytes
-	 char DataOut2[]="Authenticating payment of $..."; //HACK 16bytes
-	 char DataOut3[]="Approved"; //HACK 16bytes
-	 char DataIn1[sizeof(DataOut1)];//HACK Should be 16bytes
-	 char DataIn2[sizeof(DataOut2)];//HACK Should be 16bytes
-	 char DataIn3[sizeof(DataOut3)];//HACK Should be 16bytes
-	 strcat(DataOut2, amount);
+	 nfc_pos_chip_config();
+
+	 char DataOut1[]="Connecting to server...";
+	 char DataOut2[] = "";
+	 sprintf(DataOut2, "Authenticating $ %d", paymentAmount);
+	 char DataOut3[]="Payment completed";
+	 char DataIn1[sizeof(DataOut1)];
+	 char DataIn2[sizeof(DataOut2)];
+	 char DataIn3[sizeof(DataOut3)];
 
 	 // Configure PN532 as Peer to Peer Target
 	 if(nfc.inListPassiveTarget()) //if connection is error-free
@@ -45,20 +46,21 @@ void nfc_pos_transact(int paymentAmount) {
 		//trans-receive data
 		if(nfc.inDataExchange(DataOut1, (uint8_t)sizeof(DataOut1), DataIn1, (uint8_t*)sizeof(DataIn1)))
 		{
-		  printLine(DataIn1);
+		  displayLine(DataIn1);
 		  Serial.println(DataIn1);
 		}
 		//trans-receive data
 		if(nfc.inDataExchange(DataOut2, (uint8_t)sizeof(DataOut2), DataIn2, (uint8_t*)sizeof(DataIn2)))
 		{
-		  printLine(DataIn2);
+		  displayLine(DataIn2);
 		  Serial.println(DataIn2);
 		}
 		//trans-receive data
 		if(nfc.inDataExchange(DataOut3, (uint8_t)sizeof(DataOut3), DataIn3, (uint8_t*)sizeof(DataIn3)))
 		{
-		  printLine(DataIn3);
+		  displayLine(DataIn3);
 		  Serial.println(DataIn3);
 		}
 	 }
+	 return status;
 }

@@ -18,7 +18,6 @@ Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 // For the one we're using, its 300 ohms across the X plate
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
-extern int keyPressed ; // 0: no key pressed, 1: key pressed
 extern int keyValue;
 static cursorType cursor;
 
@@ -60,7 +59,7 @@ void initialDisplay()
   tft.setRotation(1);
 }
 
-void displayUpdates()
+void displayTransaction()
 {
 	cursor.hor = 15;
 	cursor.ver = 37;
@@ -71,7 +70,7 @@ void displayUpdates()
 	tft.setTextSize(2);
 }
 
-void printLine(char *line)
+void displayLine(const char line[])
 {
 	tft.println(line);
 	cursor.ver += 15;
@@ -240,56 +239,62 @@ void displayRefreshAmount()
 
 }
 
-void processTouch()
+boolean processTouch()
 {
+	boolean status = false;
 	int x = 0;
 	int y = 0;
-	Point p = ts.getPoint();
-	pinMode(XM, OUTPUT);
-	pinMode(YP, OUTPUT);
-	if (p.z > MINPRESSURE && p.z < MAXPRESSURE && keyPressed == 0)
-	{
-		keyPressed = 1;
-		p.x = map(p.x, TS_MINX, TS_MAXX, tft.width(), 0);
-		p.y = map(p.y, TS_MINY, TS_MAXY, tft.height(), 0);
+	Point p;
+	while (!status){
+		p = ts.getPoint();
+		pinMode(XM, OUTPUT);
+		pinMode(YP, OUTPUT);
 
-		x = p.y;
-		y = 330 - p.x;
+		if (p.z > MINPRESSURE && p.z < MAXPRESSURE)
+		{
+			status = true;
+			p.x = map(p.x, TS_MINX, TS_MAXX, tft.width(), 0);
+			p.y = map(p.y, TS_MINY, TS_MAXY, tft.height(), 0);
 
-		if(y < 70)
-		{
-			if(x < 100) keyValue = 13;
-			else if(x < 146) keyValue = 1;
-			else if(x < 195) keyValue = 2;
-			else keyValue = 3;
-		}
-		else if(y < 166)
-		{
-			if(x < 100) keyValue = 14;
-			else if(x < 146) keyValue = 4;
-			else if(x < 195) keyValue = 5;
-			else keyValue = 6;
-		}
-		else if(y < 240)
-		{
-			if(x < 100) keyValue = 15;
-			else if(x < 146) keyValue = 7;
-			else if(x < 195) keyValue = 8;
-			else keyValue = 9;
-		}
-		else
-		{
-			if(x < 100) keyValue = 16;
-			else if(x < 146) keyValue = 11;
-			else if(x < 195) keyValue = 10;
-			else keyValue = 12;
-		}
+			x = p.y;
+			y = 330 - p.x;
 
-		tft.setTextColor(GREEN);
-		tft.setTextSize(1);
-		tft.print(keyValue);
-		//tft.print(", ");
-		//tft.print(y);
-		tft.print(" ");
+			if(y < 70)
+			{
+				if(x < 100) keyValue = 13;
+				else if(x < 146) keyValue = 1;
+				else if(x < 195) keyValue = 2;
+				else keyValue = 3;
+			}
+			else if(y < 166)
+			{
+				if(x < 100) keyValue = 14;
+				else if(x < 146) keyValue = 4;
+				else if(x < 195) keyValue = 5;
+				else keyValue = 6;
+			}
+			else if(y < 240)
+			{
+				if(x < 100) keyValue = 15;
+				else if(x < 146) keyValue = 7;
+				else if(x < 195) keyValue = 8;
+				else keyValue = 9;
+			}
+			else
+			{
+				if(x < 100) keyValue = 16;
+				else if(x < 146) keyValue = 11;
+				else if(x < 195) keyValue = 10;
+				else keyValue = 12;
+			}
+
+			tft.setTextColor(GREEN);
+			tft.setTextSize(1);
+			tft.print(keyValue);
+			tft.print(", ");
+			tft.print(y);
+			tft.print(" ");
+		}
 	}
+	return status;
 }

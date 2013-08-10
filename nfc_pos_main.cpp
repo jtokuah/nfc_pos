@@ -11,10 +11,7 @@
 
 #include "nfc_pos.h"
 
-
-
-
-
+char logBuffer[LOG_BUFFER_SIZE];
 
 // FOR TOUCH SCREEN END *********************************************
 
@@ -35,15 +32,17 @@
 void setup(void)
 {
 	initialDisplay();
+
 }
 
 
 int state = 0;
 
-int keyPressed = 0; // 0: no key pressed, 1: key pressed
 int keyValue = 0;
 
 int moneyAmount = 0;
+
+int authCode = 0;
 
 int pageNumber = 0;
 
@@ -65,8 +64,17 @@ menuStr[9] = "item 10";*/
 
 */
 
+
+boolean nfc_pos_verify_transaction(int code)
+{
+	return true;
+}
+
+
 void processMain()
 {
+	int returnCode;
+
 	switch(state)
 	{
 	case 0: // display idle screen
@@ -75,7 +83,7 @@ void processMain()
 		state = 1; // ************************* for testing
 		break;
 	case 1: // Idle screen, waiting for user input
-		if(keyPressed)
+		if(processTouch())
 		{
 			if(keyValue == 14 || keyValue == 4 || keyValue == 5 || keyValue == 6) // select make payment
 			{
@@ -96,11 +104,10 @@ void processMain()
 				displaySetting(0);
 			}
 			state = 21; //JT: HACK
-			keyPressed = 0;
 		}
 		break;
 	case 2: // Payment screen, waiting for user input
-		if(keyPressed)
+		if(processTouch())
 		{
 			if(keyValue == 13) // exit
 				state = 0;
@@ -123,20 +130,39 @@ void processMain()
 				moneyAmount = moneyAmount / 10;
 				displayRefreshAmount();
 			}
-			keyPressed = 0;
+		}
+		break;
+	case 21: // Payment transaction
+		moneyAmount = 50; //JT:HACK
+
+		displayTransaction();
+		displayLine("Detecting mobile phone...");
+
+		returnCode = nfc_pos_transact(moneyAmount);
+		if (returnCode != -1){
+			//verify authentication code
+			if (nfc_pos_verify_transaction(returnCode))
+			{
+				INFOF("processMain: payment successful! Valid authentication with payment server");
+			}
+			else
+			{
+				ERRORF("processMain: Transaction returned invalid authentication code: %d", returnCode );
+			}
+		}
+		else
+		{
+			ERRORF("processMain: Could not complete transaction. Unspecified error occurred." );
 		}
 
-		break;
-	case 21: // The page after the merchant enter the price
-		displayUpdates();
-		printLine("Detecting mobile phone...");
-		nfc_pos_transact(moneyAmount);
-		while(!keyPressed){
-			state = 0;
-		}
+		displayLine("Approved!");
+		processTouch();
+
+		state = 3;
+		state = 0; // JT:HACK
 		break;
 	case 3: // Menu screen, waiting for user input
-		if(keyPressed)
+		if(processTouch())
 		{
 			if(keyValue == 13 || keyValue == 1 || keyValue == 2)  // exit
 			{
@@ -167,12 +193,10 @@ void processMain()
 				state = 32 + pageNumber * 3;
 				state = 0;
 			}
-
-			keyPressed = 0;
 		}
 		break;
 	case 4: // Setting screen, waiting for user input
-		if(keyPressed)
+		if(processTouch())
 		{
 			if(keyValue == 13 || keyValue == 1 || keyValue == 2)  // exit
 			{
@@ -201,18 +225,14 @@ void processMain()
 				state = 42 + pageNumber * 3;
 				state = 0;
 			}
-			keyPressed = 0;
 		}
 		break;
 	}
 }
 
-
-
 void loop(void)
 {
 	processMain();
-	processTouch();
 }
 
 
