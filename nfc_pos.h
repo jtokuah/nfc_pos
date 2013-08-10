@@ -1,12 +1,12 @@
 /*
- * display.h
+ * nfc_pos.h
  *
  *  Created on: 2013年8月9日
  *      Author: umzhouc
  */
 
-#ifndef DISPLAY_H_
-#define DISPLAY_H_
+#ifndef NFC_POS_H_
+#define NFC_POS_H_
 
 // The control pins for the LCD can be assigned to any digital or
 // analog pins...but we'll use the analog pins as this allows us to
@@ -44,6 +44,8 @@
 
 unsigned long testText();
 
+void displayUpdates();
+void printLine(char *line);
 void initialDisplay();
 void displayIdle();
 void displayPayment();
@@ -53,8 +55,9 @@ void displayRefreshAmount();
 
 
 void processTouch();
+void nfc_pos_transact(void);
 
 
 
 
-#endif /* DISPLAY_H_ */
+#endif /* NFC_POS_H_ */

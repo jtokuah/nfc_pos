@@ -59,7 +59,19 @@ void initialDisplay()
   tft.setRotation(1);
 }
 
+void displayUpdates()
+{
+    tft.fillScreen(BLACK);
+	tft.drawLine(0, 30, 320, 30, RED);
+	tft.setCursor(15, 7);
+	tft.setTextColor(YELLOW);
+	tft.setTextSize(2);
+}
 
+void printLine(char *line)
+{
+	tft.println(line);
+}
 
 void displayIdle()
 {

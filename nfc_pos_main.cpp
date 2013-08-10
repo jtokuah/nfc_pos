@@ -77,6 +77,7 @@ void processMain()
 	case 1: // Idle screen, waiting for user input
 		if(keyPressed)
 		{
+			state = 21; //JT: HACK
 			if(keyValue == 14 || keyValue == 4 || keyValue == 5 || keyValue == 6) // select make payment
 			{
 				state = 2;
@@ -127,7 +128,9 @@ void processMain()
 
 		break;
 	case 21: // The page after the merchant enter the price
-		//
+		displayUpdates();
+		printLine("Detecting mobile phone...");
+		nfc_pos_transact();
 		state = 0;
 		break;
 	case 3: // Menu screen, waiting for user input
