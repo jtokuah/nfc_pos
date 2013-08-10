@@ -20,6 +20,7 @@ TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
 extern int keyPressed ; // 0: no key pressed, 1: key pressed
 extern int keyValue;
+static cursorType cursor;
 
 unsigned long testText() {
   tft.fillScreen(BLACK);
@@ -61,6 +62,8 @@ void initialDisplay()
 
 void displayUpdates()
 {
+	cursor.hor = 15;
+	cursor.ver = 37;
     tft.fillScreen(BLACK);
 	tft.drawLine(0, 30, 320, 30, RED);
 	tft.setCursor(15, 7);
@@ -71,6 +74,7 @@ void displayUpdates()
 void printLine(char *line)
 {
 	tft.println(line);
+	cursor.ver += 15;
 }
 
 void displayIdle()

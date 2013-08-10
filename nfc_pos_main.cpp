@@ -77,7 +77,6 @@ void processMain()
 	case 1: // Idle screen, waiting for user input
 		if(keyPressed)
 		{
-			state = 21; //JT: HACK
 			if(keyValue == 14 || keyValue == 4 || keyValue == 5 || keyValue == 6) // select make payment
 			{
 				state = 2;
@@ -96,6 +95,7 @@ void processMain()
 				pageNumber = 0;
 				displaySetting(0);
 			}
+			state = 21; //JT: HACK
 			keyPressed = 0;
 		}
 		break;
