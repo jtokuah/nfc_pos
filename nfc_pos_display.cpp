@@ -67,7 +67,7 @@ void displayTransaction()
 	tft.drawLine(0, 30, 320, 30, RED);
 	tft.setCursor(cursor.hor, cursor.ver);
 	tft.setTextColor(YELLOW);
-	tft.setTextSize(2);
+	tft.setTextSize(1);
 }
 
 void displayLine(const char line[])
@@ -79,7 +79,7 @@ void displayLine(const char line[])
 
 void displayIdle()
 {
-  tft.fillScreen(BLACK);
+    tft.fillScreen(BLACK);
 	tft.drawLine(0, 30, 320, 30, RED);
 	tft.drawLine(0, 60, 320, 60, RED);
 	tft.drawLine(0, 120, 320, 120, RED);
@@ -252,7 +252,6 @@ boolean processTouch()
 
 		if (p.z > MINPRESSURE && p.z < MAXPRESSURE)
 		{
-			nfc_pos_print("processTouch: Screen touched");
 			status = true;
 			p.x = map(p.x, TS_MINX, TS_MAXX, tft.width(), 0);
 			p.y = map(p.y, TS_MINY, TS_MAXY, tft.height(), 0);

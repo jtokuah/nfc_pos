@@ -28,20 +28,25 @@
 // (on the 2-row header at the end of the board).
 
 
-void setup(void)
-{
-	Serial.begin(115200);
-	initialDisplay();
+// Copy string from flash to serial port
+// Source string MUST be inside a PSTR() declaration!
+void progmemPrint(const char *str) {
+  char c;
+  while(c = pgm_read_byte(str++)) Serial.print(c);
 }
 
+// Same as above, with trailing newline
+void progmemPrintln(const char *str) {
+  progmemPrint(str);
+  Serial.println();
+}
+
+
+
 int state = 0;
-
 int keyValue = 0;
-
 int moneyAmount = 0;
-
 int authCode = 0;
-
 int pageNumber = 0;
 
 /*char * menuStr [10];
@@ -62,16 +67,18 @@ menuStr[9] = "item 10";*/
 
 */
 
-void nfc_pos_print(const char *fmt, ...)
-{
-	va_list args;
-	char logBuffer[1000];
+//void nfc_pos_print(const char *fmt, ...)
+//{
+//	va_list args;
+//	char logBuffer[1000]={""};
+//
+//	va_start(args, fmt);
+//	vsprintf(logBuffer, fmt, args);
+//	progmemPrintln(PSTR(logBuffer));
+//	va_end(args);
+//	free (logBuffer);
+//}
 
-	va_start(args, fmt);
-	vsprintf(logBuffer, fmt, args);
-	Serial.println(logBuffer);
-	va_end(args);
-}
 
 
 boolean nfc_pos_verify_transaction(int code)
@@ -88,14 +95,13 @@ void processMain()
 	{
 	case 0: // display idle screen
 		displayIdle();
-		nfc_pos_print("processMain: case 0");
 		state = 1;
 		state = 1; // ************************* for testing
 		break;
 	case 1: // Idle screen, waiting for user input
-		nfc_pos_print("processMain: case 1");
 		if(processTouch())
 		{
+			progmemPrintln(PSTR("processMain: case 1"));
 			if(keyValue == 14 || keyValue == 4 || keyValue == 5 || keyValue == 6) // select make payment
 			{
 				state = 2;
@@ -118,9 +124,9 @@ void processMain()
 		}
 		break;
 	case 2: // Payment screen, waiting for user input
-		nfc_pos_print("processMain: case 2");
 		if(processTouch())
 		{
+			progmemPrintln(PSTR("processMain: case 2"));
 			if(keyValue == 13) // exit
 				state = 0;
 			else if(keyValue == 1) // input = number
@@ -145,39 +151,37 @@ void processMain()
 		}
 		break;
 	case 21: // Payment transaction
-		nfc_pos_print("processMain:: case 21");
+		progmemPrintln(PSTR("processMain:: case 21"));
 		moneyAmount = 50; //JT:HACK
 		displayTransaction();
 		displayLine("Detecting mobile phone...");
-		nfc_pos_print("processmain:: Detecting mobile phone");
+		progmemPrintln(PSTR("processmain:: Detecting mobile phone"));
 
 		returnCode = nfc_pos_transact(moneyAmount);
 		if (returnCode != -1){
 			//verify authentication code
 			if (nfc_pos_verify_transaction(returnCode))
 			{
-				nfc_pos_print("processMain:: payment successful! Valid authentication with payment server");
+				progmemPrintln(PSTR("payment successful!"));
 			}
 			else
 			{
-				nfc_pos_print("processMain:: Transaction returned invalid authentication code: %d", returnCode );
+				progmemPrintln(PSTR("invalid receipt" ));
 			}
 		}
 		else
 		{
-			nfc_pos_print("processMain:: Could not complete transaction. Unspecified error occurred.");
+			progmemPrintln(PSTR("Unspecified error."));
 		}
 
 		displayLine("Approved!");
 		processTouch();
-
-		state = 3;
-		state = 0; // JT:HACK
+		state = 21; // JT:HACK
 		break;
 	case 3: // Menu screen, waiting for user input
-		nfc_pos_print("processMain:: case 3");
 		if(processTouch())
 		{
+			progmemPrintln(PSTR("processMain:: case 3"));
 			if(keyValue == 13 || keyValue == 1 || keyValue == 2)  // exit
 			{
 				state = 0;
@@ -210,9 +214,9 @@ void processMain()
 		}
 		break;
 	case 4: // Setting screen, waiting for user input
-		nfc_pos_print("processMain:: case 4");
 		if(processTouch())
 		{
+			progmemPrintln(PSTR("processMain:: case 4"));
 			if(keyValue == 13 || keyValue == 1 || keyValue == 2)  // exit
 			{
 				state = 0;
@@ -243,6 +247,13 @@ void processMain()
 		}
 		break;
 	}
+}
+
+void setup(void)
+{
+	Serial.begin(115200);
+	progmemPrintln(PSTR("NFC Point of Sale Payment Solution\n"));
+	initialDisplay();
 }
 
 void loop(void)

@@ -24,7 +24,7 @@
 #define YM 7   // can be a digital pin
 #define XP 6   // can be a digital pin
 
-#define MINPRESSURE 1
+#define MINPRESSURE 5
 #define MAXPRESSURE 1000
 
 // Assign human-readable names to some common 16-bit color values:
@@ -44,6 +44,8 @@
 
 unsigned long testText();
 
+void progmemPrint(const char *str);
+void progmemPrintln(const char *str);
 void displayTransaction();
 void displayLine(const char line[]);
 void initialDisplay();

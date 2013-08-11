@@ -47,20 +47,19 @@ nfc_pos_outgoing_transaction_table_entry outgoing_table [OUTGOING_CODE_MAX] =
  */
 void nfc_pos_configure_board(void)
 {
-	nfc_pos_print("nfc_pos_configure_board:: Starting NFC...");
+	progmemPrintln(PSTR("\nStarting NFC..."));
 	nfc.begin();
 
 	uint32_t versiondata = nfc.getFirmwareVersion();
 	if (!versiondata)
 	{
-		nfc_pos_print("nfc_pos_configure_board:: Didn't find PN53x board");
-		//while (1); // halt
+		Serial.println("Didn't find PN53x board");
+		while (1); // halt
 	}
 	// Got ok data, print it out!
-  	Serial.print("nfc_pos_configure_board:: Found chip PN5"); Serial.println((versiondata>>24) & 0xFF, HEX);
-  	Serial.print("nfc_pos_configure_board:: Firmware ver. "); Serial.print((versiondata>>16) & 0xFF, DEC);
+  	Serial.print("Found chip PN5"); Serial.println((versiondata>>24) & 0xFF, HEX);
+  	Serial.print("Firmware ver. "); Serial.print((versiondata>>16) & 0xFF, DEC);
   	Serial.print('.'); Serial.println((versiondata>>8) & 0xFF, DEC);
-
 	// configure board to read RFID tags and cards
 	nfc.SAMConfig();
 }
@@ -81,7 +80,7 @@ nfc_pos_message_type nfc_pos_send_message_to_peer(int code, char * text, int dat
 	char data_out_buffer[MESSAGE_BUFFER_SIZE];
 
 	//format message for transfer and store in out buffer
-	sprintf (data_out_buffer, "%s\n%s\n%d", outgoing_table[code].message, text, data);
+	sprintf (data_out_buffer, "%s\n%s\n%d\0", outgoing_table[code].message, text, data);
 
 	//trans-receive data
 	if(nfc.inDataExchange(data_out_buffer, (uint8_t)sizeof(data_out_buffer), data_in_buffer, (uint8_t*)sizeof(data_in_buffer)))
@@ -112,12 +111,14 @@ nfc_pos_message_type nfc_pos_send_message_to_peer(int code, char * text, int dat
 				count ++;
 			}
 		}
-		nfc_pos_print("nfc_pos_send_message_to_peer():: Message from peer.\nTransaction Code: %d\nText: %s\nData: %d received from peer",
-				received_message.transaction_code, received_message.text, received_message.data);
+		//Serial.println("nfc_pos_send_message_to_peer():: Message from peer.\nTransaction Code: %d\nText: %s\nData: %d received from peer",
+				//received_message.transaction_code, received_message.text, received_message.data);
+
+
 	}
 	else
 	{
-		nfc_pos_print("nfc_pos_send_message_to_peer():: nfc.inDataExchange() failed!");
+		progmemPrintln(PSTR("\nnfc.inDataExchange() failed!\n"));
 	}
 
 	return received_message;
@@ -128,12 +129,12 @@ nfc_pos_message_type nfc_pos_send_message_to_peer(int code, char * text, int dat
  */
 boolean nfc_pos_mobile_peer_ready()
 {
-	nfc_pos_print("Waiting for mobile device to be ready...");
+	progmemPrintln(PSTR("\nWaiting for mobile device to be ready...\n"));
 	boolean status = false;
-	if (INCOMING_CODE_PEER_DEVICE_READY_RESPONSE == nfc_pos_send_message_to_peer(OUTGOING_CODE_PEER_READY_REQUEST, (char*)"Hello", 6841).transaction_code){
+	if (INCOMING_CODE_PEER_DEVICE_READY_RESPONSE == nfc_pos_send_message_to_peer(OUTGOING_CODE_PEER_READY_REQUEST, (char*)"", NULL).transaction_code){
 		status = true;
 	}
-	return true;
+	return true; //JT:HACK
 }
 
 int nfc_pos_transact(int paymentAmount)
@@ -141,23 +142,22 @@ int nfc_pos_transact(int paymentAmount)
 	int status = -1;
 	nfc_pos_configure_board();
 
-	nfc_pos_print("nfc_pos_transact: Entering transaction loop");
+	progmemPrintln(PSTR("\nEntering transaction loop...\n"));
     while (true){
 		 // Configure PN532 as Peer to Peer Target
 		if(nfc.inListPassiveTarget()) //if connection is error-free
 		{
 			if (nfc_pos_mobile_peer_ready())
 			{
-				nfc_pos_print("Initiating payment transaction for $%d", paymentAmount);
-
+				progmemPrintln(PSTR("Initiating payment for $"));
 				status = EOK;
 			}
 		}
 		else
 		{
-			nfc_pos_print("Unable to configure the PN532 board as Peer to Peer target");
+			progmemPrintln(PSTR("\nUnable to configure the PN532 board as Peer to Peer target"));
 		}
     }
-    nfc_pos_print("nfc_pos_transact: Returning to main");
+    progmemPrintln(PSTR("Returning to main"));
 	return status;
 }
