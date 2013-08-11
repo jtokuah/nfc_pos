@@ -13,7 +13,8 @@
 #define EPROTO      	1  /* Protocol error                       	*/
 #define EBADRQC     	2  /* Invalid request code                 	*/
 
-#define MESSAGE_BUFFER_SIZE 16
+#define MESSAGE_BUFFER_SIZE 			16
+#define MAX_NUM_TRANSACTION_RETRIES		3
 
 typedef enum{
 	INCOMING_CODE_INVALID = -1,
@@ -46,6 +47,7 @@ typedef enum{
 	OUTGOING_CODE_RECEIPT_INVALID_MESSAGE = 6,
 	OUTGOING_CODE_READY_FOR_BALANCE_RESPONSE = 7,
 	OUTGOING_CODE_BALANCE_RECEIVED_CONFIRMATION = 8,
+	OUTGOING_CODE_SENDING_PAYMENT_AMOUNT = 9,
 	OUTGOING_CODE_MAX
 }nfc_pos_transaction_code_outgoing_type;
 

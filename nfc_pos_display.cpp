@@ -67,7 +67,7 @@ void displayTransaction()
 	tft.drawLine(0, 30, 320, 30, RED);
 	tft.setCursor(cursor.hor, cursor.ver);
 	tft.setTextColor(YELLOW);
-	tft.setTextSize(1);
+	tft.setTextSize(1.5);
 }
 
 void displayLine(const char line[])

@@ -40,6 +40,7 @@ nfc_pos_outgoing_transaction_table_entry outgoing_table [OUTGOING_CODE_MAX] =
 	{OUTGOING_CODE_RECEIPT_INVALID_MESSAGE, (char*)"06"},
 	{OUTGOING_CODE_READY_FOR_BALANCE_RESPONSE, (char*)"07"},
 	{OUTGOING_CODE_BALANCE_RECEIVED_CONFIRMATION, (char*)"08"},
+	{OUTGOING_CODE_SENDING_PAYMENT_AMOUNT, (char*)"09"},
 };
 
 /*
@@ -146,10 +147,13 @@ nfc_pos_message_type nfc_pos_send_message_to_peer(int code, char * text, int dat
  */
 boolean nfc_pos_mobile_peer_ready()
 {
-	progmemPrintln(PSTR("\nnfc_pos_mobile_peer_ready():: Waiting for mobile device to be ready...\n"));
 	boolean status = false;
-	if (INCOMING_CODE_PEER_DEVICE_READY_RESPONSE ==
-		nfc_pos_send_message_to_peer(OUTGOING_CODE_PEER_READY_REQUEST, "" ,NULL).transaction_code){
+	nfc_pos_message_type received_message;
+
+	progmemPrintln(PSTR("\nnfc_pos_mobile_peer_ready():: Waiting for mobile device to be ready...\n"));
+	received_message = nfc_pos_send_message_to_peer(OUTGOING_CODE_PEER_READY_REQUEST, "" ,NULL);
+	if (INCOMING_CODE_PEER_DEVICE_READY_RESPONSE == received_message.transaction_code)
+	{
 		status = true;
 	}
 	//return status;
@@ -164,22 +168,35 @@ boolean nfc_pos_mobile_peer_ready()
 int nfc_pos_transaction_handler(int paymentAmount)
 {
 	int status = -1;
+	int num_retries = 0;
+	nfc_pos_message_type received_message;
+
+
 	nfc_pos_configure_board();
 
-	progmemPrintln(PSTR("\nnfc_pos_transact():: Entering transaction loop...\n"));
-    while (true){
+	progmemPrintln(PSTR("\nnfc_pos_transaction_handler():: Entering transaction loop...\n"));
+
+	while ((status != EOK) && (num_retries <= MAX_NUM_TRANSACTION_RETRIES)){
 		 // Configure PN532 as Peer to Peer Target
 		if(nfc.inListPassiveTarget()) //if connection is error-free
 		{
 			if (nfc_pos_mobile_peer_ready())
 			{
-				progmemPrintln(PSTR("nfc_pos_transact():: Initiating payment for $"));
-				status = EOK;
+				progmemPrint(PSTR("nfc_pos_transaction_handler():: Initiating payment transaction for $"));
+				serial.println(PSTR((char*)paymentAmount));
+
+				//send the payment amount to the mobile
+				received_message = nfc_pos_send_message_to_peer(OUTGOING_CODE_SENDING_PAYMENT_AMOUNT, "" ,paymentAmount);
+				if (INCOMING_CODE_PAYMENT_AMOUNT_RECEIVED_CONFIRMATION != received_message.transaction_code)
+				{
+					//ERROR CODES
+				}
+
 			}
 		}
 		else
 		{
-			progmemPrintln(PSTR("\nnfc_pos_transact():: Unable to configure the PN532 board as Peer to Peer target"));
+			progmemPrintln(PSTR("\nnfc_pos_transact():: Unable to list the PN532 as passive target"));
 		}
     }
     progmemPrintln(PSTR("nfc_pos_transact():: Returning to main"));
