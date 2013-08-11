@@ -24,7 +24,7 @@
 #define YM 7   // can be a digital pin
 #define XP 6   // can be a digital pin
 
-#define MINPRESSURE 5
+#define MINPRESSURE 1
 #define MAXPRESSURE 1000
 
 // Assign human-readable names to some common 16-bit color values:
@@ -56,7 +56,7 @@ void displaySetting(unsigned char pageNumber);
 void displayRefreshAmount();
 
 boolean processTouch();
-int nfc_pos_transact(int moneyAmount);
+int nfc_pos_transaction_handler(int moneyAmount);
 void nfc_pos_print(const char *fmt, ...);
 
 typedef struct cursorType {

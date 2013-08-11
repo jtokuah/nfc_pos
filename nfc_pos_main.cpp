@@ -67,18 +67,6 @@ menuStr[9] = "item 10";*/
 
 */
 
-//void nfc_pos_print(const char *fmt, ...)
-//{
-//	va_list args;
-//	char logBuffer[1000]={""};
-//
-//	va_start(args, fmt);
-//	vsprintf(logBuffer, fmt, args);
-//	progmemPrintln(PSTR(logBuffer));
-//	va_end(args);
-//	free (logBuffer);
-//}
-
 
 
 boolean nfc_pos_verify_transaction(int code)
@@ -157,7 +145,7 @@ void processMain()
 		displayLine("Detecting mobile phone...");
 		progmemPrintln(PSTR("processmain:: Detecting mobile phone"));
 
-		returnCode = nfc_pos_transact(moneyAmount);
+		returnCode = nfc_pos_transaction_handler(moneyAmount);
 		if (returnCode != -1){
 			//verify authentication code
 			if (nfc_pos_verify_transaction(returnCode))

@@ -13,7 +13,7 @@
 #define EPROTO      	1  /* Protocol error                       	*/
 #define EBADRQC     	2  /* Invalid request code                 	*/
 
-#define MESSAGE_BUFFER_SIZE 64
+#define MESSAGE_BUFFER_SIZE 16
 
 typedef enum{
 	INCOMING_CODE_INVALID = -1,
