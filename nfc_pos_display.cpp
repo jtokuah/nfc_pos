@@ -11,7 +11,7 @@
 Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 // If using the shield, all control and data lines are fixed, and
 // a simpler declaration can optionally be used:
-// Adafruit_TFTLCD tft;
+//Adafruit_TFTLCD tft;
 
 // For better pressure precision, we need to know the resistance
 // between X+ and X- Use any multimeter to read it
@@ -252,6 +252,7 @@ boolean processTouch()
 
 		if (p.z > MINPRESSURE && p.z < MAXPRESSURE)
 		{
+			nfc_pos_print("processTouch: Screen touched");
 			status = true;
 			p.x = map(p.x, TS_MINX, TS_MAXX, tft.width(), 0);
 			p.y = map(p.y, TS_MINY, TS_MAXY, tft.height(), 0);
@@ -291,9 +292,9 @@ boolean processTouch()
 			tft.setTextColor(GREEN);
 			tft.setTextSize(1);
 			tft.print(keyValue);
-			tft.print(", ");
-			tft.print(y);
-			tft.print(" ");
+//			tft.print(", ");
+//			tft.print(y);
+//			tft.print(" ");
 		}
 	}
 	return status;

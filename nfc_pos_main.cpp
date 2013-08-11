@@ -8,10 +8,9 @@
 #include <Adafruit_GFX.h>    // Core graphics library
 #include <Adafruit_TFTLCD.h> // Hardware-specific library
 #include <TouchScreen.h>
-
+#include <stdarg.h>
+#include <stdio.h>
 #include "nfc_pos.h"
-
-char logBuffer[LOG_BUFFER_SIZE];
 
 // FOR TOUCH SCREEN END *********************************************
 
@@ -31,10 +30,9 @@ char logBuffer[LOG_BUFFER_SIZE];
 
 void setup(void)
 {
+	Serial.begin(115200);
 	initialDisplay();
-
 }
-
 
 int state = 0;
 
@@ -64,6 +62,17 @@ menuStr[9] = "item 10";*/
 
 */
 
+void nfc_pos_print(const char *fmt, ...)
+{
+	va_list args;
+	char logBuffer[1000];
+
+	va_start(args, fmt);
+	vsprintf(logBuffer, fmt, args);
+	Serial.println(logBuffer);
+	va_end(args);
+}
+
 
 boolean nfc_pos_verify_transaction(int code)
 {
@@ -79,10 +88,12 @@ void processMain()
 	{
 	case 0: // display idle screen
 		displayIdle();
+		nfc_pos_print("processMain: case 0");
 		state = 1;
 		state = 1; // ************************* for testing
 		break;
 	case 1: // Idle screen, waiting for user input
+		nfc_pos_print("processMain: case 1");
 		if(processTouch())
 		{
 			if(keyValue == 14 || keyValue == 4 || keyValue == 5 || keyValue == 6) // select make payment
@@ -107,6 +118,7 @@ void processMain()
 		}
 		break;
 	case 2: // Payment screen, waiting for user input
+		nfc_pos_print("processMain: case 2");
 		if(processTouch())
 		{
 			if(keyValue == 13) // exit
@@ -133,26 +145,27 @@ void processMain()
 		}
 		break;
 	case 21: // Payment transaction
+		nfc_pos_print("processMain:: case 21");
 		moneyAmount = 50; //JT:HACK
-
 		displayTransaction();
 		displayLine("Detecting mobile phone...");
+		nfc_pos_print("processmain:: Detecting mobile phone");
 
 		returnCode = nfc_pos_transact(moneyAmount);
 		if (returnCode != -1){
 			//verify authentication code
 			if (nfc_pos_verify_transaction(returnCode))
 			{
-				INFOF("processMain: payment successful! Valid authentication with payment server");
+				nfc_pos_print("processMain:: payment successful! Valid authentication with payment server");
 			}
 			else
 			{
-				ERRORF("processMain: Transaction returned invalid authentication code: %d", returnCode );
+				nfc_pos_print("processMain:: Transaction returned invalid authentication code: %d", returnCode );
 			}
 		}
 		else
 		{
-			ERRORF("processMain: Could not complete transaction. Unspecified error occurred." );
+			nfc_pos_print("processMain:: Could not complete transaction. Unspecified error occurred.");
 		}
 
 		displayLine("Approved!");
@@ -162,6 +175,7 @@ void processMain()
 		state = 0; // JT:HACK
 		break;
 	case 3: // Menu screen, waiting for user input
+		nfc_pos_print("processMain:: case 3");
 		if(processTouch())
 		{
 			if(keyValue == 13 || keyValue == 1 || keyValue == 2)  // exit
@@ -196,6 +210,7 @@ void processMain()
 		}
 		break;
 	case 4: // Setting screen, waiting for user input
+		nfc_pos_print("processMain:: case 4");
 		if(processTouch())
 		{
 			if(keyValue == 13 || keyValue == 1 || keyValue == 2)  // exit

@@ -24,7 +24,7 @@
 #define YM 7   // can be a digital pin
 #define XP 6   // can be a digital pin
 
-#define MINPRESSURE 0.5
+#define MINPRESSURE 1
 #define MAXPRESSURE 1000
 
 // Assign human-readable names to some common 16-bit color values:
@@ -42,12 +42,6 @@
 #define TS_MAXX 920
 #define TS_MAXY 940
 
-#define LOG_BUFFER_SIZE 1000
-#define LINE_BUFFER_SIZE 1000
-
-#define ERRORF(fmt, args...) Serial.println(sprintf(logBuffer, "ERROR:"fmt, ##args))
-#define INFOF(fmt, args...) Serial.println(sprintf(logBuffer, ""fmt, ##args))
-
 unsigned long testText();
 
 void displayTransaction();
@@ -59,10 +53,9 @@ void displayMenu(unsigned char pageNumber);
 void displaySetting(unsigned char pageNumber);
 void displayRefreshAmount();
 
-extern char logBuffer[LOG_BUFFER_SIZE];
 boolean processTouch();
 int nfc_pos_transact(int moneyAmount);
-
+void nfc_pos_print(const char *fmt, ...);
 
 typedef struct cursorType {
 	int hor;
