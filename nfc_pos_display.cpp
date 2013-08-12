@@ -61,19 +61,26 @@ void initialDisplay()
 
 void displayTransaction()
 {
+	tft.setCursor(15, 7);
+	tft.setTextColor(YELLOW);
+	tft.setTextSize(2);
+	tft.fillScreen(BLACK);
+	tft.println("NFC Mobile POS v1.00.01");
 	cursor.hor = 15;
 	cursor.ver = 37;
-    tft.fillScreen(BLACK);
 	tft.drawLine(0, 30, 320, 30, RED);
 	tft.setCursor(cursor.hor, cursor.ver);
 	tft.setTextColor(YELLOW);
-	tft.setTextSize(1.5);
+	tft.setTextSize(2);
+	tft.println("Place phone");
+	cursor.ver += 20;
+	tft.setCursor(cursor.hor, cursor.ver);
 }
 
 void displayLine(const char line[])
 {
 	tft.println(line);
-	cursor.ver += 15;
+	cursor.ver += 20;
 	tft.setCursor(cursor.hor, cursor.ver);
 }
 
@@ -88,7 +95,7 @@ void displayIdle()
 	tft.setCursor(15, 7);
 	tft.setTextColor(YELLOW);
 	tft.setTextSize(2);
-	tft.println("NFC Pay point v1.00.01");
+	tft.println("NFC Mobile POS v1.00.01");
 
 	tft.setCursor(15, 37);
 	tft.setTextSize(2);

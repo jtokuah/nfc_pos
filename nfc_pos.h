@@ -42,6 +42,9 @@
 #define TS_MAXX 920
 #define TS_MAXY 940
 
+#define IRQ   (2)
+#define RESET (3)
+
 unsigned long testText();
 
 void progmemPrint(const char *str);
@@ -54,14 +57,26 @@ void displayPayment();
 void displayMenu(unsigned char pageNumber);
 void displaySetting(unsigned char pageNumber);
 void displayRefreshAmount();
-
 boolean processTouch();
-int nfc_pos_transaction_handler(int moneyAmount);
-void nfc_pos_print(const char *fmt, ...);
+
+void nfc_pos_configure_board(void);
 
 typedef struct cursorType {
 	int hor;
 	int ver;
 }cursorType;
+
+/* Return type of the nfc_pos_transaction_handler() function */
+typedef struct nfc_pos_transaction_result_type{
+	int   status;
+	int   transaction_ID;
+	int   receipt_num;
+	char  server_message[32];
+}nfc_pos_transaction_result_type;
+
+nfc_pos_transaction_result_type nfc_pos_transaction_handler(int moneyAmount, char* accountNum);
+
+
+
 
 #endif /* NFC_POS_H_ */

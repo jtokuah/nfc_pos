@@ -28,26 +28,12 @@
 // (on the 2-row header at the end of the board).
 
 
-// Copy string from flash to serial port
-// Source string MUST be inside a PSTR() declaration!
-void progmemPrint(const char *str) {
-  char c;
-  while(c = pgm_read_byte(str++)) Serial.print(c);
-}
-
-// Same as above, with trailing newline
-void progmemPrintln(const char *str) {
-  progmemPrint(str);
-  Serial.println();
-}
-
-
-
 int state = 0;
 int keyValue = 0;
-int moneyAmount = 0;
-int authCode = 0;
+int moneyAmount = -1;
+int authCode = -1;
 int pageNumber = 0;
+char* accountNum = "";
 
 /*char * menuStr [10];
 menuStr[0] = "item 01";
@@ -67,7 +53,18 @@ menuStr[9] = "item 10";*/
 
 */
 
+// Copy string from flash to serial port
+// Source string MUST be inside a PSTR() declaration!
+void progmemPrint(const char *str) {
+  char c;
+  while(c = pgm_read_byte(str++)) Serial.print(c);
+}
 
+// Same as above, with trailing newline
+void progmemPrintln(const char *str) {
+  progmemPrint(str);
+  Serial.println();
+}
 
 boolean nfc_pos_verify_transaction(int code)
 {
@@ -77,7 +74,7 @@ boolean nfc_pos_verify_transaction(int code)
 
 void processMain()
 {
-	int returnCode;
+	nfc_pos_transaction_result_type transactionResult;
 
 	switch(state)
 	{
@@ -141,30 +138,32 @@ void processMain()
 	case 21: // Payment transaction
 		progmemPrintln(PSTR("processMain:: case 21"));
 		moneyAmount = 50; //JT:HACK
+		accountNum = "AC123456"; //JT:HACK -
 		displayTransaction();
 		displayLine("Detecting mobile phone...");
 		progmemPrintln(PSTR("processmain:: Detecting mobile phone"));
-
-		returnCode = nfc_pos_transaction_handler(moneyAmount);
-		if (returnCode != -1){
+		transactionResult = nfc_pos_transaction_handler(moneyAmount, accountNum);
+		if (transactionResult.status != -1){
 			//verify authentication code
-			if (nfc_pos_verify_transaction(returnCode))
+			if (nfc_pos_verify_transaction(transactionResult.receipt_num))
 			{
-				progmemPrintln(PSTR("payment successful!"));
+				displayLine("Approved!");
+				progmemPrintln(PSTR("processmain:: payment successful!"));
 			}
 			else
 			{
-				progmemPrintln(PSTR("invalid receipt" ));
+				displayLine("Not Approved!.");
+				progmemPrintln(PSTR("processmain:: invalid receipt" ));
 			}
 		}
 		else
 		{
-			progmemPrintln(PSTR("Unspecified error."));
+			progmemPrintln(PSTR("processmain:: Unexpected error."));
+			displayLine("Unexpected error!");
 		}
 
-		displayLine("Approved!");
 		processTouch();
-		state = 21; // JT:HACK
+		state = 0; // JT:HACK
 		break;
 	case 3: // Menu screen, waiting for user input
 		if(processTouch())
@@ -242,6 +241,7 @@ void setup(void)
 	Serial.begin(115200);
 	progmemPrintln(PSTR("NFC Point of Sale Payment Solution\n"));
 	initialDisplay();
+	nfc_pos_configure_board();
 }
 
 void loop(void)
