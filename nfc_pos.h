@@ -1,7 +1,7 @@
 /*
  * nfc_pos.h
  *
- *  Created on: 2013年8月9日
+ *  Created on: 2013骞�鏈�鏃�
  *      Author: umzhouc
  */
 
@@ -57,14 +57,16 @@ void displayPayment();
 void displayMenu(unsigned char pageNumber);
 void displaySetting(unsigned char pageNumber);
 void displayRefreshAmount();
-boolean processTouch();
 
-void nfc_pos_configure_board(void);
+int processTouch();
 
 typedef struct cursorType {
 	int hor;
 	int ver;
 }cursorType;
+
+#ifdef nfc
+void nfc_pos_configure_board(void);
 
 /* Return type of the nfc_pos_transaction_handler() function */
 typedef struct nfc_pos_transaction_result_type{
@@ -76,7 +78,7 @@ typedef struct nfc_pos_transaction_result_type{
 
 nfc_pos_transaction_result_type nfc_pos_transaction_handler(int moneyAmount, char* accountNum);
 
-
+#endif
 
 
 #endif /* NFC_POS_H_ */

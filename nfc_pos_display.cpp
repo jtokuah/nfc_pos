@@ -7,7 +7,6 @@
 #include "Arduino.h"
 
 
-
 Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 // If using the shield, all control and data lines are fixed, and
 // a simpler declaration can optionally be used:
@@ -246,9 +245,9 @@ void displayRefreshAmount()
 
 }
 
-boolean processTouch()
+int processTouch()
 {
-	boolean status = false;
+	int status = false;
 	int x = 0;
 	int y = 0;
 	Point p;

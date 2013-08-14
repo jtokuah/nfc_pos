@@ -4,6 +4,8 @@
 #include "nfc_pos.h"
 #include "nfc_pos_transaction.h"
 
+#ifdef nfc
+
 
 Adafruit_NFCShield_I2C nfc(IRQ, RESET);
 
@@ -323,3 +325,5 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(int paymentAmount, c
     progmemPrintln(PSTR("nfc_pos_transaction_handler():: Returning to main"));
 	return result;
 }
+
+#endif
