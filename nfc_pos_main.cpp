@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include "nfc_pos.h"
 
+// #define nfc
+
 // FOR TOUCH SCREEN END *********************************************
 
 // When using the BREAKOUT BOARD only, use these 8 data lines to the LCD:
@@ -142,6 +144,7 @@ void processMain()
 		displayTransaction();
 		displayLine("Detecting mobile phone...");
 		progmemPrintln(PSTR("processmain:: Detecting mobile phone"));
+#ifdef nfc
 		transactionResult = nfc_pos_transaction_handler(moneyAmount, accountNum);
 		if (transactionResult.status != -1){
 			//verify authentication code
@@ -161,7 +164,7 @@ void processMain()
 			progmemPrintln(PSTR("processmain:: Unexpected error."));
 			displayLine("Unexpected error!");
 		}
-
+#endif
 		processTouch();
 		state = 0; // JT:HACK
 		break;
@@ -239,9 +242,11 @@ void processMain()
 void setup(void)
 {
 	Serial.begin(115200);
-	progmemPrintln(PSTR("NFC Point of Sale Payment Solution\n"));
 	initialDisplay();
+#ifdef nfc
+	progmemPrintln(PSTR("NFC Point of Sale Payment Solution\n"));
 	nfc_pos_configure_board();
+#endif
 }
 
 void loop(void)
