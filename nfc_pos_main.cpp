@@ -87,10 +87,10 @@ void processMain()
 	case 0: // display idle screen
 		displayIdle();
 		state = 1;
-		state = 1; // ************************* for testing
+		state = 1; // ************************* HACK State point
 		break;
 	case 1: // Idle screen, waiting for user input
-		if(processTouch())
+		if(keyPressed)
 		{
 			progmemPrintln(PSTR("processMain: case 1"));
 			if(keyValue == 14 || keyValue == 4 || keyValue == 5 || keyValue == 6) // select make payment
@@ -111,11 +111,11 @@ void processMain()
 				pageNumber = 0;
 				displaySetting(0);
 			}
-			state = 21; //JT: HACK
+			keyPressed = 0;
 		}
 		break;
 	case 2: // Payment screen, waiting for user input
-		if(processTouch())
+		if(keyPressed)
 		{
 			progmemPrintln(PSTR("processMain: case 2"));
 			if(keyValue == 13) // exit
@@ -139,6 +139,7 @@ void processMain()
 				moneyAmount = moneyAmount / 10;
 				displayRefreshAmount();
 			}
+			keyPressed = 0;
 		}
 		break;
 	case 21: // Payment transaction
@@ -173,7 +174,7 @@ void processMain()
 		state = 0; // JT:HACK
 		break;
 	case 3: // Menu screen, waiting for user input
-		if(processTouch())
+		if(keyPressed)
 		{
 			progmemPrintln(PSTR("processMain:: case 3"));
 			if(keyValue == 13 || keyValue == 1 || keyValue == 2)  // exit
@@ -205,10 +206,11 @@ void processMain()
 				state = 32 + pageNumber * 3;
 				state = 0;
 			}
+			keyPressed = 0;
 		}
 		break;
 	case 4: // Setting screen, waiting for user input
-		if(processTouch())
+		if(keyPressed)
 		{
 			progmemPrintln(PSTR("processMain:: case 4"));
 			if(keyValue == 13 || keyValue == 1 || keyValue == 2)  // exit
@@ -238,6 +240,7 @@ void processMain()
 				state = 42 + pageNumber * 3;
 				state = 0;
 			}
+			keyPressed = 0;
 		}
 		break;
 	}

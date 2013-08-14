@@ -60,7 +60,7 @@ void displayMenu(unsigned char pageNumber);
 void displaySetting(unsigned char pageNumber);
 void displayRefreshAmount();
 
-int processTouch();
+void processTouch();
 
 typedef struct cursorType {
 	int hor;
