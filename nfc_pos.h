@@ -8,7 +8,7 @@
 #ifndef NFC_POS_H_
 #define NFC_POS_H_
 
-#define NFC
+// #define NFC
 
 // The control pins for the LCD can be assigned to any digital or
 // analog pins...but we'll use the analog pins as this allows us to

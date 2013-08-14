@@ -18,6 +18,7 @@ Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
 extern int keyValue;
+extern int keyPressed;
 static cursorType cursor;
 
 unsigned long testText() {
@@ -245,62 +246,59 @@ void displayRefreshAmount()
 
 }
 
-int processTouch()
+void processTouch()
 {
-	int status = false;
 	int x = 0;
 	int y = 0;
 	Point p;
-	while (!status){
-		p = ts.getPoint();
-		pinMode(XM, OUTPUT);
-		pinMode(YP, OUTPUT);
 
-		if (p.z > MINPRESSURE && p.z < MAXPRESSURE)
+	p = ts.getPoint();
+	pinMode(XM, OUTPUT);
+	pinMode(YP, OUTPUT);
+
+	if (p.z > MINPRESSURE && p.z < MAXPRESSURE)
+	{
+		p.x = map(p.x, TS_MINX, TS_MAXX, tft.width(), 0);
+		p.y = map(p.y, TS_MINY, TS_MAXY, tft.height(), 0);
+
+		keyPressed = 1;
+		x = p.y;
+		y = 330 - p.x;
+
+		if(y < 70)
 		{
-			status = true;
-			p.x = map(p.x, TS_MINX, TS_MAXX, tft.width(), 0);
-			p.y = map(p.y, TS_MINY, TS_MAXY, tft.height(), 0);
+			if(x < 100) keyValue = 13;
+			else if(x < 146) keyValue = 1;
+			else if(x < 195) keyValue = 2;
+			else keyValue = 3;
+		}
+		else if(y < 166)
+		{
+			if(x < 100) keyValue = 14;
+			else if(x < 146) keyValue = 4;
+			else if(x < 195) keyValue = 5;
+			else keyValue = 6;
+		}
+		else if(y < 240)
+		{
+			if(x < 100) keyValue = 15;
+			else if(x < 146) keyValue = 7;
+			else if(x < 195) keyValue = 8;
+			else keyValue = 9;
+		}
+		else
+		{
+			if(x < 100) keyValue = 16;
+			else if(x < 146) keyValue = 11;
+			else if(x < 195) keyValue = 10;
+			else keyValue = 12;
+		}
 
-			x = p.y;
-			y = 330 - p.x;
-
-			if(y < 70)
-			{
-				if(x < 100) keyValue = 13;
-				else if(x < 146) keyValue = 1;
-				else if(x < 195) keyValue = 2;
-				else keyValue = 3;
-			}
-			else if(y < 166)
-			{
-				if(x < 100) keyValue = 14;
-				else if(x < 146) keyValue = 4;
-				else if(x < 195) keyValue = 5;
-				else keyValue = 6;
-			}
-			else if(y < 240)
-			{
-				if(x < 100) keyValue = 15;
-				else if(x < 146) keyValue = 7;
-				else if(x < 195) keyValue = 8;
-				else keyValue = 9;
-			}
-			else
-			{
-				if(x < 100) keyValue = 16;
-				else if(x < 146) keyValue = 11;
-				else if(x < 195) keyValue = 10;
-				else keyValue = 12;
-			}
-
-			tft.setTextColor(GREEN);
-			tft.setTextSize(1);
-			tft.print(keyValue);
+		tft.setTextColor(GREEN);
+		tft.setTextSize(1);
+		tft.print(keyValue);
 //			tft.print(", ");
 //			tft.print(y);
 //			tft.print(" ");
-		}
 	}
-	return status;
 }

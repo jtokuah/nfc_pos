@@ -31,6 +31,7 @@
 
 int state = 0;
 int keyValue = 0;
+int keyPressed = 0;
 int moneyAmount = -1;
 int authCode = -1;
 int pageNumber = 0;
@@ -78,6 +79,9 @@ void processMain()
 #ifdef NFC
 	nfc_pos_transaction_result_type transactionResult;
 #endif
+
+	processTouch();
+
 	switch(state)
 	{
 	case 0: // display idle screen
