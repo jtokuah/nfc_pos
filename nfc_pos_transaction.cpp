@@ -63,58 +63,49 @@ nfc_pos_message_type nfc_pos_message_mobile(int code, char * text, int data)
 	char data_out_buffer[MESSAGE_BUFFER_SIZE];
 
 	//format message for transfer and store in out buffer. '!' is used to separate the different message components
-	sprintf (data_out_buffer, "%s!%s!%d", outgoing_table[code].message, text, data);
+	sprintf (data_out_buffer, "%s|%s|%d", outgoing_table[code].message, text, data);
 
 	//trans-receive data
 	if(nfc.inDataExchange(data_out_buffer, (uint8_t)sizeof(data_out_buffer), data_in_buffer, (uint8_t*)sizeof(data_in_buffer)))
 	{
 		//build structure of received message
 		int count = 0;
-		int text_index = 0;
-		int data_index = 0;
-		for(size_t i=0; i<strlen(data_out_buffer); i++ )
-		{
-			if(data_out_buffer[i]=='!')
-			{
-				data_out_buffer[i] = '\0';
-				if (count == 0 )
-				{
-					if ((strcmp(data_out_buffer, "!")!=0))
-					{
-						received_message.transaction_code = (int)data_out_buffer;
-						text_index = i+1;
-					}
-					else
-					{
-						received_message.transaction_code = IN_CODE_INVALID;
-						text_index = i+2;
-					}
+		char codeArray[strlen(data_out_buffer)-2];
+		char textArray[strlen(data_out_buffer)-2];
+		char dataArray[strlen(data_out_buffer)-2];
+		int destIndex = 0;
+		for(int i=0; i<strlen(data_out_buffer); i++ ){
+			if (data_out_buffer[i]=='|'){
+				count++;
+				destIndex = 0;
+			}
+			else{
+				if (count == 0){
+					codeArray[destIndex] = data_out_buffer[i];
+					destIndex++;
 				}
-				else if (count == 1)
-				{
-					if (data_out_buffer[text_index] != '!')
-					{
-						received_message.text = (char*)data_out_buffer[text_index];
-						data_index = i+1;
-					}
-					else
-					{
-						data_index = i+2;
-					}
+				else if (count == 1){
+					textArray[destIndex] = data_out_buffer[i];
+					destIndex++;
 				}
-				else if (count == 2)
-				{
-					received_message.data = (int)data_out_buffer[data_index];
+				else if (count == 2){
+					dataArray[destIndex] = data_out_buffer[i];
+					destIndex++;
 				}
-				count ++;
 			}
 		}
+		codeArray[strlen(codeArray)] = '\0';
+		textArray[strlen(textArray)] = '\0';
+		dataArray[strlen(dataArray)] = '\0';
+		received_message.transaction_code = (int)codeArray;
+		received_message.text = textArray;
+		received_message.data = (int)dataArray;
 
 		//Print contents of the message
 		progmemPrintln(PSTR("\nnfc_pos_send_message_to_peer():: Message from mobile peer."));
-		progmemPrint(PSTR("Transaction Code: "));Serial.println(data_out_buffer);
-		progmemPrint(PSTR("Text: "));Serial.println(data_out_buffer[text_index]);
-		progmemPrint(PSTR("Data: "));Serial.println(data_out_buffer[data_index]);
+		progmemPrint(PSTR("Transaction Code: "));Serial.println(codeArray);
+		progmemPrint(PSTR("Text: "));Serial.println(textArray);
+		progmemPrint(PSTR("Data: "));Serial.println(dataArray);
 		progmemPrint(PSTR("\n"));
 	}
 	else
