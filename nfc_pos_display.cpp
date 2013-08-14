@@ -245,9 +245,9 @@ void displayRefreshAmount()
 
 }
 
-boolean processTouch()
+int processTouch()
 {
-	boolean status = false;
+	int status = false;
 	int x = 0;
 	int y = 0;
 	Point p;

@@ -76,8 +76,9 @@ boolean nfc_pos_verify_transaction(int code)
 
 void processMain()
 {
+#ifdef nfc
 	nfc_pos_transaction_result_type transactionResult;
-
+#endif
 	switch(state)
 	{
 	case 0: // display idle screen
