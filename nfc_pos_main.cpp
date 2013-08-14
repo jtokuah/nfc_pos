@@ -12,7 +12,6 @@
 #include <stdio.h>
 #include "nfc_pos.h"
 
-// #define nfc
 
 // FOR TOUCH SCREEN END *********************************************
 
@@ -76,7 +75,7 @@ boolean nfc_pos_verify_transaction(int code)
 
 void processMain()
 {
-#ifdef nfc
+#ifdef NFC
 	nfc_pos_transaction_result_type transactionResult;
 #endif
 	switch(state)
@@ -145,7 +144,7 @@ void processMain()
 		displayTransaction();
 		displayLine("Detecting mobile phone...");
 		progmemPrintln(PSTR("processmain:: Detecting mobile phone"));
-#ifdef nfc
+#ifdef NFC
 		transactionResult = nfc_pos_transaction_handler(moneyAmount, accountNum);
 		if (transactionResult.status != -1){
 			//verify authentication code
@@ -244,7 +243,7 @@ void setup(void)
 {
 	Serial.begin(115200);
 	initialDisplay();
-#ifdef nfc
+#ifdef NFC
 	progmemPrintln(PSTR("NFC Point of Sale Payment Solution\n"));
 	nfc_pos_configure_board();
 #endif

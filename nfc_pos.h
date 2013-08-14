@@ -1,12 +1,14 @@
 /*
  * nfc_pos.h
  *
- *  Created on: 2013骞�鏈�鏃�
+ *  Created on: 2013éªžï¿½é�ˆï¿½é�ƒï¿½
  *      Author: umzhouc
  */
 
 #ifndef NFC_POS_H_
 #define NFC_POS_H_
+
+#define NFC
 
 // The control pins for the LCD can be assigned to any digital or
 // analog pins...but we'll use the analog pins as this allows us to
@@ -65,7 +67,7 @@ typedef struct cursorType {
 	int ver;
 }cursorType;
 
-#ifdef nfc
+#ifdef NFC
 void nfc_pos_configure_board(void);
 
 /* Return type of the nfc_pos_transaction_handler() function */

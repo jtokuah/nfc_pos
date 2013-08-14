@@ -4,7 +4,7 @@
 #include "nfc_pos.h"
 #include "nfc_pos_transaction.h"
 
-#ifdef nfc
+#ifdef NFC
 
 
 Adafruit_NFCShield_I2C nfc(IRQ, RESET);
@@ -64,7 +64,7 @@ nfc_pos_message_type nfc_pos_message_mobile(int code, char * text, int data)
 	char data_in_buffer[MESSAGE_BUFFER_SIZE];
 	char data_out_buffer[MESSAGE_BUFFER_SIZE];
 
-	//format message for transfer and store in out buffer. '!' is used to separate the different message components
+	//format message for transfer and store in out buffer. '|' is used to separate the different message components
 	sprintf (data_out_buffer, "%s|%s|%d", outgoing_table[code].message, text, data);
 
 	//trans-receive data
