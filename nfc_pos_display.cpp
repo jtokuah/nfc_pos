@@ -6,6 +6,7 @@
 
 #include "Arduino.h"
 
+#ifdef nfc
 
 
 Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
@@ -305,3 +306,5 @@ boolean processTouch()
 	}
 	return status;
 }
+
+#endif
