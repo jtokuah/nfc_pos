@@ -6,7 +6,6 @@
 
 #include "Arduino.h"
 
-
 Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 // If using the shield, all control and data lines are fixed, and
 // a simpler declaration can optionally be used:
@@ -19,6 +18,9 @@ TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
 extern int keyValue;
 extern int keyPressed;
+extern long moneyAmount;
+int debounce = 0;
+
 static cursorType cursor;
 
 unsigned long testText() {
@@ -65,7 +67,7 @@ void displayTransaction()
 	tft.setTextColor(YELLOW);
 	tft.setTextSize(2);
 	tft.fillScreen(BLACK);
-	tft.println("NFC Mobile POS v1.00.01");
+	tft.println("NFC Mobile POS v1.00.04");
 	cursor.hor = 15;
 	cursor.ver = 37;
 	tft.drawLine(0, 30, 320, 30, RED);
@@ -95,7 +97,7 @@ void displayIdle()
 	tft.setCursor(15, 7);
 	tft.setTextColor(YELLOW);
 	tft.setTextSize(2);
-	tft.println("NFC Mobile POS v1.00.01");
+	tft.println("NFC Mobile POS v1.00.04");
 
 	tft.setCursor(15, 37);
 	tft.setTextSize(2);
@@ -155,9 +157,6 @@ void displayPayment()
 	tft.setCursor(282, 135);
 	tft.println("9");
 
-	tft.setCursor(160, 195);
-	tft.println(".");
-
 	tft.setCursor(222, 195);
 	tft.println("0");
 
@@ -168,7 +167,15 @@ void displayPayment()
 	tft.setCursor(266, 200);
 	tft.println("Del");
 
+	tft.setCursor(160, 195);
+	tft.println("Clr");
+
 	tft.setCursor(0, 0);
+
+	tft.setCursor(23, 110);
+	tft.setTextSize(2);
+	tft.print(moneyAmount);
+
 }
 
 void displayMenu(unsigned char pageNumber)
@@ -243,6 +250,7 @@ void displaySetting(unsigned char pageNumber)
 // after user enter a price digit, display need to update the amount
 void displayRefreshAmount()
 {
+	displayPayment();
 
 }
 
@@ -261,7 +269,14 @@ void processTouch()
 		p.x = map(p.x, TS_MINX, TS_MAXX, tft.width(), 0);
 		p.y = map(p.y, TS_MINY, TS_MAXY, tft.height(), 0);
 
-		keyPressed = 1;
+		if(debounce >= 1)
+		{
+			keyPressed = 1;
+			debounce = 0;
+		}
+		else
+			debounce ++;
+
 		x = p.y;
 		y = 330 - p.x;
 
@@ -294,9 +309,9 @@ void processTouch()
 			else keyValue = 12;
 		}
 
-		tft.setTextColor(GREEN);
-		tft.setTextSize(1);
-		tft.print(keyValue);
+		// tft.setTextColor(GREEN);
+		// tft.setTextSize(1);
+		// tft.print(keyValue);
 //			tft.print(", ");
 //			tft.print(y);
 //			tft.print(" ");

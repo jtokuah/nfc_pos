@@ -32,7 +32,8 @@
 int state = 0;
 int keyValue = 0;
 int keyPressed = 0;
-int moneyAmount = -1;
+long moneyAmount = 0;
+
 int authCode = -1;
 int pageNumber = 0;
 char* accountNum = "";
@@ -67,12 +68,12 @@ void progmemPrintln(const char *str) {
   progmemPrint(str);
   Serial.println();
 }
-
+#ifdef NFC
 boolean nfc_pos_verify_transaction(int code)
 {
 	return true;
 }
-
+#endif
 
 void processMain()
 {
@@ -87,7 +88,7 @@ void processMain()
 	case 0: // display idle screen
 		displayIdle();
 		state = 1;
-		state = 1; // ************************* HACK State point
+		state = 1; // ************************* HACK point
 		break;
 	case 1: // Idle screen, waiting for user input
 		if(keyPressed)
@@ -120,9 +121,10 @@ void processMain()
 			progmemPrintln(PSTR("processMain: case 2"));
 			if(keyValue == 13) // exit
 				state = 0;
-			else if(keyValue == 1) // input = number
+			else if(keyValue >= 0 && keyValue <= 9) // input = number
 			{
-				moneyAmount = moneyAmount * 10 + keyValue;
+				if(moneyAmount < 9999999)
+					moneyAmount = moneyAmount * 10 + keyValue;
 				displayRefreshAmount();
 			}
 			else if(keyValue == 16) // confirm
@@ -130,9 +132,10 @@ void processMain()
 				state = 21;
 
 			}
-			else if(keyValue == 11) // . current not used
+			else if(keyValue == 11) // Clr current not used
 			{
-
+				moneyAmount = 0;
+				displayRefreshAmount();
 			}
 			else if(keyValue == 12) // backspace
 			{
