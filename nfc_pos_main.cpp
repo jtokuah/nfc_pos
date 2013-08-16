@@ -31,7 +31,9 @@
 
 int state = 0;
 int keyValue = 0;
-int moneyAmount = -1;
+int keyPressed = 0;
+long moneyAmount = 0;
+
 int authCode = -1;
 int pageNumber = 0;
 char* accountNum = "";
@@ -66,27 +68,30 @@ void progmemPrintln(const char *str) {
   progmemPrint(str);
   Serial.println();
 }
-
+#ifdef NFC
 boolean nfc_pos_verify_transaction(int code)
 {
 	return true;
 }
-
+#endif
 
 void processMain()
 {
 #ifdef NFC
 	nfc_pos_transaction_result_type transactionResult;
 #endif
+
+	processTouch();
+
 	switch(state)
 	{
 	case 0: // display idle screen
 		displayIdle();
 		state = 1;
-		state = 1; // ************************* for testing
+		state = 21; // ************************* HACK point
 		break;
 	case 1: // Idle screen, waiting for user input
-		if(processTouch())
+		if(keyPressed)
 		{
 			progmemPrintln(PSTR("processMain: case 1"));
 			if(keyValue == 14 || keyValue == 4 || keyValue == 5 || keyValue == 6) // select make payment
@@ -107,18 +112,21 @@ void processMain()
 				pageNumber = 0;
 				displaySetting(0);
 			}
-			state = 21; //JT: HACK
+			keyPressed = 0;
 		}
 		break;
 	case 2: // Payment screen, waiting for user input
-		if(processTouch())
+		if(keyPressed)
 		{
 			progmemPrintln(PSTR("processMain: case 2"));
 			if(keyValue == 13) // exit
 				state = 0;
-			else if(keyValue == 1) // input = number
+			else if(keyValue >= 0 && keyValue <= 10) // input = number
 			{
-				moneyAmount = moneyAmount * 10 + keyValue;
+				if(keyValue == 10) keyValue = 0;
+
+				if(moneyAmount < 214740000)
+					moneyAmount = moneyAmount * 10 + keyValue;
 				displayRefreshAmount();
 			}
 			else if(keyValue == 16) // confirm
@@ -126,25 +134,27 @@ void processMain()
 				state = 21;
 
 			}
-			else if(keyValue == 11) // . current not used
+			else if(keyValue == 11) // Clr current not used
 			{
-
+				moneyAmount = 0;
+				displayRefreshAmount();
 			}
 			else if(keyValue == 12) // backspace
 			{
 				moneyAmount = moneyAmount / 10;
 				displayRefreshAmount();
 			}
+			keyPressed = 0;
 		}
 		break;
 	case 21: // Payment transaction
+#ifdef NFC
 		progmemPrintln(PSTR("processMain:: case 21"));
 		moneyAmount = 50; //JT:HACK
-		accountNum = "456"; //JT:HACK -
+		accountNum = "AC123456"; //JT:HACK
 		displayTransaction();
 		displayLine("Detecting mobile phone...");
 		progmemPrintln(PSTR("processmain:: Detecting mobile phone"));
-#ifdef NFC
 		transactionResult = nfc_pos_transaction_handler(moneyAmount, accountNum);
 		if (transactionResult.status != -1){
 			//verify authentication code
@@ -169,7 +179,7 @@ void processMain()
 		state = 0; // JT:HACK
 		break;
 	case 3: // Menu screen, waiting for user input
-		if(processTouch())
+		if(keyPressed)
 		{
 			progmemPrintln(PSTR("processMain:: case 3"));
 			if(keyValue == 13 || keyValue == 1 || keyValue == 2)  // exit
@@ -201,10 +211,11 @@ void processMain()
 				state = 32 + pageNumber * 3;
 				state = 0;
 			}
+			keyPressed = 0;
 		}
 		break;
 	case 4: // Setting screen, waiting for user input
-		if(processTouch())
+		if(keyPressed)
 		{
 			progmemPrintln(PSTR("processMain:: case 4"));
 			if(keyValue == 13 || keyValue == 1 || keyValue == 2)  // exit
@@ -234,6 +245,7 @@ void processMain()
 				state = 42 + pageNumber * 3;
 				state = 0;
 			}
+			keyPressed = 0;
 		}
 		break;
 	}

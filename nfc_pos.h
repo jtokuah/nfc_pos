@@ -8,7 +8,7 @@
 #ifndef NFC_POS_H_
 #define NFC_POS_H_
 
-#define NFC
+#define NFC //this should be defined by default.
 
 // The control pins for the LCD can be assigned to any digital or
 // analog pins...but we'll use the analog pins as this allows us to
@@ -60,7 +60,7 @@ void displayMenu(unsigned char pageNumber);
 void displaySetting(unsigned char pageNumber);
 void displayRefreshAmount();
 
-int processTouch();
+void processTouch();
 
 typedef struct cursorType {
 	int hor;

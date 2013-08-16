@@ -6,7 +6,6 @@
 
 #include "Arduino.h"
 
-
 Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 // If using the shield, all control and data lines are fixed, and
 // a simpler declaration can optionally be used:
@@ -17,45 +16,50 @@ Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 // For the one we're using, its 300 ohms across the X plate
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
-extern int keyValue;
+extern int keyValue; // key value
+extern int keyPressed; // key is pressed, 0: no, 1: yes
+extern long moneyAmount; // the transaction amount
+
+int keyDelay = 0; // the time between any 2 key is pressed
+
 static cursorType cursor;
 
 unsigned long testText() {
-  tft.fillScreen(BLACK);
-  unsigned long start = micros();
-  tft.setCursor(0, 0);
-  tft.setTextColor(WHITE);  tft.setTextSize(1);
-  tft.println("Hello World!");
-  tft.setTextColor(YELLOW); tft.setTextSize(2);
-  tft.println(1234.56);
-  tft.setTextColor(RED);    tft.setTextSize(3);
-  tft.println(0xDEADBEEF, HEX);
-  tft.println();
-  tft.setTextColor(GREEN);
-  tft.setTextSize(5);
-  tft.println("Groop");
-  tft.setTextSize(2);
-  tft.println("I implore thee,");
-  tft.setTextSize(1);
-  tft.println("my foonting turlingdromes.");
-  tft.println("And hooptiously drangle me");
-  tft.println("with crinkly bindlewurdles,");
-  tft.println("Or I will rend thee");
-  tft.println("in the gobberwarts");
-  tft.println("with my blurglecruncheon,");
-  tft.println("see if I don't!");
-  return micros() - start;
+	tft.fillScreen(BLACK);
+	unsigned long start = micros();
+	tft.setCursor(0, 0);
+	tft.setTextColor(WHITE);  tft.setTextSize(1);
+	tft.println("Hello World!");
+	tft.setTextColor(YELLOW); tft.setTextSize(2);
+	tft.println(1234.56);
+	tft.setTextColor(RED);    tft.setTextSize(3);
+	tft.println(0xDEADBEEF, HEX);
+	tft.println();
+	tft.setTextColor(GREEN);
+	tft.setTextSize(5);
+	tft.println("Groop");
+	tft.setTextSize(2);
+	tft.println("I implore thee,");
+	tft.setTextSize(1);
+	tft.println("my foonting turlingdromes.");
+	tft.println("And hooptiously drangle me");
+	tft.println("with crinkly bindlewurdles,");
+	tft.println("Or I will rend thee");
+	tft.println("in the gobberwarts");
+	tft.println("with my blurglecruncheon,");
+	tft.println("see if I don't!");
+	return micros() - start;
 }
 
 void initialDisplay()
 {
-  tft.reset();
+	tft.reset();
 
-  uint16_t identifier = tft.readID();
+	uint16_t identifier = tft.readID();
 
-  tft.begin(identifier);
+	tft.begin(identifier);
 
-  tft.setRotation(1);
+	tft.setRotation(1);
 }
 
 void displayTransaction()
@@ -64,7 +68,7 @@ void displayTransaction()
 	tft.setTextColor(YELLOW);
 	tft.setTextSize(2);
 	tft.fillScreen(BLACK);
-	tft.println("NFC Mobile POS v1.00.01");
+	tft.println("NFC Mobile POS v1.00.04");
 	cursor.hor = 15;
 	cursor.ver = 37;
 	tft.drawLine(0, 30, 320, 30, RED);
@@ -94,7 +98,7 @@ void displayIdle()
 	tft.setCursor(15, 7);
 	tft.setTextColor(YELLOW);
 	tft.setTextSize(2);
-	tft.println("NFC Mobile POS v1.00.01");
+	tft.println("NFC Mobile POS v1.00.04");
 
 	tft.setCursor(15, 37);
 	tft.setTextSize(2);
@@ -154,9 +158,6 @@ void displayPayment()
 	tft.setCursor(282, 135);
 	tft.println("9");
 
-	tft.setCursor(160, 195);
-	tft.println(".");
-
 	tft.setCursor(222, 195);
 	tft.println("0");
 
@@ -167,7 +168,15 @@ void displayPayment()
 	tft.setCursor(266, 200);
 	tft.println("Del");
 
+	tft.setCursor(146, 200);
+	tft.println("Clr");
+
 	tft.setCursor(0, 0);
+
+	tft.setCursor(10, 110);
+	tft.setTextSize(2);
+	tft.print(moneyAmount);
+
 }
 
 void displayMenu(unsigned char pageNumber)
@@ -242,65 +251,71 @@ void displaySetting(unsigned char pageNumber)
 // after user enter a price digit, display need to update the amount
 void displayRefreshAmount()
 {
+	displayPayment();
 
 }
 
-int processTouch()
+void processTouch()
 {
-	int status = false;
 	int x = 0;
 	int y = 0;
 	Point p;
-	while (!status){
-		p = ts.getPoint();
-		pinMode(XM, OUTPUT);
-		pinMode(YP, OUTPUT);
 
-		if (p.z > MINPRESSURE && p.z < MAXPRESSURE)
+	p = ts.getPoint();
+	pinMode(XM, OUTPUT);
+	pinMode(YP, OUTPUT);
+
+	if(keyDelay > 0)
+		keyDelay --;
+
+	if (p.z > MINPRESSURE && p.z < MAXPRESSURE)
+	{
+		p.x = map(p.x, TS_MINX, TS_MAXX, tft.width(), 0);
+		p.y = map(p.y, TS_MINY, TS_MAXY, tft.height(), 0);
+
+		if(keyDelay == 0)
 		{
-			status = true;
-			p.x = map(p.x, TS_MINX, TS_MAXX, tft.width(), 0);
-			p.y = map(p.y, TS_MINY, TS_MAXY, tft.height(), 0);
+			keyPressed = 1;
+			keyDelay = 400;
+		}
 
-			x = p.y;
-			y = 330 - p.x;
+		x = p.y;
+		y = 330 - p.x;
 
-			if(y < 70)
-			{
-				if(x < 100) keyValue = 13;
-				else if(x < 146) keyValue = 1;
-				else if(x < 195) keyValue = 2;
-				else keyValue = 3;
-			}
-			else if(y < 166)
-			{
-				if(x < 100) keyValue = 14;
-				else if(x < 146) keyValue = 4;
-				else if(x < 195) keyValue = 5;
-				else keyValue = 6;
-			}
-			else if(y < 240)
-			{
-				if(x < 100) keyValue = 15;
-				else if(x < 146) keyValue = 7;
-				else if(x < 195) keyValue = 8;
-				else keyValue = 9;
-			}
-			else
-			{
-				if(x < 100) keyValue = 16;
-				else if(x < 146) keyValue = 11;
-				else if(x < 195) keyValue = 10;
-				else keyValue = 12;
-			}
+		if(y < 70)
+		{
+			if(x < 100) keyValue = 13;
+			else if(x < 146) keyValue = 1;
+			else if(x < 195) keyValue = 2;
+			else keyValue = 3;
+		}
+		else if(y < 166)
+		{
+			if(x < 100) keyValue = 14;
+			else if(x < 146) keyValue = 4;
+			else if(x < 195) keyValue = 5;
+			else keyValue = 6;
+		}
+		else if(y < 240)
+		{
+			if(x < 100) keyValue = 15;
+			else if(x < 146) keyValue = 7;
+			else if(x < 195) keyValue = 8;
+			else keyValue = 9;
+		}
+		else
+		{
+			if(x < 100) keyValue = 16;
+			else if(x < 146) keyValue = 11;
+			else if(x < 195) keyValue = 10;
+			else keyValue = 12;
+		}
 
-			tft.setTextColor(GREEN);
-			tft.setTextSize(1);
-			tft.print(keyValue);
+		// tft.setTextColor(GREEN);
+		// tft.setTextSize(1);
+		// tft.print(keyValue);
 //			tft.print(", ");
 //			tft.print(y);
 //			tft.print(" ");
-		}
 	}
-	return status;
 }
