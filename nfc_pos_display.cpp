@@ -16,49 +16,50 @@ Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 // For the one we're using, its 300 ohms across the X plate
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
-extern int keyValue;
-extern int keyPressed;
-extern long moneyAmount;
-int debounce = 0;
+extern int keyValue; // key value
+extern int keyPressed; // key is pressed, 0: no, 1: yes
+extern long moneyAmount; // the transaction amount
+
+int keyDelay = 0; // the time between any 2 key is pressed
 
 static cursorType cursor;
 
 unsigned long testText() {
-  tft.fillScreen(BLACK);
-  unsigned long start = micros();
-  tft.setCursor(0, 0);
-  tft.setTextColor(WHITE);  tft.setTextSize(1);
-  tft.println("Hello World!");
-  tft.setTextColor(YELLOW); tft.setTextSize(2);
-  tft.println(1234.56);
-  tft.setTextColor(RED);    tft.setTextSize(3);
-  tft.println(0xDEADBEEF, HEX);
-  tft.println();
-  tft.setTextColor(GREEN);
-  tft.setTextSize(5);
-  tft.println("Groop");
-  tft.setTextSize(2);
-  tft.println("I implore thee,");
-  tft.setTextSize(1);
-  tft.println("my foonting turlingdromes.");
-  tft.println("And hooptiously drangle me");
-  tft.println("with crinkly bindlewurdles,");
-  tft.println("Or I will rend thee");
-  tft.println("in the gobberwarts");
-  tft.println("with my blurglecruncheon,");
-  tft.println("see if I don't!");
-  return micros() - start;
+	tft.fillScreen(BLACK);
+	unsigned long start = micros();
+	tft.setCursor(0, 0);
+	tft.setTextColor(WHITE);  tft.setTextSize(1);
+	tft.println("Hello World!");
+	tft.setTextColor(YELLOW); tft.setTextSize(2);
+	tft.println(1234.56);
+	tft.setTextColor(RED);    tft.setTextSize(3);
+	tft.println(0xDEADBEEF, HEX);
+	tft.println();
+	tft.setTextColor(GREEN);
+	tft.setTextSize(5);
+	tft.println("Groop");
+	tft.setTextSize(2);
+	tft.println("I implore thee,");
+	tft.setTextSize(1);
+	tft.println("my foonting turlingdromes.");
+	tft.println("And hooptiously drangle me");
+	tft.println("with crinkly bindlewurdles,");
+	tft.println("Or I will rend thee");
+	tft.println("in the gobberwarts");
+	tft.println("with my blurglecruncheon,");
+	tft.println("see if I don't!");
+	return micros() - start;
 }
 
 void initialDisplay()
 {
-  tft.reset();
+	tft.reset();
 
-  uint16_t identifier = tft.readID();
+	uint16_t identifier = tft.readID();
 
-  tft.begin(identifier);
+	tft.begin(identifier);
 
-  tft.setRotation(1);
+	tft.setRotation(1);
 }
 
 void displayTransaction()
@@ -167,12 +168,12 @@ void displayPayment()
 	tft.setCursor(266, 200);
 	tft.println("Del");
 
-	tft.setCursor(160, 195);
+	tft.setCursor(146, 200);
 	tft.println("Clr");
 
 	tft.setCursor(0, 0);
 
-	tft.setCursor(23, 110);
+	tft.setCursor(10, 110);
 	tft.setTextSize(2);
 	tft.print(moneyAmount);
 
@@ -264,18 +265,19 @@ void processTouch()
 	pinMode(XM, OUTPUT);
 	pinMode(YP, OUTPUT);
 
+	if(keyDelay > 0)
+		keyDelay --;
+
 	if (p.z > MINPRESSURE && p.z < MAXPRESSURE)
 	{
 		p.x = map(p.x, TS_MINX, TS_MAXX, tft.width(), 0);
 		p.y = map(p.y, TS_MINY, TS_MAXY, tft.height(), 0);
 
-		if(debounce >= 1)
+		if(keyDelay == 0)
 		{
 			keyPressed = 1;
-			debounce = 0;
+			keyDelay = 400;
 		}
-		else
-			debounce ++;
 
 		x = p.y;
 		y = 330 - p.x;

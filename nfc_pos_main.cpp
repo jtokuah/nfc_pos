@@ -121,9 +121,11 @@ void processMain()
 			progmemPrintln(PSTR("processMain: case 2"));
 			if(keyValue == 13) // exit
 				state = 0;
-			else if(keyValue >= 0 && keyValue <= 9) // input = number
+			else if(keyValue >= 0 && keyValue <= 10) // input = number
 			{
-				if(moneyAmount < 9999999)
+				if(keyValue == 10) keyValue = 0;
+
+				if(moneyAmount < 214740000)
 					moneyAmount = moneyAmount * 10 + keyValue;
 				displayRefreshAmount();
 			}
@@ -146,13 +148,13 @@ void processMain()
 		}
 		break;
 	case 21: // Payment transaction
+#ifdef NFC
 		progmemPrintln(PSTR("processMain:: case 21"));
-		moneyAmount = 50; //JT:HACK
+		// moneyAmount = 50; //JT:HACK
 		accountNum = "AC123456"; //JT:HACK -
 		displayTransaction();
 		displayLine("Detecting mobile phone...");
 		progmemPrintln(PSTR("processmain:: Detecting mobile phone"));
-#ifdef NFC
 		transactionResult = nfc_pos_transaction_handler(moneyAmount, accountNum);
 		if (transactionResult.status != -1){
 			//verify authentication code
