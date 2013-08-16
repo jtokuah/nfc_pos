@@ -1106,10 +1106,10 @@ boolean Adafruit_NFCShield_I2C::inDataExchange(char* send, uint8_t sendLength, c
       return false;
     }
     if (pn532_packetbuffer[5]==PN532_PN532TOHOST && pn532_packetbuffer[6]==PN532_RESPONSE_INDATAEXCHANGE) {
-      if ((pn532_packetbuffer[7] & 0x3f)!=0) {
-         Serial.println("Status code indicates an error");
-        return false;
-      }
+//      if ((pn532_packetbuffer[7] & 0x3f)!=0) {
+//         Serial.println("Status code indicates an error");
+//        return false;
+//      }
       
       length -= 3;
       

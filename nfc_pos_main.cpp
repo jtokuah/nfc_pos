@@ -140,7 +140,7 @@ void processMain()
 	case 21: // Payment transaction
 		progmemPrintln(PSTR("processMain:: case 21"));
 		moneyAmount = 50; //JT:HACK
-		accountNum = "AC123456"; //JT:HACK -
+		accountNum = "456"; //JT:HACK -
 		displayTransaction();
 		displayLine("Detecting mobile phone...");
 		progmemPrintln(PSTR("processmain:: Detecting mobile phone"));

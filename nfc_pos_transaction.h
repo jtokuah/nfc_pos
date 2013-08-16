@@ -36,7 +36,7 @@ typedef enum{
     IN_CODE_ACCT_NUM_INVALID = 14,
     IN_CODE_CONNECTING_TO_SERVER = 15,
     IN_CODE_AUTHENTICATING = 16,
-    IN_MESSAGE_NOT_SENT,
+    IN_MESSAGE_NOT_SENT = 17,
     //all new codes should be placed above this line
     IN_CODE_MAX
 }nfc_pos_transaction_code_incoming_type;
