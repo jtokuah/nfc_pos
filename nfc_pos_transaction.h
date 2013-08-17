@@ -75,6 +75,7 @@ typedef enum{
 	ERR_AUTHENTICATION_FAILED,
 	ERR_TRANSACTION_SUCCESS,
 	ERR_TRANSACTION_FAILED,
+	ERR_BOARD_NOT_CONFIGURED
 }nfc_pos_transaction_error_code_type;
 
 /*table structure to map the outgoing message code strings to the corresponding

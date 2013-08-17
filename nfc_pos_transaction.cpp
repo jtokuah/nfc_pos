@@ -364,6 +364,7 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(int paymentAmount, c
 		else
 		{
 			progmemPrintln(PSTR("\nnfc_pos_transaction_handler():: Unable to list the PN532 as passive target"));
+			error_code = ERR_BOARD_NOT_CONFIGURED;
 		}
 		if (num_tries != MAX_NUM_TRANSACTION_RETRIES) error_code = ERR_NO_ERROR;
 		else if (error_code == ERR_NO_ERROR){
