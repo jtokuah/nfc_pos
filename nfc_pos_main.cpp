@@ -86,9 +86,10 @@ void processMain()
 	switch(state)
 	{
 	case 0: // display idle screen
-		homeScreen_1();
+		enterAmount_2("88.88");
+		//homeScreen_1();
 		state = 1;
-		state = 21; // ************************* HACK point
+		state = 1; // ************************* HACK point
 		break;
 	case 1: // Idle screen, waiting for user input
 		if(keyPressed)

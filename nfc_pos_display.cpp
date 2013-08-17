@@ -6,10 +6,11 @@
 
 #include "Arduino.h"
 
-Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
+//Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 // If using the shield, all control and data lines are fixed, and
 // a simpler declaration can optionally be used:
-//Adafruit_TFTLCD tft;
+Adafruit_TFTLCD tft;
+
 
 // For better pressure precision, we need to know the resistance
 // between X+ and X- Use any multimeter to read it
@@ -118,7 +119,41 @@ void homeScreen_1()
 
 void enterAmount_2(char * currentAmount)
 {
-	displayPayment();
+	//displayPayment();
+	tft.fillScreen(BACKGND1);
+
+	tft.setCursor(10, 10);
+	tft.setTextColor(TEXT1);
+	tft.setTextSize(2);
+	tft.println("Enter sale amount");
+
+	tft.setCursor(10, 50);
+	tft.println("$:");
+
+	tft.setCursor(170, 50);
+	tft.println(currentAmount);
+
+	//tft.drawRoundRect(10, 80, 220, 230, 10, TEXT1);
+
+	tft.drawRoundRect(10, 80, 73, 46, 10, TEXT1);
+	tft.drawRoundRect(85, 80, 72, 46, 10, TEXT1);
+	tft.drawRoundRect(159, 80, 73, 46, 10, TEXT1);
+
+	tft.drawRoundRect(10, 126, 73, 46, 10, TEXT1);
+	tft.drawRoundRect(85, 126, 72, 46, 10, TEXT1);
+	tft.drawRoundRect(159, 126, 73, 46, 10, TEXT1);
+
+	tft.drawRoundRect(10, 172, 73, 46, 10, TEXT1);
+	tft.drawRoundRect(85, 172, 72, 46, 10, TEXT1);
+	tft.drawRoundRect(159, 172, 73, 46, 10, TEXT1);
+
+	tft.drawRoundRect(10, 218, 73, 46, 10, TEXT1);
+	tft.drawRoundRect(85, 218, 72, 46, 10, TEXT1);
+	tft.drawRoundRect(159, 218, 73, 46, 10, TEXT1);
+
+	tft.drawRoundRect(10, 264, 73, 46, 10, TEXT1);
+	tft.drawRoundRect(85, 264, 72, 46, 10, TEXT1);
+	tft.drawRoundRect(159,264, 73, 46, 10, TEXT1);
 }
 
 
