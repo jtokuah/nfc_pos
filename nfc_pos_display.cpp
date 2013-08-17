@@ -133,27 +133,38 @@ void enterAmount_2(char * currentAmount)
 	tft.setCursor(170, 50);
 	tft.println(currentAmount);
 
-	//tft.drawRoundRect(10, 80, 220, 230, 10, TEXT1);
+	tft.setTextSize(3);
+	//line 1
+	tft.fillRoundRect(10, 80, 73, 45, 10, KEYS);
+	tft.drawRoundRect(85, 80, 72, 45, 10, TEXT1);
+	tft.fillRoundRect(159, 80, 73, 45, 10, KEYS);
+	tft.setCursor(4, 93);
+	tft.println("  1   2   3  ");
 
-	tft.drawRoundRect(10, 80, 73, 46, 10, TEXT1);
-	tft.drawRoundRect(85, 80, 72, 46, 10, TEXT1);
-	tft.drawRoundRect(159, 80, 73, 46, 10, TEXT1);
+	tft.fillRoundRect(10, 127, 73, 44, 10, KEYS);
+	tft.drawRoundRect(85, 127, 72, 44, 10, TEXT1);
+	tft.fillRoundRect(159, 127, 73, 44, 10, KEYS);
+	tft.setCursor(4, 138);
+	tft.println("  4   5   6  ");
 
-	tft.drawRoundRect(10, 126, 73, 46, 10, TEXT1);
-	tft.drawRoundRect(85, 126, 72, 46, 10, TEXT1);
-	tft.drawRoundRect(159, 126, 73, 46, 10, TEXT1);
+	tft.fillRoundRect(10, 173, 73, 44, 10, KEYS);
+	tft.drawRoundRect(85, 173, 72, 44, 10, TEXT1);
+	tft.fillRoundRect(159, 173, 73, 44, 10, KEYS);
+	tft.setCursor(4, 183);
+	tft.println("  7   8   9  ");
 
-	tft.drawRoundRect(10, 172, 73, 46, 10, TEXT1);
-	tft.drawRoundRect(85, 172, 72, 46, 10, TEXT1);
-	tft.drawRoundRect(159, 172, 73, 46, 10, TEXT1);
+	tft.fillRoundRect(10, 219, 73, 44, 10, KEYS);
+	tft.drawRoundRect(85, 219, 72, 44, 10, TEXT1);
+	tft.fillRoundRect(159, 219, 73, 44, 10, KEYS);
+	tft.setCursor(4, 227);
+	tft.println("  .   0   #  ");
 
-	tft.drawRoundRect(10, 218, 73, 46, 10, TEXT1);
-	tft.drawRoundRect(85, 218, 72, 46, 10, TEXT1);
-	tft.drawRoundRect(159, 218, 73, 46, 10, TEXT1);
-
-	tft.drawRoundRect(10, 264, 73, 46, 10, TEXT1);
-	tft.drawRoundRect(85, 264, 72, 46, 10, TEXT1);
-	tft.drawRoundRect(159,264, 73, 46, 10, TEXT1);
+	//line 5
+	tft.fillRoundRect(10, 264, 73, 46, 10, RED);
+	tft.fillRoundRect(85, 264, 72, 46, 10, YELLOW);
+	tft.fillRoundRect(159,264, 73, 46, 10, GREEN);
+	tft.setCursor(2, 275);
+	tft.println(" CAN COR  OK ");
 }
 
 

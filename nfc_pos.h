@@ -42,6 +42,7 @@
 //
 #define BACKGND1 0x33FFFF
 #define TEXT1    0x0033
+#define KEYS	 0x66B2FF
 
 #define TS_MINX 150
 #define TS_MINY 120
