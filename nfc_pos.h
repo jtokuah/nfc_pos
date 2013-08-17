@@ -39,6 +39,10 @@
 #define YELLOW  0xFFE0
 #define WHITE   0xFFFF
 
+//
+#define BACKGND1 0x33FFFF
+#define TEXT1    0x0033
+
 #define TS_MINX 150
 #define TS_MINY 120
 #define TS_MAXX 920
@@ -49,16 +53,23 @@
 
 unsigned long testText();
 
+void homeScreen_1();
+void enterAmount_2(char * currentAmount);
+void confirmSale_3(char * amount);
+void mobileDetected_4(char * status);
+void transactionResult_5(char * status, char * instruction);
+void confirmation_6(char * receiptNum);
+
 void progmemPrint(const char *str);
 void progmemPrintln(const char *str);
-void displayTransaction();
-void displayLine(const char line[]);
 void initialDisplay();
 void displayIdle();
 void displayPayment();
-void displayMenu(unsigned char pageNumber);
+//void displayMenu(unsigned char pageNumber);
 void displaySetting(unsigned char pageNumber);
 void displayRefreshAmount();
+
+
 
 void processTouch();
 

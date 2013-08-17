@@ -59,35 +59,12 @@ void initialDisplay()
 
 	tft.begin(identifier);
 
-	tft.setRotation(1);
+	tft.setRotation(0);
 }
 
-void displayTransaction()
-{
-	tft.setCursor(15, 7);
-	tft.setTextColor(YELLOW);
-	tft.setTextSize(2);
-	tft.fillScreen(BLACK);
-	tft.println("NFC Mobile POS v1.00.04");
-	cursor.hor = 15;
-	cursor.ver = 37;
-	tft.drawLine(0, 30, 320, 30, RED);
-	tft.setCursor(cursor.hor, cursor.ver);
-	tft.setTextColor(YELLOW);
-	tft.setTextSize(2);
-	tft.println("Place phone");
-	cursor.ver += 20;
-	tft.setCursor(cursor.hor, cursor.ver);
-}
-
-void displayLine(const char line[])
-{
-	tft.println(line);
-	cursor.ver += 20;
-	tft.setCursor(cursor.hor, cursor.ver);
-}
-
-void displayIdle()
+//This function has been replaced with homeScreen_1()
+/*
+ void displayIdle()
 {
     tft.fillScreen(BLACK);
 	tft.drawLine(0, 30, 320, 30, RED);
@@ -113,6 +90,111 @@ void displayIdle()
 
 	tft.setCursor(15, 195);
 	tft.println("Setting");
+
+	tft.setCursor(170, 	280);
+	tft.println("Admin");
+}
+*/
+
+void homeScreen_1()
+{
+    tft.fillScreen(BACKGND1);
+
+	tft.setCursor(15, 10);
+	tft.setTextColor(TEXT1);
+	tft.setTextSize(2);
+	tft.println(" NFC POS Solution");
+
+	tft.setCursor(180, 	140);
+	tft.println("Sale");
+
+	tft.setCursor(150, 	210);
+	tft.println("Account");
+
+	tft.setCursor(170, 	280);
+	tft.println("Admin");
+}
+
+
+void enterAmount_2(char * currentAmount)
+{
+	displayPayment();
+}
+
+
+void confirmSale_3(char * amount)
+{
+	tft.fillScreen(BACKGND1);
+
+	tft.setCursor(10, 10);
+	tft.setTextColor(TEXT1);
+	tft.setTextSize(2);
+	tft.println("Sale");
+
+	tft.setCursor(10, 50);
+	tft.println("Total:$");
+
+	tft.setCursor(170, 50);
+	tft.println(amount);
+
+	tft.setCursor(30, 220);
+	tft.println("Place Mobile on");
+	tft.setCursor(50, 250);
+	tft.println("the NFC Area");
+}
+
+void mobileDetected_4(char * status)
+{
+    tft.fillScreen(BACKGND1);
+
+	tft.setCursor(10, 10);
+	tft.setTextColor(TEXT1);
+	tft.setTextSize(2);
+	tft.println("Sale");
+
+	tft.setCursor(40, 110);
+	tft.println("DO NOT REMOVE");
+	tft.setCursor(80,130);
+	tft.println("MOBILE!");
+
+	tft.setCursor(10, 290);
+	tft.println(status);  //JT:HACK
+}
+
+void transactionResult_5(char * status, char * instruction)
+{
+    tft.fillScreen(BACKGND1);
+
+	tft.setCursor(10, 10);
+	tft.setTextColor(TEXT1);
+	tft.setTextSize(2);
+	tft.println("Sale");
+
+	tft.setCursor(10, 260);
+	tft.println(status);  //JT:HACK
+
+	tft.setCursor(10, 290);
+	tft.println(instruction);  //JT:HACK
+}
+
+void confirmation_6(char * receiptNum)
+{
+    tft.fillScreen(BACKGND1);
+
+	tft.setCursor(10, 10);
+	tft.setTextColor(TEXT1);
+	tft.setTextSize(2);
+	tft.println("Sale");
+
+
+	tft.setCursor(60, 130);
+	tft.println("APPROVED");
+
+	tft.setCursor(10, 260);
+	tft.println("Receipt #: ");
+
+	tft.setCursor(10, 290);
+	tft.println(receiptNum);
 }
 
 void displayPayment()
@@ -179,74 +261,76 @@ void displayPayment()
 
 }
 
-void displayMenu(unsigned char pageNumber)
-{
-	tft.fillScreen(BLACK);
-	tft.drawLine(0, 60, 260, 60, RED);
-	tft.drawLine(0, 120, 320, 120, RED);
-	tft.drawLine(0, 180, 260, 180, RED);
 
-	tft.drawLine(260, 0, 260, 240, RED);
-
-	tft.setCursor(10, 15);
-	tft.setTextColor(YELLOW);
-	tft.setTextSize(4);
-	tft.println("<exit");
-
-	tft.setCursor(10, 75);
-	tft.println("1. item 1");
-
-	tft.setCursor(10, 135);
-	tft.println("2. item 2");
-
-	tft.setCursor(10, 195);
-	tft.println("3. item 3");
-
-	tft.drawLine(290, 25, 290, 95, RED);
-	tft.drawLine(290, 25, 315, 50, RED);
-	tft.drawLine(290, 25, 265, 50, RED);
-
-	tft.drawLine(290, 145, 290, 215, RED);
-	tft.drawLine(290, 215, 315, 190, RED);
-	tft.drawLine(290, 215, 265, 190, RED);
-
-	tft.setCursor(0, 0);
-}
-
+//This function is not needed for now.
+//void displayMenu(unsigned char pageNumber)
+//{
+//	tft.fillScreen(BLACK);
+//	tft.drawLine(0, 60, 260, 60, RED);
+//	tft.drawLine(0, 120, 320, 120, RED);
+//	tft.drawLine(0, 180, 260, 180, RED);
 //
-void displaySetting(unsigned char pageNumber)
-{
-	tft.fillScreen(BLACK);
-	tft.drawLine(0, 60, 260, 60, RED);
-	tft.drawLine(0, 120, 320, 120, RED);
-	tft.drawLine(0, 180, 260, 180, RED);
+//	tft.drawLine(260, 0, 260, 240, RED);
+//
+//	tft.setCursor(10, 15);
+//	tft.setTextColor(YELLOW);
+//	tft.setTextSize(4);
+//	tft.println("<exit");
+//
+//	tft.setCursor(10, 75);
+//	tft.println("1. item 1");
+//
+//	tft.setCursor(10, 135);
+//	tft.println("2. item 2");
+//
+//	tft.setCursor(10, 195);
+//	tft.println("3. item 3");
+//
+//	tft.drawLine(290, 25, 290, 95, RED);
+//	tft.drawLine(290, 25, 315, 50, RED);
+//	tft.drawLine(290, 25, 265, 50, RED);
+//
+//	tft.drawLine(290, 145, 290, 215, RED);
+//	tft.drawLine(290, 215, 315, 190, RED);
+//	tft.drawLine(290, 215, 265, 190, RED);
+//
+//	tft.setCursor(0, 0);
+//}
 
-	tft.drawLine(260, 0, 260, 240, RED);
-
-	tft.setCursor(10, 15);
-	tft.setTextColor(YELLOW);
-	tft.setTextSize(4);
-	tft.println("<exit");
-
-	tft.setCursor(10, 75);
-	tft.println("1. item 1");
-
-	tft.setCursor(10, 135);
-	tft.println("2. item 2");
-
-	tft.setCursor(10, 195);
-	tft.println("3. item 3");
-
-	tft.drawLine(290, 25, 290, 95, RED);
-	tft.drawLine(290, 25, 315, 50, RED);
-	tft.drawLine(290, 25, 265, 50, RED);
-
-	tft.drawLine(290, 145, 290, 215, RED);
-	tft.drawLine(290, 215, 315, 190, RED);
-	tft.drawLine(290, 215, 265, 190, RED);
-
-	tft.setCursor(0, 0);
-}
+//This function is not needed for now.
+//void displaySetting(unsigned char pageNumber)
+//{
+//	tft.fillScreen(BLACK);
+//	tft.drawLine(0, 60, 260, 60, RED);
+//	tft.drawLine(0, 120, 320, 120, RED);
+//	tft.drawLine(0, 180, 260, 180, RED);
+//
+//	tft.drawLine(260, 0, 260, 240, RED);
+//
+//	tft.setCursor(10, 15);
+//	tft.setTextColor(YELLOW);
+//	tft.setTextSize(4);
+//	tft.println("<exit");
+//
+//	tft.setCursor(10, 75);
+//	tft.println("1. item 1");
+//
+//	tft.setCursor(10, 135);
+//	tft.println("2. item 2");
+//
+//	tft.setCursor(10, 195);
+//	tft.println("3. item 3");
+//
+//	tft.drawLine(290, 25, 290, 95, RED);
+//	tft.drawLine(290, 25, 315, 50, RED);
+//	tft.drawLine(290, 25, 265, 50, RED);
+//
+//	tft.drawLine(290, 145, 290, 215, RED);
+//	tft.drawLine(290, 215, 315, 190, RED);
+//	tft.drawLine(290, 215, 265, 190, RED);
+//
+//	tft.setCursor(0, 0);
+//}
 
 // after user enter a price digit, display need to update the amount
 void displayRefreshAmount()

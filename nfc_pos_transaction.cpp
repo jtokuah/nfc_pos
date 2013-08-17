@@ -181,6 +181,7 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(int paymentAmount, c
 		{
 			if (nfc_pos_mobile_peer_ready())
 			{
+				mobileDetected_4("Processing...");
 				progmemPrint(PSTR("nfc_pos_transaction_handler():: Initiating payment transaction for $"));
 				Serial.println(paymentAmount);
 
@@ -209,6 +210,7 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(int paymentAmount, c
 				//send the merchant's account number to the mobile
 				if (error_code == ERR_NO_ERROR)
 				{
+					mobileDetected_4("Processing...");
 					received_message = nfc_pos_message_mobile(OUT_CODE_SENDING_MERCHANT_ACCT_NUM, accountNum, 0);
 					switch (received_message.transaction_code)
 					{
@@ -234,7 +236,7 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(int paymentAmount, c
 				while (((error_code == ERR_NO_ERROR) && (!done)))
 				{
 					if (print){
-						displayLine("Contacting server...");
+						mobileDetected_4("Connecting...");
 						print = false;
 					}
 					received_message = nfc_pos_message_mobile(OUT_CODE_SERVER_CONNECTION_STATUS_REQ, (char*)" ", 0);
@@ -274,7 +276,7 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(int paymentAmount, c
 				{
 					if (print)
 					{
-						displayLine("Authenticating...");
+						mobileDetected_4("Authenticating...");
 						print = false;
 					}
 					received_message = nfc_pos_message_mobile(OUT_CODE_AUTH_STATUS_REQ, (char*)" ", 0);
@@ -312,7 +314,7 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(int paymentAmount, c
 				while (((error_code == ERR_NO_ERROR) && (!done)))
 				{
 					if (print){
-						displayLine("Verifying Payment...");
+						mobileDetected_4("Verifying...");
 						print = false;
 					}
 					/*
@@ -364,13 +366,17 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(int paymentAmount, c
 			progmemPrintln(PSTR("\nnfc_pos_transaction_handler():: Unable to list the PN532 as passive target"));
 		}
 		if (num_tries != MAX_NUM_TRANSACTION_RETRIES) error_code = ERR_NO_ERROR;
-		else if (error_code == ERR_NO_ERROR) result.status = EOK;
+		else if (error_code == ERR_NO_ERROR){
+			result.status = EOK;
+			transactionResult_5("Approved", "Pls, remove mobile");
+		}
     }
 	if (error_code != ERR_NO_ERROR)
 	{
 		progmemPrint(PSTR("nfc_pos_transaction_handler():: Transaction failed with error :"));
 		Serial.println(nfc_pos_transaction_error(error_code));
 	}
+	transactionResult_5("Pass Terminal to", "Merchant");
     progmemPrintln(PSTR("nfc_pos_transaction_handler():: Returning to main"));
 	return result;
 }

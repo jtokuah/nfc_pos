@@ -86,7 +86,7 @@ void processMain()
 	switch(state)
 	{
 	case 0: // display idle screen
-		displayIdle();
+		homeScreen_1();
 		state = 1;
 		state = 21; // ************************* HACK point
 		break;
@@ -98,8 +98,9 @@ void processMain()
 			{
 				state = 2;
 				moneyAmount = 0;
-				displayPayment();
+				enterAmount_2("");
 			}
+			/* No 'Menu' and 'setting' for now. We will eventually have 'Account' and 'Admin'.
 			else if(keyValue == 15 || keyValue == 7 || keyValue == 8 || keyValue == 9) // select menu
 			{
 				state = 3;
@@ -112,6 +113,7 @@ void processMain()
 				pageNumber = 0;
 				displaySetting(0);
 			}
+			*/
 			keyPressed = 0;
 		}
 		break;
@@ -127,22 +129,24 @@ void processMain()
 
 				if(moneyAmount < 214740000)
 					moneyAmount = moneyAmount * 10 + keyValue;
-				displayRefreshAmount();
+				char * updatedAmount = "56";  //JT:Hack. You will need to assign a valid value to this char*
+				enterAmount_2(updatedAmount);
 			}
-			else if(keyValue == 16) // confirm
+			else if(keyValue == 16) // OK
 			{
 				state = 21;
 
 			}
-			else if(keyValue == 11) // Clr current not used
+			else if(keyValue == 11) //  CAN (Cancel)
 			{
 				moneyAmount = 0;
-				displayRefreshAmount();
+				state = 0; //return to the home screen
 			}
-			else if(keyValue == 12) // backspace
+			else if(keyValue == 12) // CORR (Correction)
 			{
 				moneyAmount = moneyAmount / 10;
-				displayRefreshAmount();
+				char * previousAmount = "5"; //JT:Hack. You will need to assign a valid value to this char*
+				enterAmount_2(previousAmount);
 			}
 			keyPressed = 0;
 		}
@@ -150,34 +154,28 @@ void processMain()
 	case 21: // Payment transaction
 #ifdef NFC
 		progmemPrintln(PSTR("processMain:: case 21"));
-		moneyAmount = 50; //JT:HACK
 		accountNum = "AC123456"; //JT:HACK
-		displayTransaction();
-		displayLine("Detecting mobile phone...");
+		confirmSale_3("50.00"); //JT: HACK.
 		progmemPrintln(PSTR("processmain:: Detecting mobile phone"));
 		transactionResult = nfc_pos_transaction_handler(moneyAmount, accountNum);
 		if (transactionResult.status != -1){
 			//verify authentication code
 			if (nfc_pos_verify_transaction(transactionResult.receipt_num))
 			{
-				displayLine("Approved!");
+				confirmation_6("RECEIPT123");
 				progmemPrintln(PSTR("processmain:: payment successful!"));
-			}
-			else
-			{
-				displayLine("Not Approved!.");
-				progmemPrintln(PSTR("processmain:: invalid receipt" ));
 			}
 		}
 		else
 		{
 			progmemPrintln(PSTR("processmain:: Unexpected error."));
-			displayLine("Unexpected error!");
 		}
 #endif
 		processTouch();
 		state = 0; // JT:HACK
 		break;
+//There is no menu and settings screen for now
+/*
 	case 3: // Menu screen, waiting for user input
 		if(keyPressed)
 		{
@@ -247,7 +245,7 @@ void processMain()
 			}
 			keyPressed = 0;
 		}
-		break;
+		break;*/
 	}
 }
 
