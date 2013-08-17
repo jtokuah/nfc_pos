@@ -116,55 +116,60 @@ void homeScreen_1()
 	tft.println("Admin");
 }
 
-
+//This replaces the displayPayment() function
 void enterAmount_2(char * currentAmount)
 {
-	//displayPayment();
+	//set background colour
 	tft.fillScreen(BACKGND1);
 
 	tft.setCursor(10, 10);
 	tft.setTextColor(TEXT1);
 	tft.setTextSize(2);
-	tft.println("Enter sale amount");
+	tft.println("Enter sale amount:");
 
-	tft.setCursor(10, 50);
-	tft.println("$:");
+	//ensure the '$' symbol is placed correctly
+	tft.setCursor((157+(13*(5-strlen(currentAmount)))), 50);
+	tft.println("$");
 
-	tft.setCursor(170, 50);
+	tft.setCursor((170+(13*(5-strlen(currentAmount)))), 50);
 	tft.println(currentAmount);
 
 	tft.setTextSize(3);
+
 	//line 1
 	tft.fillRoundRect(10, 80, 73, 45, 10, KEYS);
 	tft.drawRoundRect(85, 80, 72, 45, 10, TEXT1);
 	tft.fillRoundRect(159, 80, 73, 45, 10, KEYS);
 	tft.setCursor(4, 93);
-	tft.println("  1   2   3  ");
+	tft.println("  1   2   3  "); //do not edit this line
 
+	//line 2
 	tft.fillRoundRect(10, 127, 73, 44, 10, KEYS);
 	tft.drawRoundRect(85, 127, 72, 44, 10, TEXT1);
 	tft.fillRoundRect(159, 127, 73, 44, 10, KEYS);
 	tft.setCursor(4, 138);
-	tft.println("  4   5   6  ");
+	tft.println("  4   5   6  ");//do not edit this line
 
+	//line 3
 	tft.fillRoundRect(10, 173, 73, 44, 10, KEYS);
 	tft.drawRoundRect(85, 173, 72, 44, 10, TEXT1);
 	tft.fillRoundRect(159, 173, 73, 44, 10, KEYS);
 	tft.setCursor(4, 183);
-	tft.println("  7   8   9  ");
+	tft.println("  7   8   9  ");//do not edit this line
 
+	//line 4
 	tft.fillRoundRect(10, 219, 73, 44, 10, KEYS);
 	tft.drawRoundRect(85, 219, 72, 44, 10, TEXT1);
 	tft.fillRoundRect(159, 219, 73, 44, 10, KEYS);
 	tft.setCursor(4, 227);
-	tft.println("  .   0   #  ");
+	tft.println("  .   0   #  ");//do not edit this line
 
 	//line 5
 	tft.fillRoundRect(10, 264, 73, 46, 10, RED);
 	tft.fillRoundRect(85, 264, 72, 46, 10, YELLOW);
 	tft.fillRoundRect(159,264, 73, 46, 10, GREEN);
 	tft.setCursor(2, 275);
-	tft.println(" CAN COR  OK ");
+	tft.println(" CAN COR  OK ");//do not edit this line
 }
 
 
@@ -241,70 +246,6 @@ void confirmation_6(char * receiptNum)
 
 	tft.setCursor(10, 290);
 	tft.println(receiptNum);
-}
-
-void displayPayment()
-{
-	tft.fillScreen(BLACK);
-	tft.drawLine(0, 60, 320, 60, RED);
-	tft.drawLine(140, 120, 320, 120, RED);
-	tft.drawLine(0, 180, 320, 180, RED);
-
-	tft.drawLine(140, 0, 140, 240, RED);
-	tft.drawLine(200, 0, 200, 240, RED);
-	tft.drawLine(260, 0, 260, 240, RED);
-
-	tft.setCursor(10, 15);
-	tft.setTextColor(YELLOW);
-	tft.setTextSize(4);
-	tft.println("<exit");
-
-	tft.setCursor(160, 15);
-	tft.println("1");
-
-	tft.setCursor(222, 15);
-	tft.println("2");
-
-	tft.setCursor(282, 15);
-	tft.println("3");
-
-	tft.setCursor(160, 75);
-	tft.println("4");
-
-	tft.setCursor(222, 75);
-	tft.println("5");
-
-	tft.setCursor(282, 75);
-	tft.println("6");
-
-	tft.setCursor(160, 135);
-	tft.println("7");
-
-	tft.setCursor(222, 135);
-	tft.println("8");
-
-	tft.setCursor(282, 135);
-	tft.println("9");
-
-	tft.setCursor(222, 195);
-	tft.println("0");
-
-	tft.setCursor(10, 195);
-	tft.println(">OK");
-
-	tft.setTextSize(3);
-	tft.setCursor(266, 200);
-	tft.println("Del");
-
-	tft.setCursor(146, 200);
-	tft.println("Clr");
-
-	tft.setCursor(0, 0);
-
-	tft.setCursor(10, 110);
-	tft.setTextSize(2);
-	tft.print(moneyAmount);
-
 }
 
 
