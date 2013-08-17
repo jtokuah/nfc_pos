@@ -60,6 +60,7 @@ void confirmSale_3(char * amount);
 void mobileDetected_4(char * status);
 void transactionResult_5(char * status, char * instruction);
 void confirmation_6(char * receiptNum);
+void cancelSale_7(char * currentAmount);
 
 void progmemPrint(const char *str);
 void progmemPrintln(const char *str);

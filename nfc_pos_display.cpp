@@ -248,6 +248,36 @@ void confirmation_6(char * receiptNum)
 	tft.println(receiptNum);
 }
 
+void cancelSale_7(char * currentAmount)
+{
+	//set background colour
+	tft.fillScreen(BACKGND1);
+
+	tft.setCursor(10, 10);
+	tft.setTextColor(TEXT1);
+	tft.setTextSize(2);
+	tft.println("Sale");
+
+	//ensure the '$' symbol is placed correctly
+	tft.setCursor((157+(13*(5-strlen(currentAmount)))), 50);
+	tft.println("$");
+
+	tft.setCursor((170+(13*(5-strlen(currentAmount)))), 50);
+	tft.println(currentAmount);
+
+	tft.setCursor(50, 130);
+	tft.println("Cancel Sale?");
+
+	tft.setTextSize(3);
+
+	tft.fillRoundRect(20, 173, 200, 44, 10, RED);
+	tft.setCursor(65, 182);
+	tft.println("CANCEL");
+
+	tft.fillRoundRect(20, 229, 200, 44, 10, GREEN);
+	tft.setCursor(50, 238);
+	tft.println("CONTINUE");
+}
 
 //This function is not needed for now.
 //void displayMenu(unsigned char pageNumber)
