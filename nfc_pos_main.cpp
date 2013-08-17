@@ -86,7 +86,7 @@ void processMain()
 	switch(state)
 	{
 	case 0: // display idle screen
-		enterAmount_2("88.88");
+		cancelSale_7("88.88");
 		//homeScreen_1();
 		state = 1;
 		state = 1; // ************************* HACK point

@@ -204,9 +204,11 @@ void mobileDetected_4(char * status)
 	tft.println("Sale");
 
 	tft.setCursor(40, 110);
+	tft.setTextColor(RED);
 	tft.println("DO NOT REMOVE");
 	tft.setCursor(80,130);
 	tft.println("MOBILE!");
+	tft.setTextColor(TEXT1);
 
 	tft.setCursor(10, 290);
 	tft.println(status);  //JT:HACK
@@ -239,7 +241,9 @@ void confirmation_6(char * receiptNum)
 
 
 	tft.setCursor(60, 130);
+	tft.setTextColor(GREEN);
 	tft.println("APPROVED");
+	tft.setTextColor(TEXT1);
 
 	tft.setCursor(10, 260);
 	tft.println("Receipt #: ");
