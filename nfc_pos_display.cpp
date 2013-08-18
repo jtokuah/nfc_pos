@@ -11,21 +11,45 @@
 // a simpler declaration can optionally be used:
 Adafruit_TFTLCD tft;
 
-
 // For better pressure precision, we need to know the resistance
 // between X+ and X- Use any multimeter to read it
 // For the one we're using, its 300 ohms across the X plate
-TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
+TouchScreen touchScreen = TouchScreen(XP, YP, XM, YM, 300);
 
-extern int keyValue; // key value
-extern int keyPressed; // key is pressed, 0: no, 1: yes
 extern long moneyAmount; // the transaction amount
-
 int keyDelay = 0; // the time between any 2 key is pressed
 
 static cursorType cursor;
 
-unsigned long testText() {
+nfc_pos_touch_input_table_entry touch_table[TOUCH_REGION_MAX] PROGMEM = {
+	//Home screen menu
+	{TOUCH_REGION_HOME_SALE, 140, 240, 100, 175},
+	{TOUCH_REGION_HOME_ACCOUNT, 100, 240, 176, 245},
+	{TOUCH_REGION_HOME_ADMIN, 120, 240, 246, 300},
+
+	//keypad
+	{TOUCH_REGION_KEYBOARD_1, 10, 84, 80, 126},
+	{TOUCH_REGION_KEYBOARD_2, 85, 158, 80, 126},
+	{TOUCH_REGION_KEYBOARD_3, 159, 232, 80, 126},
+	{TOUCH_REGION_KEYBOARD_4, 10, 84, 127, 172},
+	{TOUCH_REGION_KEYBOARD_5, 85, 158, 127, 172},
+	{TOUCH_REGION_KEYBOARD_6, 159, 232, 127, 172},
+	{TOUCH_REGION_KEYBOARD_7, 10, 84, 173, 218},
+	{TOUCH_REGION_KEYBOARD_8, 85, 158, 173, 218},
+	{TOUCH_REGION_KEYBOARD_9, 159, 232, 173, 218},
+	{TOUCH_REGION_KEYBOARD_DOT, 10, 84, 219, 263},
+	{TOUCH_REGION_KEYBOARD_0, 85, 158, 219, 263},
+	{TOUCH_REGION_KEYBOARD_HASH, 159, 232, 219, 263},
+	{TOUCH_REGION_KEYBOARD_CAN, 10, 84, 264, 310},
+	{TOUCH_REGION_KEYBOARD_COR, 85, 158, 264, 310},
+	{TOUCH_REGION_KEYBOARD_OK, 159, 232, 263, 310},
+
+	//Cancel sale
+	{TOUCH_REGION_CAN_CANCEL, 20, 220, 173, 217},
+	{TOUCH_REGION_CAN_CONTINUE, 20, 220, 229, 273}
+};
+
+unsigned long testText(){
 	tft.fillScreen(BLACK);
 	unsigned long start = micros();
 	tft.setCursor(0, 0);
@@ -63,41 +87,7 @@ void initialDisplay()
 	tft.setRotation(0);
 }
 
-//This function has been replaced with homeScreen_1()
-/*
- void displayIdle()
-{
-    tft.fillScreen(BLACK);
-	tft.drawLine(0, 30, 320, 30, RED);
-	tft.drawLine(0, 60, 320, 60, RED);
-	tft.drawLine(0, 120, 320, 120, RED);
-	tft.drawLine(0, 180, 320, 180, RED);
-
-	tft.setCursor(15, 7);
-	tft.setTextColor(YELLOW);
-	tft.setTextSize(2);
-	tft.println("NFC Mobile POS v1.00.04");
-
-	tft.setCursor(15, 37);
-	tft.setTextSize(2);
-	tft.println("Time: 00:00 2013-07-22");
-
-	tft.setCursor(15, 75);
-	tft.setTextSize(4);
-	tft.println("Make payment");
-
-	tft.setCursor(15, 135);
-	tft.println("Menu");
-
-	tft.setCursor(15, 195);
-	tft.println("Setting");
-
-	tft.setCursor(170, 	280);
-	tft.println("Admin");
-}
-*/
-
-void homeScreen_1()
+void homeScreen()
 {
     tft.fillScreen(BACKGND1);
 
@@ -106,10 +96,10 @@ void homeScreen_1()
 	tft.setTextSize(2);
 	tft.println(" NFC POS Solution");
 
-	tft.setCursor(180, 	140);
+	tft.setCursor(180, 140);
 	tft.println("Sale");
 
-	tft.setCursor(150, 	210);
+	tft.setCursor(150, 210);
 	tft.println("Account");
 
 	tft.setCursor(170, 	280);
@@ -117,8 +107,9 @@ void homeScreen_1()
 }
 
 //This replaces the displayPayment() function
-void enterAmount_2(char * currentAmount)
+void getSaleAmount(const char currentAmount[])
 {
+	progmemPrintln(PSTR("getSaleAMount:: pushing Screen"));
 	//set background colour
 	tft.fillScreen(BACKGND1);
 
@@ -128,10 +119,10 @@ void enterAmount_2(char * currentAmount)
 	tft.println("Enter sale amount:");
 
 	//ensure the '$' symbol is placed correctly
-	tft.setCursor((157+(13*(5-strlen(currentAmount)))), 50);
+	tft.setCursor(219-(13*strlen(currentAmount)), 50);
 	tft.println("$");
 
-	tft.setCursor((170+(13*(5-strlen(currentAmount)))), 50);
+	tft.setCursor(232-(13*strlen(currentAmount)), 50);
 	tft.println(currentAmount);
 
 	tft.setTextSize(3);
@@ -173,7 +164,7 @@ void enterAmount_2(char * currentAmount)
 }
 
 
-void confirmSale_3(char * amount)
+void confirmSale(const char amount[])
 {
 	tft.fillScreen(BACKGND1);
 
@@ -194,7 +185,7 @@ void confirmSale_3(char * amount)
 	tft.println("the NFC Area");
 }
 
-void mobileDetected_4(char * status)
+void mobileDetected(char * status)
 {
     tft.fillScreen(BACKGND1);
 
@@ -214,7 +205,7 @@ void mobileDetected_4(char * status)
 	tft.println(status);  //JT:HACK
 }
 
-void transactionResult_5(char * status, char * instruction)
+void transactionResult(char * status, char * instruction)
 {
     tft.fillScreen(BACKGND1);
 
@@ -230,7 +221,7 @@ void transactionResult_5(char * status, char * instruction)
 	tft.println(instruction);  //JT:HACK
 }
 
-void confirmation_6(char * receiptNum)
+void confirmation(char * receiptNum)
 {
     tft.fillScreen(BACKGND1);
 
@@ -252,7 +243,7 @@ void confirmation_6(char * receiptNum)
 	tft.println(receiptNum);
 }
 
-void cancelSale_7(char * currentAmount)
+void cancelSale(const char currentAmount[])
 {
 	//set background colour
 	tft.fillScreen(BACKGND1);
@@ -283,144 +274,156 @@ void cancelSale_7(char * currentAmount)
 	tft.println("CONTINUE");
 }
 
-//This function is not needed for now.
-//void displayMenu(unsigned char pageNumber)
-//{
-//	tft.fillScreen(BLACK);
-//	tft.drawLine(0, 60, 260, 60, RED);
-//	tft.drawLine(0, 120, 320, 120, RED);
-//	tft.drawLine(0, 180, 260, 180, RED);
-//
-//	tft.drawLine(260, 0, 260, 240, RED);
-//
-//	tft.setCursor(10, 15);
-//	tft.setTextColor(YELLOW);
-//	tft.setTextSize(4);
-//	tft.println("<exit");
-//
-//	tft.setCursor(10, 75);
-//	tft.println("1. item 1");
-//
-//	tft.setCursor(10, 135);
-//	tft.println("2. item 2");
-//
-//	tft.setCursor(10, 195);
-//	tft.println("3. item 3");
-//
-//	tft.drawLine(290, 25, 290, 95, RED);
-//	tft.drawLine(290, 25, 315, 50, RED);
-//	tft.drawLine(290, 25, 265, 50, RED);
-//
-//	tft.drawLine(290, 145, 290, 215, RED);
-//	tft.drawLine(290, 215, 315, 190, RED);
-//	tft.drawLine(290, 215, 265, 190, RED);
-//
-//	tft.setCursor(0, 0);
-//}
 
-//This function is not needed for now.
-//void displaySetting(unsigned char pageNumber)
-//{
-//	tft.fillScreen(BLACK);
-//	tft.drawLine(0, 60, 260, 60, RED);
-//	tft.drawLine(0, 120, 320, 120, RED);
-//	tft.drawLine(0, 180, 260, 180, RED);
-//
-//	tft.drawLine(260, 0, 260, 240, RED);
-//
-//	tft.setCursor(10, 15);
-//	tft.setTextColor(YELLOW);
-//	tft.setTextSize(4);
-//	tft.println("<exit");
-//
-//	tft.setCursor(10, 75);
-//	tft.println("1. item 1");
-//
-//	tft.setCursor(10, 135);
-//	tft.println("2. item 2");
-//
-//	tft.setCursor(10, 195);
-//	tft.println("3. item 3");
-//
-//	tft.drawLine(290, 25, 290, 95, RED);
-//	tft.drawLine(290, 25, 315, 50, RED);
-//	tft.drawLine(290, 25, 265, 50, RED);
-//
-//	tft.drawLine(290, 145, 290, 215, RED);
-//	tft.drawLine(290, 215, 315, 190, RED);
-//	tft.drawLine(290, 215, 265, 190, RED);
-//
-//	tft.setCursor(0, 0);
-//}
-
-// after user enter a price digit, display need to update the amount
-void displayRefreshAmount()
-{
-	displayPayment();
-
-}
-
-void processTouch()
+/*
+ * This function handles touch events
+ */
+nfc_pos_touch_region_type  touchedRegion(nfc_pos_touch_screen_type screen)
 {
 	int x = 0;
 	int y = 0;
-	Point p;
+	bool keyPressed = false;
+	Point point;
 
-	p = ts.getPoint();
-	pinMode(XM, OUTPUT);
-	pinMode(YP, OUTPUT);
-
-	if(keyDelay > 0)
-		keyDelay --;
-
-	if (p.z > MINPRESSURE && p.z < MAXPRESSURE)
+	while (true)
 	{
-		p.x = map(p.x, TS_MINX, TS_MAXX, tft.width(), 0);
-		p.y = map(p.y, TS_MINY, TS_MAXY, tft.height(), 0);
+		    point = touchScreen.getPoint();
+			pinMode(XM, OUTPUT);
+			pinMode(YP, OUTPUT);
 
-		if(keyDelay == 0)
-		{
-			keyPressed = 1;
-			keyDelay = 400;
-		}
+			int debounce = 200;
+			while ((point.z > MINPRESSURE) && (point.z < MAXPRESSURE) && debounce>0)
+			{
+				debounce --;
+			}
 
-		x = p.y;
-		y = 330 - p.x;
+			if (debounce == 0){
+				keyPressed = true;
+			}
 
-		if(y < 70)
-		{
-			if(x < 100) keyValue = 13;
-			else if(x < 146) keyValue = 1;
-			else if(x < 195) keyValue = 2;
-			else keyValue = 3;
-		}
-		else if(y < 166)
-		{
-			if(x < 100) keyValue = 14;
-			else if(x < 146) keyValue = 4;
-			else if(x < 195) keyValue = 5;
-			else keyValue = 6;
-		}
-		else if(y < 240)
-		{
-			if(x < 100) keyValue = 15;
-			else if(x < 146) keyValue = 7;
-			else if(x < 195) keyValue = 8;
-			else keyValue = 9;
-		}
-		else
-		{
-			if(x < 100) keyValue = 16;
-			else if(x < 146) keyValue = 11;
-			else if(x < 195) keyValue = 10;
-			else keyValue = 12;
-		}
+			if (keyPressed){
+				point.x = map(point.x, TS_MINX, TS_MAXX, tft.width(), 0 );
+				point.y = map(point.y, TS_MINY, TS_MAXY, tft.height(), 0 );
+				progmemPrint(PSTR("touchedRegion():: x = "));Serial.print(point.x);
+				progmemPrint(PSTR(", y = "));Serial.println(point.y);
 
-		// tft.setTextColor(GREEN);
-		// tft.setTextSize(1);
-		// tft.print(keyValue);
-//			tft.print(", ");
-//			tft.print(y);
-//			tft.print(" ");
+				switch(screen)
+				{
+					case TOUCH_SCREEN_HOME_SCREEN:
+						if((touch_table[TOUCH_REGION_HOME_SALE].left<=point.x) && (point.x<touch_table[TOUCH_REGION_HOME_SALE].right) &&
+								(touch_table[TOUCH_REGION_HOME_SALE].top<=point.y) && (point.y<touch_table[TOUCH_REGION_HOME_SALE].bottom))
+						{
+							progmemPrintln(PSTR("touchedRegion():'Sale' Selected"));
+							return TOUCH_REGION_HOME_SALE;
+						}
+						break;
+					case TOUCH_SCREEN_GET_SALE_AMOUNT:
+						if((touch_table[TOUCH_REGION_KEYBOARD_1].left<=point.x) && (point.x<touch_table[TOUCH_REGION_KEYBOARD_1].right) &&
+								(touch_table[TOUCH_REGION_KEYBOARD_1].top<=point.y) && (point.y<touch_table[TOUCH_REGION_KEYBOARD_1].bottom))
+						{
+							progmemPrintln(PSTR("touchedRegion():Key '1' Pressed"));
+							return TOUCH_REGION_KEYBOARD_1;
+						}
+						else if((touch_table[TOUCH_REGION_KEYBOARD_2].left<=point.x) && (point.x<touch_table[TOUCH_REGION_KEYBOARD_2].right) &&
+								(touch_table[TOUCH_REGION_KEYBOARD_2].top<=point.y) && (point.y<touch_table[TOUCH_REGION_KEYBOARD_2].bottom))
+						{
+							progmemPrintln(PSTR("touchedRegion():Key '2' Pressed"));
+							return TOUCH_REGION_KEYBOARD_2;
+						}
+						else if((touch_table[TOUCH_REGION_KEYBOARD_3].left<=point.x) && (point.x<touch_table[TOUCH_REGION_KEYBOARD_3].right) &&
+								(touch_table[TOUCH_REGION_KEYBOARD_3].top<=point.y) && (point.y<touch_table[TOUCH_REGION_KEYBOARD_3].bottom))
+						{
+							progmemPrintln(PSTR("touchedRegion():Key '3' Pressed"));
+							return TOUCH_REGION_KEYBOARD_3;
+						}
+						else if((touch_table[TOUCH_REGION_KEYBOARD_4].left<=point.x) && (point.x<touch_table[TOUCH_REGION_KEYBOARD_4].right) &&
+								(touch_table[TOUCH_REGION_KEYBOARD_4].top<=point.y) && (point.y<touch_table[TOUCH_REGION_KEYBOARD_4].bottom))
+						{
+							progmemPrintln(PSTR("touchedRegion():Key '4' Pressed"));
+							return TOUCH_REGION_KEYBOARD_4;
+						}
+						else if((touch_table[TOUCH_REGION_KEYBOARD_5].left<=point.x) && (point.x<touch_table[TOUCH_REGION_KEYBOARD_5].right) &&
+								(touch_table[TOUCH_REGION_KEYBOARD_5].top<=point.y) && (point.y<touch_table[TOUCH_REGION_KEYBOARD_5].bottom))
+						{
+							progmemPrintln(PSTR("touchedRegion():Key '5' Pressed"));
+							return TOUCH_REGION_KEYBOARD_5;
+						}
+						else if((touch_table[TOUCH_REGION_KEYBOARD_6].left<=point.x) && (point.x<touch_table[TOUCH_REGION_KEYBOARD_6].right) &&
+								(touch_table[TOUCH_REGION_KEYBOARD_6].top<=point.y) && (point.y<touch_table[TOUCH_REGION_KEYBOARD_6].bottom))
+						{
+							progmemPrintln(PSTR("touchedRegion():Key '6' Pressed"));
+							return TOUCH_REGION_KEYBOARD_6;
+						}
+						else if((touch_table[TOUCH_REGION_KEYBOARD_7].left<=point.x) && (point.x<touch_table[TOUCH_REGION_KEYBOARD_7].right) &&
+								(touch_table[TOUCH_REGION_KEYBOARD_7].top<=point.y) && (point.y<touch_table[TOUCH_REGION_KEYBOARD_7].bottom))
+						{
+							progmemPrintln(PSTR("touchedRegion():Key '7' Pressed"));
+							return TOUCH_REGION_KEYBOARD_7;
+						}
+						else if((touch_table[TOUCH_REGION_KEYBOARD_8].left<=point.x) && (point.x<touch_table[TOUCH_REGION_KEYBOARD_8].right) &&
+								(touch_table[TOUCH_REGION_KEYBOARD_8].top<=point.y) && (point.y<touch_table[TOUCH_REGION_KEYBOARD_8].bottom))
+						{
+							progmemPrintln(PSTR("touchedRegion():Key '8' Pressed"));
+							return TOUCH_REGION_KEYBOARD_8;
+						}
+						else if((touch_table[TOUCH_REGION_KEYBOARD_9].left<=point.x) && (point.x<touch_table[TOUCH_REGION_KEYBOARD_9].right) &&
+								(touch_table[TOUCH_REGION_KEYBOARD_9].top<=point.y) && (point.y<touch_table[TOUCH_REGION_KEYBOARD_9].bottom))
+						{
+							progmemPrintln(PSTR("touchedRegion():Key '9' Pressed"));
+							return TOUCH_REGION_KEYBOARD_9;
+						}
+						else if((touch_table[TOUCH_REGION_KEYBOARD_DOT].left<=point.x) && (point.x<touch_table[TOUCH_REGION_KEYBOARD_DOT].right) &&
+								(touch_table[TOUCH_REGION_KEYBOARD_DOT].top<=point.y) && (point.y<touch_table[TOUCH_REGION_KEYBOARD_DOT].bottom))
+						{
+							progmemPrintln(PSTR("touchedRegion():Key '.' Pressed"));
+							return TOUCH_REGION_KEYBOARD_DOT;
+						}
+						else if((touch_table[TOUCH_REGION_KEYBOARD_0].left<=point.x) && (point.x<touch_table[TOUCH_REGION_KEYBOARD_0].right) &&
+								(touch_table[TOUCH_REGION_KEYBOARD_0].top<=point.y) && (point.y<touch_table[TOUCH_REGION_KEYBOARD_0].bottom))
+						{
+							progmemPrintln(PSTR("touchedRegion():Key '0' Pressed"));
+							return TOUCH_REGION_KEYBOARD_0;
+						}
+						else if((touch_table[TOUCH_REGION_KEYBOARD_HASH].left<=point.x) && (point.x<touch_table[TOUCH_REGION_KEYBOARD_HASH].right) &&
+								(touch_table[TOUCH_REGION_KEYBOARD_HASH].top<=point.y) && (point.y<touch_table[TOUCH_REGION_KEYBOARD_HASH].bottom))
+						{
+							progmemPrintln(PSTR("touchedRegion():Key '#' Pressed"));
+							return TOUCH_REGION_KEYBOARD_HASH;
+						}
+						else if((touch_table[TOUCH_REGION_KEYBOARD_CAN].left<=point.x) && (point.x<touch_table[TOUCH_REGION_KEYBOARD_CAN].right) &&
+								(touch_table[TOUCH_REGION_KEYBOARD_CAN].top<=point.y) && (point.y<touch_table[TOUCH_REGION_KEYBOARD_CAN].bottom))
+						{
+							progmemPrintln(PSTR("touchedRegion():Key 'CAN' Pressed"));
+							return TOUCH_REGION_KEYBOARD_CAN;
+						}
+						else if((touch_table[TOUCH_REGION_KEYBOARD_OK].left<=point.x) && (point.x<touch_table[TOUCH_REGION_KEYBOARD_OK].right) &&
+								(touch_table[TOUCH_REGION_KEYBOARD_OK].top<=point.y) && (point.y<touch_table[TOUCH_REGION_KEYBOARD_OK].bottom))
+						{
+							progmemPrintln(PSTR("touchedRegion():Key 'OK' Pressed"));
+							return TOUCH_REGION_KEYBOARD_OK;
+						}
+						break;
+					case TOUCH_SCREEN_CANCEL_SALE:
+						if((touch_table[TOUCH_REGION_CAN_CANCEL].left<=point.x) && (point.x<touch_table[TOUCH_REGION_CAN_CANCEL].right) &&
+								(touch_table[TOUCH_REGION_CAN_CANCEL].top<=point.y) && (point.y<touch_table[TOUCH_REGION_CAN_CANCEL].bottom))
+						{
+							progmemPrintln(PSTR("touchedRegion():Key 'CANCEL' Pressed"));
+							return TOUCH_REGION_CAN_CANCEL;
+						}
+						else if((touch_table[TOUCH_REGION_CAN_CONTINUE].left<=point.x) && (point.x<touch_table[TOUCH_REGION_CAN_CONTINUE].right) &&
+								(touch_table[TOUCH_REGION_CAN_CONTINUE].top<=point.y) && (point.y<touch_table[TOUCH_REGION_CAN_CONTINUE].bottom))
+						{
+							progmemPrintln(PSTR("touchedRegion():Key 'CONTINUE' Pressed"));
+							return TOUCH_REGION_CAN_CONTINUE;
+						}
+					break;
+					default:
+						break;
+				}
+				keyPressed = false;
+			}
 	}
+	return TOUCH_REGION_NONE;
+
 }
+

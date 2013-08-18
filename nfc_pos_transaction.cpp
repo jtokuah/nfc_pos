@@ -12,7 +12,7 @@ Adafruit_NFCShield_I2C nfc(IRQ, RESET);
 /*This table maps the outgoing message codes strings to the corresponding
  *  internal enumerated type
  */
-nfc_pos_outgoing_transaction_table_entry outgoing_table [OUT_CODE_MAX] =
+nfc_pos_outgoing_transaction_table_entry outgoing_table [OUT_CODE_MAX] PROGMEM =
 {
 	{OUT_CODE_MESSAGE_ACK, (char*)"00"},
 	{OUT_CODE_PEER_READY_REQ, (char*)"01"},
@@ -171,7 +171,7 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(int paymentAmount, c
 	nfc_pos_transaction_result_type result;
 	result.status = -1;
 	result.transaction_ID = -1;
-	result.receipt_num = -1;
+	result.receipt_num = "-1";
 
 	progmemPrintln(PSTR("\nnfc_pos_transaction_handler():: Entering transaction loop...\n"));
 	while ((result.status != EOK) && (num_tries <= MAX_NUM_TRANSACTION_RETRIES)){
@@ -181,7 +181,7 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(int paymentAmount, c
 		{
 			if (nfc_pos_mobile_peer_ready())
 			{
-				mobileDetected_4("Processing...");
+				mobileDetected("Processing...");
 				progmemPrint(PSTR("nfc_pos_transaction_handler():: Initiating payment transaction for $"));
 				Serial.println(paymentAmount);
 
@@ -210,7 +210,7 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(int paymentAmount, c
 				//send the merchant's account number to the mobile
 				if (error_code == ERR_NO_ERROR)
 				{
-					mobileDetected_4("Processing...");
+					mobileDetected("Processing...");
 					received_message = nfc_pos_message_mobile(OUT_CODE_SENDING_MERCHANT_ACCT_NUM, accountNum, 0);
 					switch (received_message.transaction_code)
 					{
@@ -236,7 +236,7 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(int paymentAmount, c
 				while (((error_code == ERR_NO_ERROR) && (!done)))
 				{
 					if (print){
-						mobileDetected_4("Connecting...");
+						mobileDetected("Connecting...");
 						print = false;
 					}
 					received_message = nfc_pos_message_mobile(OUT_CODE_SERVER_CONNECTION_STATUS_REQ, (char*)" ", 0);
@@ -276,7 +276,7 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(int paymentAmount, c
 				{
 					if (print)
 					{
-						mobileDetected_4("Authenticating...");
+						mobileDetected("Authenticating...");
 						print = false;
 					}
 					received_message = nfc_pos_message_mobile(OUT_CODE_AUTH_STATUS_REQ, (char*)" ", 0);
@@ -314,7 +314,7 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(int paymentAmount, c
 				while (((error_code == ERR_NO_ERROR) && (!done)))
 				{
 					if (print){
-						mobileDetected_4("Verifying...");
+						mobileDetected("Verifying...");
 						print = false;
 					}
 					/*
@@ -369,7 +369,7 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(int paymentAmount, c
 		if (num_tries != MAX_NUM_TRANSACTION_RETRIES) error_code = ERR_NO_ERROR;
 		else if (error_code == ERR_NO_ERROR){
 			result.status = EOK;
-			transactionResult_5("Approved", "Pls, remove mobile");
+			transactionResult("Approved", "Pls, remove mobile");
 		}
     }
 	if (error_code != ERR_NO_ERROR)
@@ -377,7 +377,7 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(int paymentAmount, c
 		progmemPrint(PSTR("nfc_pos_transaction_handler():: Transaction failed with error :"));
 		Serial.println(nfc_pos_transaction_error(error_code));
 	}
-	transactionResult_5("Pass Terminal to", "Merchant");
+	transactionResult("Pass Terminal to", "Merchant");
     progmemPrintln(PSTR("nfc_pos_transaction_handler():: Returning to main"));
 	return result;
 }

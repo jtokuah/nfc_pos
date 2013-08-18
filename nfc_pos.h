@@ -27,7 +27,7 @@
 #define XP 6   // can be a digital pin
 
 #define MINPRESSURE 1
-#define MAXPRESSURE 1000
+#define MAXPRESSURE 10000
 
 // Assign human-readable names to some common 16-bit color values:
 #define  BLACK   0x0000
@@ -49,18 +49,26 @@
 #define TS_MAXX 920
 #define TS_MAXY 940
 
+//#define TS_MINX 0
+//#define TS_MINY 0
+//#define TS_MAXX 240
+//#define TS_MAXY 320
+
+
 #define IRQ   (2)
 #define RESET (3)
 
+#define MAX_NUM_DIGITS 16
+
 unsigned long testText();
 
-void homeScreen_1();
-void enterAmount_2(char * currentAmount);
-void confirmSale_3(char * amount);
-void mobileDetected_4(char * status);
-void transactionResult_5(char * status, char * instruction);
-void confirmation_6(char * receiptNum);
-void cancelSale_7(char * currentAmount);
+void homeScreen();
+void getSaleAmount(const char currentAmount[]);
+void confirmSale(const char amount[]);
+void mobileDetected(char * status);
+void transactionResult(char * status, char * instruction);
+void confirmation(char * receiptNum);
+void cancelSale(const char currentAmount[]);
 
 void progmemPrint(const char *str);
 void progmemPrintln(const char *str);
@@ -72,12 +80,9 @@ void displaySetting(unsigned char pageNumber);
 void displayRefreshAmount();
 
 
-
-void processTouch();
-
 typedef struct cursorType {
-	int hor;
-	int ver;
+	uint16_t hor;
+	uint16_t ver;
 }cursorType;
 
 #ifdef NFC
@@ -87,13 +92,56 @@ void nfc_pos_configure_board(void);
 typedef struct nfc_pos_transaction_result_type{
 	int   status;
 	int   transaction_ID;
-	int   receipt_num;
+	char*   receipt_num;
 	char  server_message[32];
 }nfc_pos_transaction_result_type;
 
 nfc_pos_transaction_result_type nfc_pos_transaction_handler(int moneyAmount, char* accountNum);
 
 #endif
+
+typedef enum {
+	TOUCH_REGION_NONE = -1,
+	TOUCH_REGION_HOME_SALE = 0,
+	TOUCH_REGION_HOME_ACCOUNT,
+	TOUCH_REGION_HOME_ADMIN,
+	TOUCH_REGION_KEYBOARD_1,
+	TOUCH_REGION_KEYBOARD_2,
+	TOUCH_REGION_KEYBOARD_3,
+	TOUCH_REGION_KEYBOARD_4,
+	TOUCH_REGION_KEYBOARD_5,
+	TOUCH_REGION_KEYBOARD_6,
+	TOUCH_REGION_KEYBOARD_7,
+	TOUCH_REGION_KEYBOARD_8,
+	TOUCH_REGION_KEYBOARD_9,
+	TOUCH_REGION_KEYBOARD_DOT,
+	TOUCH_REGION_KEYBOARD_0,
+	TOUCH_REGION_KEYBOARD_HASH,
+	TOUCH_REGION_KEYBOARD_CAN,
+	TOUCH_REGION_KEYBOARD_COR,
+	TOUCH_REGION_KEYBOARD_OK,
+	TOUCH_REGION_CAN_CANCEL,
+	TOUCH_REGION_CAN_CONTINUE,
+	//all new regions should be added above this line
+	TOUCH_REGION_MAX,
+}nfc_pos_touch_region_type;
+
+typedef enum{
+	TOUCH_SCREEN_INVALID_SCREEN = -1,
+	TOUCH_SCREEN_HOME_SCREEN = 0,
+	TOUCH_SCREEN_GET_SALE_AMOUNT,
+	TOUCH_SCREEN_CANCEL_SALE
+}nfc_pos_touch_screen_type;
+
+typedef struct {
+	nfc_pos_touch_region_type region_name;
+	uint16_t left;
+	uint16_t right;
+	uint16_t top;
+	uint16_t bottom;
+}nfc_pos_touch_input_table_entry;
+
+nfc_pos_touch_region_type  touchedRegion(nfc_pos_touch_screen_type screen);
 
 
 #endif /* NFC_POS_H_ */
