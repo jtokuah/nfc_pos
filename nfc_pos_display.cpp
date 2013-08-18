@@ -176,7 +176,7 @@ void confirmSale(const char amount[])
 	tft.setCursor(10, 50);
 	tft.println("Total:$");
 
-	tft.setCursor(170, 50);
+	tft.setCursor(232-(13*strlen(amount)), 50);
 	tft.println(amount);
 
 	tft.setCursor(30, 220);
@@ -390,17 +390,17 @@ nfc_pos_touch_region_type  touchedRegion(nfc_pos_touch_screen_type screen)
 							progmemPrintln(PSTR("touchedRegion():Key '#' Pressed"));
 							return TOUCH_REGION_KEYBOARD_HASH;
 						}
-						else if((touch_table[TOUCH_REGION_KEYBOARD_CAN].left<=point.x) && (point.x<touch_table[TOUCH_REGION_KEYBOARD_CAN].right) &&
-								(touch_table[TOUCH_REGION_KEYBOARD_CAN].top<=point.y) && (point.y<touch_table[TOUCH_REGION_KEYBOARD_CAN].bottom))
-						{
-							progmemPrintln(PSTR("touchedRegion():Key 'CAN' Pressed"));
-							return TOUCH_REGION_KEYBOARD_CAN;
-						}
 						else if((touch_table[TOUCH_REGION_KEYBOARD_OK].left<=point.x) && (point.x<touch_table[TOUCH_REGION_KEYBOARD_OK].right) &&
 								(touch_table[TOUCH_REGION_KEYBOARD_OK].top<=point.y) && (point.y<touch_table[TOUCH_REGION_KEYBOARD_OK].bottom))
 						{
 							progmemPrintln(PSTR("touchedRegion():Key 'OK' Pressed"));
 							return TOUCH_REGION_KEYBOARD_OK;
+						}
+						else if((touch_table[TOUCH_REGION_KEYBOARD_CAN].left<=point.x) && (point.x<touch_table[TOUCH_REGION_KEYBOARD_CAN].right) &&
+								(touch_table[TOUCH_REGION_KEYBOARD_CAN].top<=point.y) && (point.y<touch_table[TOUCH_REGION_KEYBOARD_CAN].bottom))
+						{
+							progmemPrintln(PSTR("touchedRegion():Key 'CAN' Pressed"));
+							return TOUCH_REGION_KEYBOARD_CAN;
 						}
 						break;
 					case TOUCH_SCREEN_CANCEL_SALE:

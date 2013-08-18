@@ -14,16 +14,16 @@ Adafruit_NFCShield_I2C nfc(IRQ, RESET);
  */
 nfc_pos_outgoing_transaction_table_entry outgoing_table [OUT_CODE_MAX] PROGMEM =
 {
-	{OUT_CODE_MESSAGE_ACK, (char*)"00"},
-	{OUT_CODE_PEER_READY_REQ, (char*)"01"},
-	{OUT_CODE_TRANSACTION_ID_RECEIVED_CONF, (char*)"02"},
-	{OUT_CODE_TRY_AGAIN_REQ,(char*) "03"},
-	{OUT_CODE_READY_FOR_RECEIPT_RESP, (char*)"04"},
-	{OUT_CODE_RECEIPT_VALID_MESSAGE, (char*)"05"},
-	{OUT_CODE_RECEIPT_INVALID_MESSAGE, (char*)"06"},
-	{OUT_CODE_READY_FOR_BALANCE_RESP, (char*)"07"},
-	{OUT_CODE_BALANCE_RECEIVED_CONF, (char*)"08"},
-	{OUT_CODE_SENDING_PAYMENT_AMOUNT, (char*)"09"},
+	{OUT_CODE_MESSAGE_ACK, (char*)"0"},
+	{OUT_CODE_PEER_READY_REQ, (char*)"1"},
+	{OUT_CODE_TRANSACTION_ID_RECEIVED_CONF, (char*)"2"},
+	{OUT_CODE_TRY_AGAIN_REQ,(char*) "3"},
+	{OUT_CODE_READY_FOR_RECEIPT_RESP, (char*)"4"},
+	{OUT_CODE_RECEIPT_VALID_MESSAGE, (char*)"5"},
+	{OUT_CODE_RECEIPT_INVALID_MESSAGE, (char*)"6"},
+	{OUT_CODE_READY_FOR_BALANCE_RESP, (char*)"7"},
+	{OUT_CODE_BALANCE_RECEIVED_CONF, (char*)"8"},
+	{OUT_CODE_SENDING_PAYMENT_AMOUNT, (char*)"9"},
 	{OUT_CODE_SENDING_MERCHANT_ACCT_NUM, (char*)"10"},
 	{OUT_CODE_SERVER_CONNECTION_STATUS_REQ, (char*)"11"},
 	{OUT_CODE_AUTH_STATUS_REQ, (char*)"12"},
@@ -161,7 +161,7 @@ char* nfc_pos_transaction_error(nfc_pos_transaction_error_code_type err_no)
  * This is the main function that handles the payment transaction protocols
  *
  */
-nfc_pos_transaction_result_type nfc_pos_transaction_handler(int paymentAmount, char* accountNum)
+nfc_pos_transaction_result_type nfc_pos_transaction_handler(char* paymentAmount, char* accountNum)
 {
 	int num_tries = 0;
 	boolean done = false;
@@ -187,7 +187,7 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(int paymentAmount, c
 
 				//send the payment amount to the mobile
 				progmemPrint(PSTR("nfc_pos_transaction_handler():: Sending payment amount\n"));
-				received_message = nfc_pos_message_mobile(OUT_CODE_SENDING_PAYMENT_AMOUNT, (char*)" ", paymentAmount);
+				received_message = nfc_pos_message_mobile(OUT_CODE_SENDING_PAYMENT_AMOUNT, paymentAmount, 0);
 				switch (received_message.transaction_code)
 				{
 					case IN_CODE_PAYMENT_AMOUNT_RECEIVED_CONF:

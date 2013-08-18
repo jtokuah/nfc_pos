@@ -12,9 +12,10 @@ int screenPressed = 0;
 
 int authCode = -1;
 int pageNumber = 0;
-char* accountNum = NULL;
+int pageDelay = 1000;
+char* accountNum = "AC123456";
 char saleAmount [MAX_NUM_DIGITS+1];
-
+bool pointEntered = false;
 nfc_pos_touch_region_type  selected;
 
 // Copy string from flash to serial port
@@ -106,10 +107,11 @@ void processMain()
 					strlcat(saleAmount, "9", MAX_NUM_DIGITS-1);
 					getSaleAmount(saleAmount);
 				}
-				else if ((selected == TOUCH_REGION_KEYBOARD_DOT) && (strlen(saleAmount)<MAX_NUM_DIGITS-1))
+				else if ((selected == TOUCH_REGION_KEYBOARD_DOT) && (strlen(saleAmount)<MAX_NUM_DIGITS-1) && (!pointEntered))
 				{
 					strlcat(saleAmount, ".", MAX_NUM_DIGITS-1);
 					getSaleAmount(saleAmount);
+					pointEntered = true;
 				}
 				else if ((selected == TOUCH_REGION_KEYBOARD_0) && (strlen(saleAmount)<MAX_NUM_DIGITS))
 				{
@@ -134,21 +136,29 @@ void processMain()
 			}
 			break;
 		case 3:
-	#ifdef NFC
-			progmemPrintln(PSTR("processMain:: state 3"));
-			accountNum = "AC123456"; //JT:HACK
-			progmemPrintln(PSTR("processmain:: Detecting mobile phone"));
-			transactionResult = nfc_pos_transaction_handler(atoi(saleAmount), accountNum);
-			if (transactionResult.status != -1){
-				confirmation(transactionResult.receipt_num);
-				progmemPrintln(PSTR("processmain:: payment successful!"));
-			}
-			else
+			while (state == 3)
 			{
-				progmemPrintln(PSTR("processmain:: Unexpected error."));
+#ifdef NFC
+				progmemPrintln(PSTR("processMain:: state 3"));
+				progmemPrintln(PSTR("processmain:: Detecting mobile phone"));
+				transactionResult = nfc_pos_transaction_handler(saleAmount, accountNum);
+				if (transactionResult.status != -1)
+				{
+					confirmation(transactionResult.receipt_num);
+					progmemPrintln(PSTR("processmain:: payment successful!"));
+					pageDelay = 1000;
+					while (pageDelay > 0)
+					{
+						pageDelay --;
+					}
+				}
+				else
+				{
+					progmemPrintln(PSTR("processmain:: Unexpected error."));
+				}
+#endif
+			state = 0;
 			}
-	#endif
-			state = 0; // JT:HACK
 			break;
 		case 6:
 			progmemPrintln(PSTR("processMain: state 6"));

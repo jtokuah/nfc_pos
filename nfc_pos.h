@@ -58,7 +58,7 @@
 #define IRQ   (2)
 #define RESET (3)
 
-#define MAX_NUM_DIGITS 16
+#define MAX_NUM_DIGITS 12
 
 unsigned long testText();
 
@@ -96,7 +96,7 @@ typedef struct nfc_pos_transaction_result_type{
 	char  server_message[32];
 }nfc_pos_transaction_result_type;
 
-nfc_pos_transaction_result_type nfc_pos_transaction_handler(int moneyAmount, char* accountNum);
+nfc_pos_transaction_result_type nfc_pos_transaction_handler(char* moneyAmount, char* accountNum);
 
 #endif
 

@@ -234,22 +234,22 @@ boolean Adafruit_NFCShield_I2C::sendCommandCheckAck(uint8_t *cmd, uint8_t cmdlen
   // Wait for chip to say its ready!
   while (wirereadstatus() != PN532_I2C_READY) {
     if (timeout != 0) {
-      timer+=10;
+      timer+=50;
       if (timer > timeout)  
         return false;
     }
-    delay(10);
+    delay(50);
   }
   
-  #ifdef PN532DEBUG
+//  #ifdef PN532DEBUG
   Serial.println("IRQ received");
-  #endif
+//  #endif
   
   // read acknowledgement
   if (!readackframe()) {
-    #ifdef PN532DEBUG
+//    #ifdef PN532DEBUG
     Serial.println("No ACK frame received!");
-    #endif
+//    #endif
     return false;
   }
 
