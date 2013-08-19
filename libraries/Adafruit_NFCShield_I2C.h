@@ -29,7 +29,11 @@
 #ifndef Adafruit_NFCShield_I2C_h
 #define Adafruit_NFCShield_I2C_h
 
-#include "Arduino.h"
+#if ARDUINO >= 100
+ #include "Arduino.h"
+#else
+ #include "WProgram.h"
+#endif
 
 #include <Wire.h>
 
@@ -74,7 +78,6 @@
 #define PN532_COMMAND_TGGETINITIATORCOMMAND (0x88)
 #define PN532_COMMAND_TGRESPONSETOINITIATOR (0x90)
 #define PN532_COMMAND_TGGETTARGETSTATUS     (0x8A)
-#define PN532_COMMAND_NFCERROR              (0x81)
 
 #define PN532_RESPONSE_INDATAEXCHANGE       (0x41)
 #define PN532_RESPONSE_INLISTPASSIVETARGET  (0x4B)
@@ -167,7 +170,7 @@ class Adafruit_NFCShield_I2C{
   // ISO14443A functions
   boolean inListPassiveTarget();
   boolean readPassiveTargetID(uint8_t cardbaudrate, uint8_t * uid, uint8_t * uidLength);
-  boolean inDataExchange(char * send, uint8_t sendLength, char * response, uint8_t * responseLength);
+  boolean inDataExchange(uint8_t * send, uint8_t sendLength, uint8_t * response, uint8_t * responseLength);
   
   // Mifare Classic functions
   bool mifareclassic_IsFirstBlock (uint32_t uiBlock);

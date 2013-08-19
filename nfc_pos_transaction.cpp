@@ -1,11 +1,15 @@
-#include <Adafruit_NFCShield_I2C.h> //NFC library
-#include <Wire.h>
-#include <errno.h>
 #include "nfc_pos.h"
-#include "nfc_pos_transaction.h"
-
 #ifdef NFC
 
+#include <Wire.h>
+#include <Adafruit_NFCShield_I2C.h> //NFC library
+#include <errno.h>
+#include "nfc_pos_transaction.h"
+
+
+
+#define IRQ   (2)
+#define RESET (3)
 
 Adafruit_NFCShield_I2C nfc(IRQ, RESET);
 
@@ -65,11 +69,13 @@ nfc_pos_message_type nfc_pos_message_mobile(int code, char * text, int data)
 	received_message.data = 0;
 
 	//buffers to hold formatted messages
+	byte data_in_buffer_bytes[MESSAGE_BUFFER_SIZE];
 	char data_in_buffer[MESSAGE_BUFFER_SIZE];
 	char data_out_buffer[MESSAGE_BUFFER_SIZE];
+	byte data_out_buffer_bytes [MESSAGE_BUFFER_SIZE];
 
 	//format message for transfer and store in out buffer. '!' is used to separate the different message components
-	sprintf (data_out_buffer, "%s!%s!%d", outgoing_table[code].message, text, data);
+	sprintf (data_out_buffer, "%s!%s!%d", (char*)pgm_read_word(&(outgoing_table[code].message)), text, data);
 
 	//Print contents of the outgoing message
 	progmemPrintln(PSTR("\nnfc_pos_send_message_to_peer():: Message to mobile."));
@@ -78,9 +84,20 @@ nfc_pos_message_type nfc_pos_message_mobile(int code, char * text, int data)
 	progmemPrint(PSTR("Out Data: "));Serial.println(data);
 	progmemPrint(PSTR("\n"));
 
+	for(unsigned int i = 0; i < MESSAGE_BUFFER_SIZE; i++){
+		data_out_buffer_bytes[i] = (byte)data_out_buffer[i];
+	}
+	progmemPrint(PSTR("Out buffer bytes: "));Serial.println((char *)data_out_buffer_bytes);
+	progmemPrint(PSTR("Out buffer char: "));Serial.println(data_out_buffer);
 	//trans-receive data
-	if(nfc.inDataExchange(data_out_buffer, (uint8_t)sizeof(data_out_buffer), data_in_buffer, (uint8_t*)sizeof(data_in_buffer)))
+	if(nfc.inDataExchange(data_out_buffer_bytes, (uint8_t)sizeof(data_out_buffer_bytes), data_in_buffer_bytes, (uint8_t*)sizeof(data_in_buffer_bytes)))
 	{
+		for(unsigned int i = 0; i < MESSAGE_BUFFER_SIZE; i++){
+			data_in_buffer[i] = (char)data_in_buffer_bytes[i];
+		}
+		progmemPrint(PSTR("In buffer bytes: "));Serial.println((char *)data_in_buffer_bytes);
+		progmemPrint(PSTR("In buffer char: "));Serial.println(data_in_buffer);
+
 		//build structure of received message
 		int count = 0;
 		char codeArray[strlen(data_in_buffer)-2];

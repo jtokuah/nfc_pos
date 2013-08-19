@@ -54,10 +54,6 @@
 //#define TS_MAXX 240
 //#define TS_MAXY 320
 
-
-#define IRQ   (2)
-#define RESET (3)
-
 #define MAX_NUM_DIGITS 12
 
 unsigned long testText();
@@ -81,8 +77,8 @@ void displayRefreshAmount();
 
 
 typedef struct cursorType {
-	uint16_t hor;
-	uint16_t ver;
+	int hor;
+	int ver;
 }cursorType;
 
 #ifdef NFC
@@ -135,10 +131,10 @@ typedef enum{
 
 typedef struct {
 	nfc_pos_touch_region_type region_name;
-	uint16_t left;
-	uint16_t right;
-	uint16_t top;
-	uint16_t bottom;
+	int left;
+	int right;
+	int top;
+	int bottom;
 }nfc_pos_touch_input_table_entry;
 
 nfc_pos_touch_region_type  touchedRegion(nfc_pos_touch_screen_type screen);

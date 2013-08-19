@@ -40,9 +40,18 @@
              uint8_t mifareultralight_ReadPage (uint8_t page, uint8_t * buffer)	
 */
 /**************************************************************************/
-#include "Arduino.h"
+#if ARDUINO >= 100
+ #include "Arduino.h"
+#else
+ #include "WProgram.h"
+#endif
 
 #include <Wire.h>
+#ifdef __AVR__
+ #define WIRE Wire
+#else // Arduino Due
+ #define WIRE Wire1
+#endif
 
 #include "Adafruit_NFCShield_I2C.h"
 
@@ -65,9 +74,11 @@ byte pn532_packetbuffer[PN532_PACKBUFFSIZ];
 /**************************************************************************/
 static inline void wiresend(uint8_t x) 
 {
-
-    Wire.write((uint8_t)x);
-
+  #if ARDUINO >= 100
+    WIRE.write((uint8_t)x);
+  #else
+    WIRE.send(x);
+  #endif
 }
 
 /**************************************************************************/
@@ -77,8 +88,11 @@ static inline void wiresend(uint8_t x)
 /**************************************************************************/
 static inline uint8_t wirerecv(void) 
 {
-	return Wire.read();
-
+  #if ARDUINO >= 100
+    return WIRE.read();
+  #else
+    return WIRE.receive();
+  #endif
 }
 
 /**************************************************************************/
@@ -103,7 +117,7 @@ Adafruit_NFCShield_I2C::Adafruit_NFCShield_I2C(uint8_t irq, uint8_t reset) {
 */
 /**************************************************************************/
 void Adafruit_NFCShield_I2C::begin() {
-  Wire.begin();
+  WIRE.begin();
 
   // Reset the PN532  
   digitalWrite(_reset, HIGH);
@@ -188,7 +202,7 @@ uint32_t Adafruit_NFCShield_I2C::getFirmwareVersion(void) {
 
   if (! sendCommandCheckAck(pn532_packetbuffer, 1))
     return 0;
-	
+
   // read data packet
   wirereaddata(pn532_packetbuffer, 12);
   
@@ -234,22 +248,22 @@ boolean Adafruit_NFCShield_I2C::sendCommandCheckAck(uint8_t *cmd, uint8_t cmdlen
   // Wait for chip to say its ready!
   while (wirereadstatus() != PN532_I2C_READY) {
     if (timeout != 0) {
-      timer+=50;
+      timer+=10;
       if (timer > timeout)  
         return false;
     }
-    delay(50);
+    delay(10);
   }
   
-//  #ifdef PN532DEBUG
+  #ifdef PN532DEBUG
   Serial.println("IRQ received");
-//  #endif
+  #endif
   
   // read acknowledgement
   if (!readackframe()) {
-//    #ifdef PN532DEBUG
+    #ifdef PN532DEBUG
     Serial.println("No ACK frame received!");
-//    #endif
+    #endif
     return false;
   }
 
@@ -597,7 +611,7 @@ uint8_t Adafruit_NFCShield_I2C::mifareclassic_AuthenticateBlock (uint8_t * uid, 
   {
     #ifdef PN532DEBUG
     Serial.print("Authentification failed: ");
-    Adafruit_PN532::PrintHexChar(pn532_packetbuffer, 12);
+//    Adafruit_PN532::PrintHexChar(pn532_packetbuffer, 12);
     #endif
     return 0;
   }  
@@ -769,7 +783,7 @@ uint8_t Adafruit_NFCShield_I2C::mifareclassic_WriteNDEFURI (uint8_t sectorNumber
     
   // Note 0xD3 0xF7 0xD3 0xF7 0xD3 0xF7 must be used for key A
   // in NDEF records
-	
+
   // Setup the sector buffer (w/pre-formatted TLV wrapper and NDEF message)
   uint8_t sectorbuffer1[16] = {0x00, 0x00, 0x03, len+5, 0xD1, 0x01, len+1, 0x55, uriIdentifier, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
   uint8_t sectorbuffer2[16] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
@@ -950,22 +964,27 @@ void Adafruit_NFCShield_I2C::wirereaddata(uint8_t* buff, uint8_t n) {
   
   delay(2); 
 
+#ifdef PN532DEBUG
   Serial.print("Reading: ");
-
+#endif
   // Start read (n+1 to take into account leading 0x01 with I2C)
-  Wire.requestFrom((uint8_t)PN532_I2C_ADDRESS, (uint8_t)(n+2));
+  WIRE.requestFrom((uint8_t)PN532_I2C_ADDRESS, (uint8_t)(n+2));
   // Discard the leading 0x01
   wirerecv();
   for (uint8_t i=0; i<n; i++) {
     delay(1);
     buff[i] = wirerecv();
+#ifdef PN532DEBUG
     Serial.print(" 0x");
     Serial.print(buff[i], HEX);
+#endif
   }
   // Discard trailing 0x00 0x00
   // wirerecv();
 
+#ifdef PN532DEBUG
   Serial.println();
+#endif
 }
 
 /**************************************************************************/
@@ -989,7 +1008,7 @@ void Adafruit_NFCShield_I2C::wiresendcommand(uint8_t* cmd, uint8_t cmdlen) {
   delay(2);     // or whatever the delay is for waking up the board
 
   // I2C START
-  Wire.beginTransmission(PN532_I2C_ADDRESS);
+  WIRE.beginTransmission(PN532_I2C_ADDRESS);
   checksum = PN532_PREAMBLE + PN532_PREAMBLE + PN532_STARTCODE2;
   wiresend(PN532_PREAMBLE);
   wiresend(PN532_PREAMBLE);
@@ -1022,7 +1041,7 @@ void Adafruit_NFCShield_I2C::wiresendcommand(uint8_t* cmd, uint8_t cmdlen) {
   wiresend(PN532_POSTAMBLE);
   
   // I2C STOP
-  Wire.endTransmission();
+  WIRE.endTransmission();
 
 #ifdef PN532DEBUG
   Serial.print(" 0x"); Serial.print(~checksum, HEX);
@@ -1040,18 +1059,15 @@ void Adafruit_NFCShield_I2C::wiresendcommand(uint8_t* cmd, uint8_t cmdlen) {
 /**************************************************************************/
 boolean Adafruit_NFCShield_I2C::waitUntilReady(uint16_t timeout) {
   uint16_t timer = 0;
-  Serial.println("Waiting for the PN532 to be ready...");
   while(wirereadstatus() != PN532_I2C_READY) {
     if (timeout != 0) {
       timer += 10;
       if (timer > timeout) {
-    	Serial.println("Device timed out...");
         return false;
       }
     }
     delay(10);
   }
-  Serial.println("The PN532 is ready.");
   return true;
 }
 
@@ -1065,49 +1081,52 @@ boolean Adafruit_NFCShield_I2C::waitUntilReady(uint16_t timeout) {
     @param  responseLength  Pointer to the response data length
 */
 /**************************************************************************/
-boolean Adafruit_NFCShield_I2C::inDataExchange(char* send, uint8_t sendLength, char* response, uint8_t * responseLength) {
-
+boolean Adafruit_NFCShield_I2C::inDataExchange(uint8_t * send, uint8_t sendLength, uint8_t * response, uint8_t * responseLength) {
+  if (sendLength > PN532_PACKBUFFSIZ -2) {
+    #ifdef PN532DEBUG
+      Serial.println("APDU length too long for packet buffer");
+    #endif
+    return false;
+  }
   uint8_t i;
 
-  //message to target
-    if (sendLength > PN532_PACKBUFFSIZ -2) {
-        Serial.println("APDU length too long for packet buffer");
-      return false;
-    }
+  pn532_packetbuffer[0] = 0x40; // PN532_COMMAND_INDATAEXCHANGE;
+  pn532_packetbuffer[1] = inListedTag;
+  for (i=0; i<sendLength; ++i) {
+    pn532_packetbuffer[i+2] = send[i];
+  }
 
-    pn532_packetbuffer[0] = 0x40; // PN532_COMMAND_INDATAEXCHANGE;
-    pn532_packetbuffer[1] = inListedTag;
-    for (uint8_t i=0; i<sendLength; ++i) {
-      pn532_packetbuffer[i+2] = send[i];
-    }
+  if (!sendCommandCheckAck(pn532_packetbuffer,sendLength+2,1000)) {
+    #ifdef PN532DEBUG
+      Serial.println("Could not send ADPU");
+    #endif
+    return false;
+  }
 
-    if (!sendCommandCheckAck(pn532_packetbuffer,sendLength+2,1000)) {
-        Serial.println("Could not send APDU");
-        return false;
-    }
-    else{
-  	  Serial.println("Sent APDU to target, awaiting response ...");
-    }
+  if (!waitUntilReady(1000)) {
+    #ifdef PN532DEBUG
+      Serial.println("Response never received for ADPU...");
+    #endif
+    return false;
+  }
 
-    if (!waitUntilReady(1000)) {
-        Serial.println("Response never received for APDU...");
-      return false;
-    }
-
-  //read data from PN532 using I2C
   wirereaddata(pn532_packetbuffer,sizeof(pn532_packetbuffer));
   
   if (pn532_packetbuffer[0] == 0 && pn532_packetbuffer[1] == 0 && pn532_packetbuffer[2] == 0xff) {
     uint8_t length = pn532_packetbuffer[3];
     if (pn532_packetbuffer[4]!=(uint8_t)(~length+1)) {
+      #ifdef PN532DEBUG
         Serial.println("Length check invalid");
         Serial.println(length,HEX);
         Serial.println((~length)+1,HEX);
+      #endif
       return false;
     }
     if (pn532_packetbuffer[5]==PN532_PN532TOHOST && pn532_packetbuffer[6]==PN532_RESPONSE_INDATAEXCHANGE) {
       if ((pn532_packetbuffer[7] & 0x3f)!=0) {
-         Serial.println("Status code indicates an error");
+        #ifdef PN532DEBUG
+          Serial.println("Status code indicates an error");
+        #endif
         return false;
       }
       
@@ -1121,12 +1140,8 @@ boolean Adafruit_NFCShield_I2C::inDataExchange(char* send, uint8_t sendLength, c
         response[i] = pn532_packetbuffer[8+i];
       }
       *responseLength = length;
+
       return true;
-    }
-    if (pn532_packetbuffer[4]==0xFF && pn532_packetbuffer[5]==0x7F){
-      Serial.print("Command received indicates NFC error: ");
-      Serial.println(pn532_packetbuffer[6],HEX);
-      return false;
     } 
     else {
       Serial.print("Don't know how to handle this command: ");
@@ -1151,11 +1166,15 @@ boolean Adafruit_NFCShield_I2C::inListPassiveTarget() {
   pn532_packetbuffer[1] = 1;
   pn532_packetbuffer[2] = 0;
   
-  Serial.println("About to inList passive target");
+  #ifdef PN532DEBUG
+    Serial.print("About to inList passive target");
+  #endif
 
   if (!sendCommandCheckAck(pn532_packetbuffer,3,1000)) {
+    #ifdef PN532DEBUG
       Serial.println("Could not send inlist message");
-      return false;
+    #endif
+    return false;
   }
 
   if (!waitUntilReady(30000)) {
@@ -1167,14 +1186,18 @@ boolean Adafruit_NFCShield_I2C::inListPassiveTarget() {
   if (pn532_packetbuffer[0] == 0 && pn532_packetbuffer[1] == 0 && pn532_packetbuffer[2] == 0xff) {
     uint8_t length = pn532_packetbuffer[3];
     if (pn532_packetbuffer[4]!=(uint8_t)(~length+1)) {
+      #ifdef PN532DEBUG
         Serial.println("Length check invalid");
         Serial.println(length,HEX);
         Serial.println((~length)+1,HEX);
+      #endif
       return false;
     }
     if (pn532_packetbuffer[5]==PN532_PN532TOHOST && pn532_packetbuffer[6]==PN532_RESPONSE_INLISTPASSIVETARGET) {
       if (pn532_packetbuffer[7] != 1) {
+        #ifdef PN532DEBUG
         Serial.println("Unhandled number of targets inlisted");
+        #endif
         Serial.println("Number of tags inlisted:");
         Serial.println(pn532_packetbuffer[7]);
         return false;
@@ -1183,16 +1206,21 @@ boolean Adafruit_NFCShield_I2C::inListPassiveTarget() {
       inListedTag = pn532_packetbuffer[8];
       Serial.print("Tag number: ");
       Serial.println(inListedTag);
-      return true;
 
+      return true;
     } else {
+      #ifdef PN532DEBUG
         Serial.print("Unexpected response to inlist passive host");
+      #endif
       return false;
     } 
   } 
   else {
+    #ifdef PN532DEBUG
       Serial.println("Preamble missing");
+    #endif
     return false;
   }
+
   return true;
 }
