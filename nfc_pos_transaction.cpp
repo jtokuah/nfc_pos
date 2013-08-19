@@ -346,6 +346,9 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(char* paymentAmount,
 						case IN_CODE_TRANSACTION_SUCCESS:
 							error_code = ERR_NO_ERROR;
 							done = true;
+							result.status = EOK;
+							transactionResult("Approved", "Pls, remove mobile");
+							delay(2000);
 							break;
 						case IN_CODE_VERIFYING:
 							error_code = ERR_NO_ERROR;
@@ -384,10 +387,6 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(char* paymentAmount,
 			error_code = ERR_BOARD_NOT_CONFIGURED;
 		}
 		if (num_tries != MAX_NUM_TRANSACTION_RETRIES) error_code = ERR_NO_ERROR;
-		else if (error_code == ERR_NO_ERROR){
-			result.status = EOK;
-			transactionResult("Approved", "Pls, remove mobile");
-		}
     }
 	if (error_code != ERR_NO_ERROR)
 	{
@@ -395,6 +394,7 @@ nfc_pos_transaction_result_type nfc_pos_transaction_handler(char* paymentAmount,
 		Serial.println(nfc_pos_transaction_error(error_code));
 	}
 	transactionResult("Pass Terminal to", "Merchant");
+	delay(2000);
     progmemPrintln(PSTR("nfc_pos_transaction_handler():: Returning to main"));
 	return result;
 }

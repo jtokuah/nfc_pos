@@ -12,7 +12,6 @@ int screenPressed = 0;
 
 int authCode = -1;
 int pageNumber = 0;
-int pageDelay = 1000;
 char* accountNum = "AC123456";
 char saleAmount [MAX_NUM_DIGITS+1];
 bool pointEntered = false;
@@ -146,11 +145,7 @@ void processMain()
 				{
 					confirmation(transactionResult.receipt_num);
 					progmemPrintln(PSTR("processmain:: payment successful!"));
-					pageDelay = 1000;
-					while (pageDelay > 0)
-					{
-						pageDelay --;
-					}
+					delay(5000);
 				}
 				else
 				{
