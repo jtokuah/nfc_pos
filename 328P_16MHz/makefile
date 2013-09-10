@@ -10,6 +10,7 @@ RM := rm -rf
 -include sources.mk
 -include src/avr-libc/subdir.mk
 -include src/subdir.mk
+-include source/subdir.mk
 -include libraries/subdir.mk
 -include subdir.mk
 -include objects.mk
@@ -64,7 +65,7 @@ all: nfc_pos.elf secondary-outputs
 nfc_pos.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: AVR C++ Linker'
-	avr-gcc -Os -Wl,--gc-sections  -Wl,-Map,nfc_pos.map,--cref -mmcu=atmega328p  -o"nfc_pos.elf" $(OBJS) $(USER_OBJS) $(LIBS) -lm
+	avr-gcc --cref -s -Os -o"nfc_pos.elf" $(OBJS) $(USER_OBJS) $(LIBS) -lm -Wl,-Map,nfc_pos.map,--cref -Wl,--gc-sections -L"D:\Arduino\nfc_pos\328P_16MHz" -mmcu=atmega328p
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -82,7 +83,7 @@ sizedummy: nfc_pos.elf
 
 avrdudedummy: nfc_pos.elf
 	@echo 'Invoking: AVRDude'
-	D:\Program Files (x86)\Arduino\hardware\tools\avr\bin\avrdude -patmega328p -carduino -P\\.\COM6 -b115200 -F -Uflash:w:nfc_pos.hex:a
+	D:\WinAVR-20100110\bin\avrdude -pm328p -carduino -P\\.\COM6 -b115200 -F -Uflash:w:nfc_pos.hex:a
 	@echo 'Finished building: $@'
 	@echo ' '
 

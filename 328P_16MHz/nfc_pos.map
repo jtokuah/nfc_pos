@@ -63,7 +63,7 @@ d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_tablejump.o)
 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(random.o)
                               ./src/WMath.o (random)
 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(atoi.o)
-                              ./nfc_pos_transaction.o (atoi)
+                              ./source/nfc_pos_transaction.o (atoi)
 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(atol.o)
                               ./src/WString.o (atol)
 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(isspace.o)
@@ -83,7 +83,7 @@ d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strc
 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strcpy.o)
                               ./src/WString.o (strcpy)
 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strlcat.o)
-                              ./nfc_pos_transaction.o (strlcat)
+                              ./source/nfc_pos_main.o (strlcat)
 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strncmp.o)
                               ./src/WString.o (strncmp)
 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strncpy.o)
@@ -105,7 +105,7 @@ d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(ulto
 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(utoa.o)
                               ./src/WString.o (utoa)
 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(sprintf.o)
-                              ./nfc_pos_transaction.o (sprintf)
+                              ./source/nfc_pos_transaction.o (sprintf)
 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(vfprintf_std.o)
                               d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(sprintf.o) (vfprintf)
 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(cty_isfalse.o)
@@ -190,9 +190,9 @@ Discarded input sections
                 0x00000000        0x0 ./src/Print.o
  .text._ZN5Print7printlnEji
                 0x00000000        0x0 ./src/Print.o
- .text._ZN5Print7printlnEli
+ .text._ZN5Print5printEhi
                 0x00000000        0x0 ./src/Print.o
- .text._ZN5Print5printEii
+ .text._ZN5Print7printlnEli
                 0x00000000        0x0 ./src/Print.o
  .text._ZN5Print10printFloatEdh
                 0x00000000        0x0 ./src/Print.o
@@ -488,14 +488,28 @@ Discarded input sections
  .text.shiftOut
                 0x00000000        0x0 ./src/wiring_shift.o
  .text.shiftIn  0x00000000        0x0 ./src/wiring_shift.o
+ .text          0x00000000        0x0 ./source/nfc_pos_display.o
+ .bss           0x00000000        0x0 ./source/nfc_pos_display.o
+ .text._Z8testTextv
+                0x00000000        0x0 ./source/nfc_pos_display.o
+ .bss.keyDelay  0x00000000        0x0 ./source/nfc_pos_display.o
+ .text          0x00000000        0x0 ./source/nfc_pos_main.o
+ .bss           0x00000000        0x0 ./source/nfc_pos_main.o
+ .bss.keyValue  0x00000000        0x0 ./source/nfc_pos_main.o
+ .bss.screenPressed
+                0x00000000        0x0 ./source/nfc_pos_main.o
+ .data.authCode
+                0x00000000        0x0 ./source/nfc_pos_main.o
+ .bss.pageNumber
+                0x00000000        0x0 ./source/nfc_pos_main.o
+ .text          0x00000000        0x0 ./source/nfc_pos_transaction.o
+ .bss           0x00000000        0x0 ./source/nfc_pos_transaction.o
+ .text._Z25nfc_pos_transaction_error35nfc_pos_transaction_error_code_type
+                0x00000000        0x0 ./source/nfc_pos_transaction.o
  .text          0x00000000        0x0 ./libraries/Adafruit_GFX.o
  .data          0x00000000        0x0 ./libraries/Adafruit_GFX.o
  .bss           0x00000000        0x0 ./libraries/Adafruit_GFX.o
  .text._ZN12Adafruit_GFX10drawCircleEiiij
-                0x00000000        0x0 ./libraries/Adafruit_GFX.o
- .text._ZN12Adafruit_GFX16drawCircleHelperEiiihj
-                0x00000000        0x0 ./libraries/Adafruit_GFX.o
- .text._ZN12Adafruit_GFX16fillCircleHelperEiiihij
                 0x00000000        0x0 ./libraries/Adafruit_GFX.o
  .text._ZN12Adafruit_GFX10fillCircleEiiij
                 0x00000000        0x0 ./libraries/Adafruit_GFX.o
@@ -506,10 +520,6 @@ Discarded input sections
  .text._ZN12Adafruit_GFX8fillRectEiiiij
                 0x00000000        0x0 ./libraries/Adafruit_GFX.o
  .text._ZN12Adafruit_GFX10fillScreenEj
-                0x00000000        0x0 ./libraries/Adafruit_GFX.o
- .text._ZN12Adafruit_GFX13drawRoundRectEiiiiij
-                0x00000000        0x0 ./libraries/Adafruit_GFX.o
- .text._ZN12Adafruit_GFX13fillRoundRectEiiiiij
                 0x00000000        0x0 ./libraries/Adafruit_GFX.o
  .text._ZN12Adafruit_GFX12drawTriangleEiiiiiij
                 0x00000000        0x0 ./libraries/Adafruit_GFX.o
@@ -555,13 +565,13 @@ Discarded input sections
                 0x00000000        0x0 ./libraries/Adafruit_NFCShield_I2C.o
  .text._ZN22Adafruit_NFCShield_I2CC2Ehh
                 0x00000000        0x0 ./libraries/Adafruit_NFCShield_I2C.o
- .rodata._ZZN22Adafruit_NFCShield_I2C26mifareclassic_WriteNDEFURIEhhPKcE4C.24
+ .rodata._ZZN22Adafruit_NFCShield_I2C26mifareclassic_WriteNDEFURIEhhPKcE4C.20
                 0x00000000        0x0 ./libraries/Adafruit_NFCShield_I2C.o
- .rodata._ZZN22Adafruit_NFCShield_I2C24mifareclassic_FormatNDEFEvE4C.20
+ .rodata._ZZN22Adafruit_NFCShield_I2C24mifareclassic_FormatNDEFEvE4C.16
                 0x00000000        0x0 ./libraries/Adafruit_NFCShield_I2C.o
- .rodata._ZZN22Adafruit_NFCShield_I2C24mifareclassic_FormatNDEFEvE4C.19
+ .rodata._ZZN22Adafruit_NFCShield_I2C24mifareclassic_FormatNDEFEvE4C.15
                 0x00000000        0x0 ./libraries/Adafruit_NFCShield_I2C.o
- .rodata._ZZN22Adafruit_NFCShield_I2C24mifareclassic_FormatNDEFEvE4C.18
+ .rodata._ZZN22Adafruit_NFCShield_I2C24mifareclassic_FormatNDEFEvE4C.14
                 0x00000000        0x0 ./libraries/Adafruit_NFCShield_I2C.o
  .text          0x00000000        0x0 ./libraries/Adafruit_TFTLCD.o
  .data          0x00000000        0x0 ./libraries/Adafruit_TFTLCD.o
@@ -576,9 +586,9 @@ Discarded input sections
                 0x00000000        0x0 ./libraries/Adafruit_TFTLCD.o
  .text._ZN15Adafruit_TFTLCD9readPixelEii
                 0x00000000        0x0 ./libraries/Adafruit_TFTLCD.o
- .text._ZN15Adafruit_TFTLCDC1Ev
-                0x00000000        0x0 ./libraries/Adafruit_TFTLCD.o
  .text._ZN15Adafruit_TFTLCDC2Ev
+                0x00000000        0x0 ./libraries/Adafruit_TFTLCD.o
+ .text._ZN15Adafruit_TFTLCDC1Ehhhhh
                 0x00000000        0x0 ./libraries/Adafruit_TFTLCD.o
  .text._ZN15Adafruit_TFTLCDC2Ehhhhh
                 0x00000000        0x0 ./libraries/Adafruit_TFTLCD.o
@@ -656,20 +666,6 @@ Discarded input sections
                 0x00000000        0x0 ./libraries/twi.o
  .text.twi_releaseBus
                 0x00000000        0x0 ./libraries/twi.o
- .text          0x00000000        0x0 ./nfc_pos_display.o
- .bss           0x00000000        0x0 ./nfc_pos_display.o
- .text._Z8testTextv
-                0x00000000        0x0 ./nfc_pos_display.o
- .text          0x00000000        0x0 ./nfc_pos_main.o
- .bss           0x00000000        0x0 ./nfc_pos_main.o
- .text._Z26nfc_pos_verify_transactioni
-                0x00000000        0x0 ./nfc_pos_main.o
- .data.authCode
-                0x00000000        0x0 ./nfc_pos_main.o
- .text          0x00000000        0x0 ./nfc_pos_transaction.o
- .bss           0x00000000        0x0 ./nfc_pos_transaction.o
- .text._Z25nfc_pos_transaction_error35nfc_pos_transaction_error_code_type
-                0x00000000        0x0 ./nfc_pos_transaction.o
  .text          0x00000000        0x0 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(addsf3.o)
  .data          0x00000000        0x0 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(addsf3.o)
  .bss           0x00000000        0x0 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(addsf3.o)
@@ -944,6 +940,9 @@ LOAD ./src/wiring_analog.o
 LOAD ./src/wiring_digital.o
 LOAD ./src/wiring_pulse.o
 LOAD ./src/wiring_shift.o
+LOAD ./source/nfc_pos_display.o
+LOAD ./source/nfc_pos_main.o
+LOAD ./source/nfc_pos_transaction.o
 LOAD ./libraries/Adafruit_GFX.o
 LOAD ./libraries/Adafruit_NFCShield_I2C.o
 LOAD ./libraries/Adafruit_TFTLCD.o
@@ -951,9 +950,6 @@ LOAD ./libraries/TouchScreen.o
 LOAD ./libraries/Wire.o
 LOAD ./libraries/glcdfont.o
 LOAD ./libraries/twi.o
-LOAD ./nfc_pos_display.o
-LOAD ./nfc_pos_main.o
-LOAD ./nfc_pos_transaction.o
 LOAD d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a
 LOAD d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 LOAD d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a
@@ -1049,7 +1045,7 @@ LOAD d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x5baa
+.text           0x00000000     0x66ca
  *(.vectors)
  .vectors       0x00000000       0x68 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm328p.o
                 0x00000000                __vectors
@@ -1065,554 +1061,570 @@ LOAD d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                 0x00000073                port_to_output_PGM
                 0x0000007d                port_to_input_PGM
                 0x000000af                digital_pin_to_timer_PGM
- .progmem.data  0x000000c3      0x4fb ./libraries/Adafruit_GFX.o
- .progmem.data  0x000005be      0x122 ./libraries/Adafruit_TFTLCD.o
- .progmem.data  0x000006e0       0xf3 ./nfc_pos_main.o
- .progmem.data  0x000007d3      0x2f7 ./nfc_pos_transaction.o
-                0x00000aca                . = ALIGN (0x2)
-                0x00000aca                __trampolines_start = .
+ .progmem.data  0x000000c3      0x320 ./source/nfc_pos_display.o
+                0x000000c3                touch_table
+ .progmem.data  0x000003e3       0xe0 ./source/nfc_pos_main.o
+ .progmem.data  0x000004c3      0x369 ./source/nfc_pos_transaction.o
+                0x000004c3                outgoing_table
+ .progmem.data  0x0000082c      0x4fb ./libraries/Adafruit_GFX.o
+ .progmem.data  0x00000d27      0x122 ./libraries/Adafruit_TFTLCD.o
+                0x00000e4a                . = ALIGN (0x2)
+ *fill*         0x00000e49        0x1 00
+                0x00000e4a                __trampolines_start = .
  *(.trampolines)
- .trampolines   0x00000aca        0x0 linker stubs
+ .trampolines   0x00000e4a        0x0 linker stubs
  *(.trampolines*)
-                0x00000aca                __trampolines_end = .
+                0x00000e4a                __trampolines_end = .
  *(.jumptables)
  *(.jumptables*)
  *(.lowtext)
  *(.lowtext*)
-                0x00000aca                __ctors_start = .
+                0x00000e4a                __ctors_start = .
  *(.ctors)
- .ctors         0x00000aca        0x2 ./src/HardwareSerial.o
- .ctors         0x00000acc        0x2 ./libraries/Wire.o
- .ctors         0x00000ace        0x2 ./nfc_pos_display.o
- .ctors         0x00000ad0        0x2 ./nfc_pos_transaction.o
-                0x00000ad2                __ctors_end = .
-                0x00000ad2                __dtors_start = .
+ .ctors         0x00000e4a        0x2 ./src/HardwareSerial.o
+ .ctors         0x00000e4c        0x2 ./source/nfc_pos_display.o
+ .ctors         0x00000e4e        0x2 ./source/nfc_pos_transaction.o
+ .ctors         0x00000e50        0x2 ./libraries/Wire.o
+                0x00000e52                __ctors_end = .
+                0x00000e52                __dtors_start = .
  *(.dtors)
-                0x00000ad2                __dtors_end = .
+                0x00000e52                __dtors_end = .
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x00000ad2        0x0 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm328p.o
-                0x00000ad2                __init
+ .init0         0x00000e52        0x0 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm328p.o
+                0x00000e52                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x00000ad2        0xc d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm328p.o
+ .init2         0x00000e52        0xc d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm328p.o
  *(.init2)
  *(.init3)
  *(.init3)
  *(.init4)
- .init4         0x00000ade       0x16 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
-                0x00000ade                __do_copy_data
- .init4         0x00000af4       0x10 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
-                0x00000af4                __do_clear_bss
+ .init4         0x00000e5e       0x16 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
+                0x00000e5e                __do_copy_data
+ .init4         0x00000e74       0x10 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+                0x00000e74                __do_clear_bss
  *(.init4)
  *(.init5)
  *(.init5)
  *(.init6)
- .init6         0x00000b04       0x16 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_ctors.o)
-                0x00000b04                __do_global_ctors
+ .init6         0x00000e84       0x16 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_ctors.o)
+                0x00000e84                __do_global_ctors
  *(.init6)
  *(.init7)
  *(.init7)
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x00000b1a        0x8 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm328p.o
+ .init9         0x00000e9a        0x8 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm328p.o
  *(.init9)
  *(.text)
- .text          0x00000b22        0x4 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm328p.o
-                0x00000b22                __vector_22
-                0x00000b22                __vector_12
-                0x00000b22                __bad_interrupt
-                0x00000b22                __vector_6
-                0x00000b22                __vector_3
-                0x00000b22                __vector_23
-                0x00000b22                __vector_25
-                0x00000b22                __vector_11
-                0x00000b22                __vector_13
-                0x00000b22                __vector_17
-                0x00000b22                __vector_5
-                0x00000b22                __vector_4
-                0x00000b22                __vector_9
-                0x00000b22                __vector_21
-                0x00000b22                __vector_15
-                0x00000b22                __vector_8
-                0x00000b22                __vector_14
-                0x00000b22                __vector_10
-                0x00000b22                __vector_20
-                0x00000b26                . = ALIGN (0x2)
+ .text          0x00000ea2        0x4 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm328p.o
+                0x00000ea2                __vector_22
+                0x00000ea2                __vector_12
+                0x00000ea2                __bad_interrupt
+                0x00000ea2                __vector_6
+                0x00000ea2                __vector_3
+                0x00000ea2                __vector_23
+                0x00000ea2                __vector_25
+                0x00000ea2                __vector_11
+                0x00000ea2                __vector_13
+                0x00000ea2                __vector_17
+                0x00000ea2                __vector_5
+                0x00000ea2                __vector_4
+                0x00000ea2                __vector_9
+                0x00000ea2                __vector_21
+                0x00000ea2                __vector_15
+                0x00000ea2                __vector_8
+                0x00000ea2                __vector_14
+                0x00000ea2                __vector_10
+                0x00000ea2                __vector_20
+                0x00000ea6                . = ALIGN (0x2)
  *(.text.*)
  .text._Z11serialEventv
-                0x00000b26        0x2 ./src/HardwareSerial.o
-                0x00000b26                serialEvent()
+                0x00000ea6        0x2 ./src/HardwareSerial.o
+                0x00000ea6                serialEvent()
  .text.__vector_18
-                0x00000b28       0x76 ./src/HardwareSerial.o
-                0x00000b28                __vector_18
+                0x00000ea8       0x76 ./src/HardwareSerial.o
+                0x00000ea8                __vector_18
  .text._Z14serialEventRunv
-                0x00000b9e       0x26 ./src/HardwareSerial.o
-                0x00000b9e                serialEventRun()
+                0x00000f1e       0x26 ./src/HardwareSerial.o
+                0x00000f1e                serialEventRun()
  .text.__vector_19
-                0x00000bc4       0x76 ./src/HardwareSerial.o
-                0x00000bc4                __vector_19
+                0x00000f44       0x76 ./src/HardwareSerial.o
+                0x00000f44                __vector_19
  .text._ZN14HardwareSerial5beginEm
-                0x00000c3a      0x10e ./src/HardwareSerial.o
-                0x00000c3a                HardwareSerial::begin(unsigned long)
+                0x00000fba      0x10e ./src/HardwareSerial.o
+                0x00000fba                HardwareSerial::begin(unsigned long)
  .text._ZN14HardwareSerial9availableEv
-                0x00000d48       0x22 ./src/HardwareSerial.o
-                0x00000d48                HardwareSerial::available()
+                0x000010c8       0x22 ./src/HardwareSerial.o
+                0x000010c8                HardwareSerial::available()
  .text._ZN14HardwareSerial4peekEv
-                0x00000d6a       0x40 ./src/HardwareSerial.o
-                0x00000d6a                HardwareSerial::peek()
+                0x000010ea       0x40 ./src/HardwareSerial.o
+                0x000010ea                HardwareSerial::peek()
  .text._ZN14HardwareSerial4readEv
-                0x00000daa       0x52 ./src/HardwareSerial.o
-                0x00000daa                HardwareSerial::read()
+                0x0000112a       0x52 ./src/HardwareSerial.o
+                0x0000112a                HardwareSerial::read()
  .text._ZN14HardwareSerial5flushEv
-                0x00000dfc       0x20 ./src/HardwareSerial.o
-                0x00000dfc                HardwareSerial::flush()
+                0x0000117c       0x20 ./src/HardwareSerial.o
+                0x0000117c                HardwareSerial::flush()
  .text._ZN14HardwareSerial5writeEh
-                0x00000e1c       0x80 ./src/HardwareSerial.o
-                0x00000e1c                HardwareSerial::write(unsigned char)
+                0x0000119c       0x80 ./src/HardwareSerial.o
+                0x0000119c                HardwareSerial::write(unsigned char)
  .text._GLOBAL__I_rx_buffer
-                0x00000e9c       0xac ./src/HardwareSerial.o
+                0x0000121c       0xac ./src/HardwareSerial.o
  .text._ZN5Print5writeEPKhj
-                0x00000f48       0x54 ./src/Print.o
-                0x00000f48                Print::write(unsigned char const*, unsigned int)
+                0x000012c8       0x54 ./src/Print.o
+                0x000012c8                Print::write(unsigned char const*, unsigned int)
  .text._ZN5Print5printEc
-                0x00000f9c       0x10 ./src/Print.o
-                0x00000f9c                Print::print(char)
+                0x0000131c       0x10 ./src/Print.o
+                0x0000131c                Print::print(char)
  .text._ZN5Print7printlnEv
-                0x00000fac       0x40 ./src/Print.o
-                0x00000fac                Print::println()
+                0x0000132c       0x40 ./src/Print.o
+                0x0000132c                Print::println()
  .text._ZN5Print5writeEPKc
-                0x00000fec       0x38 ./src/Print.o
-                0x00000fec                Print::write(char const*)
+                0x0000136c       0x38 ./src/Print.o
+                0x0000136c                Print::write(char const*)
  .text._ZN5Print11printNumberEmh
-                0x00001024       0xc8 ./src/Print.o
-                0x00001024                Print::printNumber(unsigned long, unsigned char)
+                0x000013a4       0xc8 ./src/Print.o
+                0x000013a4                Print::printNumber(unsigned long, unsigned char)
  .text._ZN5Print5printEmi
-                0x000010ec       0x1e ./src/Print.o
-                0x000010ec                Print::print(unsigned long, int)
+                0x0000146c       0x1e ./src/Print.o
+                0x0000146c                Print::print(unsigned long, int)
  .text._ZN5Print7printlnEmi
-                0x0000110a       0x28 ./src/Print.o
-                0x0000110a                Print::println(unsigned long, int)
- .text._ZN5Print5printEhi
-                0x00001132       0x24 ./src/Print.o
-                0x00001132                Print::print(unsigned char, int)
+                0x0000148a       0x28 ./src/Print.o
+                0x0000148a                Print::println(unsigned long, int)
  .text._ZN5Print7printlnEhi
-                0x00001156       0x3c ./src/Print.o
-                0x00001156                Print::println(unsigned char, int)
+                0x000014b2       0x3c ./src/Print.o
+                0x000014b2                Print::println(unsigned char, int)
  .text._ZN5Print5printEli
-                0x00001192       0x80 ./src/Print.o
-                0x00001192                Print::print(long, int)
+                0x000014ee       0x80 ./src/Print.o
+                0x000014ee                Print::print(long, int)
+ .text._ZN5Print5printEii
+                0x0000156e       0x26 ./src/Print.o
+                0x0000156e                Print::print(int, int)
  .text._ZN5Print7printlnEii
-                0x00001212       0x3e ./src/Print.o
-                0x00001212                Print::println(int, int)
+                0x00001594       0x3e ./src/Print.o
+                0x00001594                Print::println(int, int)
  .text._ZN5Print5printEPKc
-                0x00001250        0x6 ./src/Print.o
-                0x00001250                Print::print(char const*)
+                0x000015d2        0x6 ./src/Print.o
+                0x000015d2                Print::print(char const*)
  .text._ZN5Print7printlnEPKc
-                0x00001256       0x26 ./src/Print.o
-                0x00001256                Print::println(char const*)
+                0x000015d8       0x26 ./src/Print.o
+                0x000015d8                Print::println(char const*)
  .text._Z12disableTimerh
-                0x0000127c       0x42 ./src/Tone.o
-                0x0000127c                disableTimer(unsigned char)
+                0x000015fe       0x42 ./src/Tone.o
+                0x000015fe                disableTimer(unsigned char)
  .text._Z6noToneh
-                0x000012be       0x2e ./src/Tone.o
-                0x000012be                noTone(unsigned char)
+                0x00001640       0x2e ./src/Tone.o
+                0x00001640                noTone(unsigned char)
  .text.__vector_7
-                0x000012ec       0xb8 ./src/Tone.o
-                0x000012ec                __vector_7
+                0x0000166e       0xb8 ./src/Tone.o
+                0x0000166e                __vector_7
  .text.__vector_1
-                0x000013a4       0x5a ./src/WInterrupts.o
-                0x000013a4                __vector_1
+                0x00001726       0x5a ./src/WInterrupts.o
+                0x00001726                __vector_1
  .text.__vector_2
-                0x000013fe       0x5a ./src/WInterrupts.o
-                0x000013fe                __vector_2
+                0x00001780       0x5a ./src/WInterrupts.o
+                0x00001780                __vector_2
  .text._Z3maplllll
-                0x00001458       0x92 ./src/WMath.o
-                0x00001458                map(long, long, long, long, long)
- .text.main     0x000014ea       0x1e ./src/main.o
-                0x000014ea                main
+                0x000017da       0x92 ./src/WMath.o
+                0x000017da                map(long, long, long, long, long)
+ .text.main     0x0000186c       0x1e ./src/main.o
+                0x0000186c                main
  .text.__vector_16
-                0x00001508       0x90 ./src/wiring.o
-                0x00001508                __vector_16
- .text.micros   0x00001598       0x4c ./src/wiring.o
-                0x00001598                micros
- .text.delay    0x000015e4       0x4c ./src/wiring.o
-                0x000015e4                delay
+                0x0000188a       0x90 ./src/wiring.o
+                0x0000188a                __vector_16
+ .text.micros   0x0000191a       0x4c ./src/wiring.o
+                0x0000191a                micros
+ .text.delay    0x00001966       0x4c ./src/wiring.o
+                0x00001966                delay
  .text.delayMicroseconds
-                0x00001630       0x14 ./src/wiring.o
-                0x00001630                delayMicroseconds
- .text.init     0x00001644       0x76 ./src/wiring.o
-                0x00001644                init
+                0x000019b2       0x14 ./src/wiring.o
+                0x000019b2                delayMicroseconds
+ .text.init     0x000019c6       0x76 ./src/wiring.o
+                0x000019c6                init
  .text.analogRead
-                0x000016ba       0x44 ./src/wiring_analog.o
-                0x000016ba                analogRead
- .text.pinMode  0x000016fe       0x7e ./src/wiring_digital.o
-                0x000016fe                pinMode
+                0x00001a3c       0x44 ./src/wiring_analog.o
+                0x00001a3c                analogRead
+ .text.pinMode  0x00001a80       0x7e ./src/wiring_digital.o
+                0x00001a80                pinMode
  .text.turnOffPWM
-                0x0000177c       0x5a ./src/wiring_digital.o
+                0x00001afe       0x5a ./src/wiring_digital.o
  .text.digitalWrite
-                0x000017d6       0x66 ./src/wiring_digital.o
-                0x000017d6                digitalWrite
+                0x00001b58       0x66 ./src/wiring_digital.o
+                0x00001b58                digitalWrite
  .text.digitalRead
-                0x0000183c       0x60 ./src/wiring_digital.o
-                0x0000183c                digitalRead
- .text._ZN12Adafruit_GFX11constructorEii
-                0x0000189c       0x30 ./libraries/Adafruit_GFX.o
-                0x0000189c                Adafruit_GFX::constructor(int, int)
- .text._ZN12Adafruit_GFX8drawLineEiiiij
-                0x000018cc      0x158 ./libraries/Adafruit_GFX.o
-                0x000018cc                Adafruit_GFX::drawLine(int, int, int, int, unsigned int)
- .text._ZN12Adafruit_GFX8drawRectEiiiij
-                0x00001a24       0xa8 ./libraries/Adafruit_GFX.o
-                0x00001a24                Adafruit_GFX::drawRect(int, int, int, int, unsigned int)
- .text._ZN12Adafruit_GFX8drawCharEiihjjh
-                0x00001acc      0x1d0 ./libraries/Adafruit_GFX.o
-                0x00001acc                Adafruit_GFX::drawChar(int, int, unsigned char, unsigned int, unsigned int, unsigned char)
- .text._ZN12Adafruit_GFX5writeEh
-                0x00001c9c       0xb8 ./libraries/Adafruit_GFX.o
-                0x00001c9c                Adafruit_GFX::write(unsigned char)
- .text._ZN12Adafruit_GFX9setCursorEii
-                0x00001d54        0xc ./libraries/Adafruit_GFX.o
-                0x00001d54                Adafruit_GFX::setCursor(int, int)
- .text._ZN12Adafruit_GFX11setTextSizeEh
-                0x00001d60        0xc ./libraries/Adafruit_GFX.o
-                0x00001d60                Adafruit_GFX::setTextSize(unsigned char)
- .text._ZN12Adafruit_GFX12setTextColorEj
-                0x00001d6c        0xc ./libraries/Adafruit_GFX.o
-                0x00001d6c                Adafruit_GFX::setTextColor(unsigned int)
- .text._ZN12Adafruit_GFX11setRotationEh
-                0x00001d78       0x3c ./libraries/Adafruit_GFX.o
-                0x00001d78                Adafruit_GFX::setRotation(unsigned char)
- .text._ZN12Adafruit_GFX13invertDisplayEh
-                0x00001db4        0x2 ./libraries/Adafruit_GFX.o
-                0x00001db4                Adafruit_GFX::invertDisplay(unsigned char)
- .text._ZN12Adafruit_GFX5widthEv
-                0x00001db6        0x8 ./libraries/Adafruit_GFX.o
-                0x00001db6                Adafruit_GFX::width()
- .text._ZN12Adafruit_GFX6heightEv
-                0x00001dbe        0x8 ./libraries/Adafruit_GFX.o
-                0x00001dbe                Adafruit_GFX::height()
- .text._ZL8wiresendh
-                0x00001dc6        0xc ./libraries/Adafruit_NFCShield_I2C.o
- .text._ZN22Adafruit_NFCShield_I2C15wiresendcommandEPhh
-                0x00001dd2       0xaa ./libraries/Adafruit_NFCShield_I2C.o
-                0x00001dd2                Adafruit_NFCShield_I2C::wiresendcommand(unsigned char*, unsigned char)
- .text._ZN22Adafruit_NFCShield_I2C12wirereaddataEPhh
-                0x00001e7c       0xa6 ./libraries/Adafruit_NFCShield_I2C.o
-                0x00001e7c                Adafruit_NFCShield_I2C::wirereaddata(unsigned char*, unsigned char)
- .text._ZN22Adafruit_NFCShield_I2C14wirereadstatusEv
-                0x00001f22       0x14 ./libraries/Adafruit_NFCShield_I2C.o
-                0x00001f22                Adafruit_NFCShield_I2C::wirereadstatus()
- .text._ZN22Adafruit_NFCShield_I2C14waitUntilReadyEj
-                0x00001f36       0x72 ./libraries/Adafruit_NFCShield_I2C.o
-                0x00001f36                Adafruit_NFCShield_I2C::waitUntilReady(unsigned int)
- .text._ZN22Adafruit_NFCShield_I2C12readackframeEv
-                0x00001fa8       0x4e ./libraries/Adafruit_NFCShield_I2C.o
-                0x00001fa8                Adafruit_NFCShield_I2C::readackframe()
- .text._ZN22Adafruit_NFCShield_I2C19sendCommandCheckAckEPhhj
-                0x00001ff6       0x5a ./libraries/Adafruit_NFCShield_I2C.o
-                0x00001ff6                Adafruit_NFCShield_I2C::sendCommandCheckAck(unsigned char*, unsigned char, unsigned int)
- .text._ZN22Adafruit_NFCShield_I2C19inListPassiveTargetEv
-                0x00002050      0x148 ./libraries/Adafruit_NFCShield_I2C.o
-                0x00002050                Adafruit_NFCShield_I2C::inListPassiveTarget()
- .text._ZN22Adafruit_NFCShield_I2C14inDataExchangeEPchS0_Ph
-                0x00002198      0x18a ./libraries/Adafruit_NFCShield_I2C.o
-                0x00002198                Adafruit_NFCShield_I2C::inDataExchange(char*, unsigned char, char*, unsigned char*)
- .text._ZN22Adafruit_NFCShield_I2C9SAMConfigEv
-                0x00002322       0x52 ./libraries/Adafruit_NFCShield_I2C.o
-                0x00002322                Adafruit_NFCShield_I2C::SAMConfig()
- .text._ZN22Adafruit_NFCShield_I2C18getFirmwareVersionEv
-                0x00002374       0xac ./libraries/Adafruit_NFCShield_I2C.o
-                0x00002374                Adafruit_NFCShield_I2C::getFirmwareVersion()
- .text._ZN22Adafruit_NFCShield_I2C5beginEv
-                0x00002420       0x3e ./libraries/Adafruit_NFCShield_I2C.o
-                0x00002420                Adafruit_NFCShield_I2C::begin()
- .text._ZN22Adafruit_NFCShield_I2CC1Ehh
-                0x0000245e       0x24 ./libraries/Adafruit_NFCShield_I2C.o
-                0x0000245e                Adafruit_NFCShield_I2C::Adafruit_NFCShield_I2C(unsigned char, unsigned char)
- .text._ZN15Adafruit_TFTLCD5floodEjm
-                0x00002482      0x1c6 ./libraries/Adafruit_TFTLCD.o
-                0x00002482                Adafruit_TFTLCD::flood(unsigned int, unsigned long)
- .text._ZN15Adafruit_TFTLCD5read8Ev
-                0x00002648       0x10 ./libraries/Adafruit_TFTLCD.o
-                0x00002648                Adafruit_TFTLCD::read8()
- .text._ZN15Adafruit_TFTLCD14writeRegister8Ehh
-                0x00002658       0x3a ./libraries/Adafruit_TFTLCD.o
-                0x00002658                Adafruit_TFTLCD::writeRegister8(unsigned char, unsigned char)
- .text._ZN15Adafruit_TFTLCD15writeRegister16Ejj
-                0x00002692       0x6e ./libraries/Adafruit_TFTLCD.o
-                0x00002692                Adafruit_TFTLCD::writeRegister16(unsigned int, unsigned int)
- .text._ZN15Adafruit_TFTLCD17writeRegisterPairEhhj
-                0x00002700       0x72 ./libraries/Adafruit_TFTLCD.o
-                0x00002700                Adafruit_TFTLCD::writeRegisterPair(unsigned char, unsigned char, unsigned int)
- .text._ZN15Adafruit_TFTLCD9drawPixelEiij
-                0x00002772      0x14e ./libraries/Adafruit_TFTLCD.o
-                0x00002772                Adafruit_TFTLCD::drawPixel(int, int, unsigned int)
- .text._ZN15Adafruit_TFTLCD5setLREv
-                0x000028c0       0x36 ./libraries/Adafruit_TFTLCD.o
-                0x000028c0                Adafruit_TFTLCD::setLR()
- .text._ZN15Adafruit_TFTLCD13setAddrWindowEiiii
-                0x000028f6      0x142 ./libraries/Adafruit_TFTLCD.o
-                0x000028f6                Adafruit_TFTLCD::setAddrWindow(int, int, int, int)
- .text._ZN15Adafruit_TFTLCD10fillScreenEj
-                0x00002a38       0x9c ./libraries/Adafruit_TFTLCD.o
-                0x00002a38                Adafruit_TFTLCD::fillScreen(unsigned int)
- .text._ZN15Adafruit_TFTLCD8fillRectEiiiij
-                0x00002ad4      0x118 ./libraries/Adafruit_TFTLCD.o
-                0x00002ad4                Adafruit_TFTLCD::fillRect(int, int, int, int, unsigned int)
- .text._ZN15Adafruit_TFTLCD13drawFastVLineEiiij
-                0x00002bec       0xc2 ./libraries/Adafruit_TFTLCD.o
-                0x00002bec                Adafruit_TFTLCD::drawFastVLine(int, int, int, unsigned int)
- .text._ZN15Adafruit_TFTLCD13drawFastHLineEiiij
-                0x00002cae       0xc4 ./libraries/Adafruit_TFTLCD.o
-                0x00002cae                Adafruit_TFTLCD::drawFastHLine(int, int, int, unsigned int)
- .text._ZN15Adafruit_TFTLCD6readIDEv
-                0x00002d72       0x7e ./libraries/Adafruit_TFTLCD.o
-                0x00002d72                Adafruit_TFTLCD::readID()
- .text._ZN15Adafruit_TFTLCD11setRotationEh
-                0x00002df0       0x9c ./libraries/Adafruit_TFTLCD.o
-                0x00002df0                Adafruit_TFTLCD::setRotation(unsigned char)
- .text._ZN15Adafruit_TFTLCD5resetEv
-                0x00002e8c       0x54 ./libraries/Adafruit_TFTLCD.o
-                0x00002e8c                Adafruit_TFTLCD::reset()
- .text._ZN15Adafruit_TFTLCD5beginEj
-                0x00002ee0       0xf4 ./libraries/Adafruit_TFTLCD.o
-                0x00002ee0                Adafruit_TFTLCD::begin(unsigned int)
- .text._ZN15Adafruit_TFTLCD4initEv
-                0x00002fd4       0x78 ./libraries/Adafruit_TFTLCD.o
-                0x00002fd4                Adafruit_TFTLCD::init()
- .text._ZN15Adafruit_TFTLCDC1Ehhhhh
-                0x0000304c       0x16 ./libraries/Adafruit_TFTLCD.o
-                0x0000304c                Adafruit_TFTLCD::Adafruit_TFTLCD(unsigned char, unsigned char, unsigned char, unsigned char, unsigned char)
- .text._ZN5PointC1Ev
-                0x00003062        0xc ./libraries/TouchScreen.o
-                0x00003062                Point::Point()
- .text._ZN11TouchScreenC1Ehhhhj
-                0x0000306e       0x24 ./libraries/TouchScreen.o
-                0x0000306e                TouchScreen::TouchScreen(unsigned char, unsigned char, unsigned char, unsigned char, unsigned int)
- .text._ZN11TouchScreen8getPointEv
-                0x00003092      0x326 ./libraries/TouchScreen.o
-                0x00003092                TouchScreen::getPoint()
- .text._ZN7TwoWire17beginTransmissionEi
-                0x000033b8       0x14 ./libraries/Wire.o
-                0x000033b8                TwoWire::beginTransmission(int)
- .text._ZN7TwoWire9availableEv
-                0x000033cc       0x12 ./libraries/Wire.o
-                0x000033cc                TwoWire::available()
- .text._ZN7TwoWire4readEv
-                0x000033de       0x2a ./libraries/Wire.o
-                0x000033de                TwoWire::read()
- .text._ZN7TwoWire4peekEv
-                0x00003408       0x22 ./libraries/Wire.o
-                0x00003408                TwoWire::peek()
- .text._ZN7TwoWire5flushEv
-                0x0000342a        0x2 ./libraries/Wire.o
-                0x0000342a                TwoWire::flush()
- .text._GLOBAL__I__ZN7TwoWire8rxBufferE
-                0x0000342c       0x2e ./libraries/Wire.o
- .text._ZN7TwoWire5writeEPKhj
-                0x0000345a       0x62 ./libraries/Wire.o
-                0x0000345a                TwoWire::write(unsigned char const*, unsigned int)
- .text._ZN7TwoWire5writeEh
-                0x000034bc       0x60 ./libraries/Wire.o
-                0x000034bc                TwoWire::write(unsigned char)
- .text._ZN7TwoWire15endTransmissionEh
-                0x0000351c       0x26 ./libraries/Wire.o
-                0x0000351c                TwoWire::endTransmission(unsigned char)
- .text._ZN7TwoWire15endTransmissionEv
-                0x00003542        0x8 ./libraries/Wire.o
-                0x00003542                TwoWire::endTransmission()
- .text._ZN7TwoWire11requestFromEhhh
-                0x0000354a       0x1a ./libraries/Wire.o
-                0x0000354a                TwoWire::requestFrom(unsigned char, unsigned char, unsigned char)
- .text._ZN7TwoWire11requestFromEhh
-                0x00003564        0x8 ./libraries/Wire.o
-                0x00003564                TwoWire::requestFrom(unsigned char, unsigned char)
- .text._ZN7TwoWire5beginEv
-                0x0000356c       0x16 ./libraries/Wire.o
-                0x0000356c                TwoWire::begin()
- .text.twi_readFrom
-                0x00003582       0x92 ./libraries/twi.o
-                0x00003582                twi_readFrom
- .text.twi_writeTo
-                0x00003614       0xaa ./libraries/twi.o
-                0x00003614                twi_writeTo
- .text.twi_transmit
-                0x000036be       0x36 ./libraries/twi.o
-                0x000036be                twi_transmit
- .text.__vector_24
-                0x000036f4      0x322 ./libraries/twi.o
-                0x000036f4                __vector_24
- .text.twi_init
-                0x00003a16       0x3c ./libraries/twi.o
-                0x00003a16                twi_init
+                0x00001bbe       0x60 ./src/wiring_digital.o
+                0x00001bbe                digitalRead
  .text._GLOBAL__I_tft
-                0x00003a52       0x3a ./nfc_pos_display.o
- .text._Z12processTouchv
-                0x00003a8c      0x244 ./nfc_pos_display.o
-                0x00003a8c                processTouch()
- .text._Z14displaySettingh
-                0x00003cd0      0x186 ./nfc_pos_display.o
-                0x00003cd0                displaySetting(unsigned char)
- .text._Z11displayMenuh
-                0x00003e56      0x186 ./nfc_pos_display.o
-                0x00003e56                displayMenu(unsigned char)
- .text._Z11displayIdlev
-                0x00003fdc      0x124 ./nfc_pos_display.o
-                0x00003fdc                displayIdle()
- .text._Z11displayLinePKc
-                0x00004100       0x38 ./nfc_pos_display.o
-                0x00004100                displayLine(char const*)
- .text._Z18displayTransactionv
-                0x00004138       0xde ./nfc_pos_display.o
-                0x00004138                displayTransaction()
- .text._Z14displayPaymentv
-                0x00004216      0x256 ./nfc_pos_display.o
-                0x00004216                displayPayment()
- .text._Z20displayRefreshAmountv
-                0x0000446c        0x6 ./nfc_pos_display.o
-                0x0000446c                displayRefreshAmount()
+                0x00001c1e       0x2e ./source/nfc_pos_display.o
+ .text._Z13touchedRegion25nfc_pos_touch_screen_type
+                0x00001c4c      0x46a ./source/nfc_pos_display.o
+                0x00001c4c                touchedRegion(nfc_pos_touch_screen_type)
+ .text._Z12confirmationPc
+                0x000020b6       0xa6 ./source/nfc_pos_display.o
+                0x000020b6                confirmation(char*)
+ .text._Z17transactionResultPcS_
+                0x0000215c       0x86 ./source/nfc_pos_display.o
+                0x0000215c                transactionResult(char*, char*)
+ .text._Z14mobileDetectedPc
+                0x000021e2       0xa6 ./source/nfc_pos_display.o
+                0x000021e2                mobileDetected(char*)
+ .text._Z10homeScreenv
+                0x00002288       0x8a ./source/nfc_pos_display.o
+                0x00002288                homeScreen()
+ .text._Z11confirmSalePKc
+                0x00002312       0xd8 ./source/nfc_pos_display.o
+                0x00002312                confirmSale(char const*)
+ .text._Z10cancelSalePKc
+                0x000023ea      0x172 ./source/nfc_pos_display.o
+                0x000023ea                cancelSale(char const*)
+ .text._Z13getSaleAmountPKc
+                0x0000255c      0x2dc ./source/nfc_pos_display.o
+                0x0000255c                getSaleAmount(char const*)
  .text._Z14initialDisplayv
-                0x00004472       0x2a ./nfc_pos_display.o
-                0x00004472                initialDisplay()
+                0x00002838       0x2a ./source/nfc_pos_display.o
+                0x00002838                initialDisplay()
  .text._Z12progmemPrintPKc
-                0x0000449c       0x20 ./nfc_pos_main.o
-                0x0000449c                progmemPrint(char const*)
+                0x00002862       0x20 ./source/nfc_pos_main.o
+                0x00002862                progmemPrint(char const*)
  .text._Z14progmemPrintlnPKc
-                0x000044bc        0xe ./nfc_pos_main.o
-                0x000044bc                progmemPrintln(char const*)
- .text.setup    0x000044ca       0x22 ./nfc_pos_main.o
-                0x000044ca                setup
+                0x00002882        0xe ./source/nfc_pos_main.o
+                0x00002882                progmemPrintln(char const*)
+ .text.setup    0x00002890       0x22 ./source/nfc_pos_main.o
+                0x00002890                setup
  .text._Z11processMainv
-                0x000044ec      0x3b4 ./nfc_pos_main.o
-                0x000044ec                processMain()
- .text.loop     0x000048a0        0x6 ./nfc_pos_main.o
-                0x000048a0                loop
+                0x000028b2      0x388 ./source/nfc_pos_main.o
+                0x000028b2                processMain()
+ .text.loop     0x00002c3a        0x6 ./source/nfc_pos_main.o
+                0x00002c3a                loop
  .text._GLOBAL__I_nfc
-                0x000048a6        0xe ./nfc_pos_transaction.o
+                0x00002c40        0xe ./source/nfc_pos_transaction.o
  .text._Z22nfc_pos_message_mobileiPci
-                0x000048b4      0x2ee ./nfc_pos_transaction.o
-                0x000048b4                nfc_pos_message_mobile(int, char*, int)
+                0x00002c4e      0x36e ./source/nfc_pos_transaction.o
+                0x00002c4e                nfc_pos_message_mobile(int, char*, int)
  .text._Z25nfc_pos_mobile_peer_readyv
-                0x00004ba2       0x6a ./nfc_pos_transaction.o
-                0x00004ba2                nfc_pos_mobile_peer_ready()
- .text._Z27nfc_pos_transaction_handleriPc
-                0x00004c0c      0x3a8 ./nfc_pos_transaction.o
-                0x00004c0c                nfc_pos_transaction_handler(int, char*)
+                0x00002fbc       0x6a ./source/nfc_pos_transaction.o
+                0x00002fbc                nfc_pos_mobile_peer_ready()
+ .text._Z27nfc_pos_transaction_handlerPcS_
+                0x00003026      0x3b0 ./source/nfc_pos_transaction.o
+                0x00003026                nfc_pos_transaction_handler(char*, char*)
  .text._Z23nfc_pos_configure_boardv
-                0x00004fb4       0xac ./nfc_pos_transaction.o
-                0x00004fb4                nfc_pos_configure_board()
+                0x000033d6       0xac ./source/nfc_pos_transaction.o
+                0x000033d6                nfc_pos_configure_board()
+ .text._ZN12Adafruit_GFX11constructorEii
+                0x00003482       0x30 ./libraries/Adafruit_GFX.o
+                0x00003482                Adafruit_GFX::constructor(int, int)
+ .text._ZN12Adafruit_GFX16drawCircleHelperEiiihj
+                0x000034b2      0x25a ./libraries/Adafruit_GFX.o
+                0x000034b2                Adafruit_GFX::drawCircleHelper(int, int, int, unsigned char, unsigned int)
+ .text._ZN12Adafruit_GFX16fillCircleHelperEiiihij
+                0x0000370c      0x1c8 ./libraries/Adafruit_GFX.o
+                0x0000370c                Adafruit_GFX::fillCircleHelper(int, int, int, unsigned char, int, unsigned int)
+ .text._ZN12Adafruit_GFX8drawLineEiiiij
+                0x000038d4      0x158 ./libraries/Adafruit_GFX.o
+                0x000038d4                Adafruit_GFX::drawLine(int, int, int, int, unsigned int)
+ .text._ZN12Adafruit_GFX8drawRectEiiiij
+                0x00003a2c       0xa8 ./libraries/Adafruit_GFX.o
+                0x00003a2c                Adafruit_GFX::drawRect(int, int, int, int, unsigned int)
+ .text._ZN12Adafruit_GFX13drawRoundRectEiiiiij
+                0x00003ad4      0x166 ./libraries/Adafruit_GFX.o
+                0x00003ad4                Adafruit_GFX::drawRoundRect(int, int, int, int, int, unsigned int)
+ .text._ZN12Adafruit_GFX13fillRoundRectEiiiiij
+                0x00003c3a       0xf0 ./libraries/Adafruit_GFX.o
+                0x00003c3a                Adafruit_GFX::fillRoundRect(int, int, int, int, int, unsigned int)
+ .text._ZN12Adafruit_GFX8drawCharEiihjjh
+                0x00003d2a      0x1d0 ./libraries/Adafruit_GFX.o
+                0x00003d2a                Adafruit_GFX::drawChar(int, int, unsigned char, unsigned int, unsigned int, unsigned char)
+ .text._ZN12Adafruit_GFX5writeEh
+                0x00003efa       0xb8 ./libraries/Adafruit_GFX.o
+                0x00003efa                Adafruit_GFX::write(unsigned char)
+ .text._ZN12Adafruit_GFX9setCursorEii
+                0x00003fb2        0xc ./libraries/Adafruit_GFX.o
+                0x00003fb2                Adafruit_GFX::setCursor(int, int)
+ .text._ZN12Adafruit_GFX11setTextSizeEh
+                0x00003fbe        0xc ./libraries/Adafruit_GFX.o
+                0x00003fbe                Adafruit_GFX::setTextSize(unsigned char)
+ .text._ZN12Adafruit_GFX12setTextColorEj
+                0x00003fca        0xc ./libraries/Adafruit_GFX.o
+                0x00003fca                Adafruit_GFX::setTextColor(unsigned int)
+ .text._ZN12Adafruit_GFX11setRotationEh
+                0x00003fd6       0x3c ./libraries/Adafruit_GFX.o
+                0x00003fd6                Adafruit_GFX::setRotation(unsigned char)
+ .text._ZN12Adafruit_GFX13invertDisplayEh
+                0x00004012        0x2 ./libraries/Adafruit_GFX.o
+                0x00004012                Adafruit_GFX::invertDisplay(unsigned char)
+ .text._ZN12Adafruit_GFX5widthEv
+                0x00004014        0x8 ./libraries/Adafruit_GFX.o
+                0x00004014                Adafruit_GFX::width()
+ .text._ZN12Adafruit_GFX6heightEv
+                0x0000401c        0x8 ./libraries/Adafruit_GFX.o
+                0x0000401c                Adafruit_GFX::height()
+ .text._ZL8wiresendh
+                0x00004024        0xc ./libraries/Adafruit_NFCShield_I2C.o
+ .text._ZN22Adafruit_NFCShield_I2C15wiresendcommandEPhh
+                0x00004030       0xaa ./libraries/Adafruit_NFCShield_I2C.o
+                0x00004030                Adafruit_NFCShield_I2C::wiresendcommand(unsigned char*, unsigned char)
+ .text._ZN22Adafruit_NFCShield_I2C12wirereaddataEPhh
+                0x000040da       0x76 ./libraries/Adafruit_NFCShield_I2C.o
+                0x000040da                Adafruit_NFCShield_I2C::wirereaddata(unsigned char*, unsigned char)
+ .text._ZN22Adafruit_NFCShield_I2C14wirereadstatusEv
+                0x00004150       0x14 ./libraries/Adafruit_NFCShield_I2C.o
+                0x00004150                Adafruit_NFCShield_I2C::wirereadstatus()
+ .text._ZN22Adafruit_NFCShield_I2C14waitUntilReadyEj
+                0x00004164       0x4c ./libraries/Adafruit_NFCShield_I2C.o
+                0x00004164                Adafruit_NFCShield_I2C::waitUntilReady(unsigned int)
+ .text._ZN22Adafruit_NFCShield_I2C12readackframeEv
+                0x000041b0       0x4e ./libraries/Adafruit_NFCShield_I2C.o
+                0x000041b0                Adafruit_NFCShield_I2C::readackframe()
+ .text._ZN22Adafruit_NFCShield_I2C19sendCommandCheckAckEPhhj
+                0x000041fe       0x5a ./libraries/Adafruit_NFCShield_I2C.o
+                0x000041fe                Adafruit_NFCShield_I2C::sendCommandCheckAck(unsigned char*, unsigned char, unsigned int)
+ .text._ZN22Adafruit_NFCShield_I2C19inListPassiveTargetEv
+                0x00004258       0xd0 ./libraries/Adafruit_NFCShield_I2C.o
+                0x00004258                Adafruit_NFCShield_I2C::inListPassiveTarget()
+ .text._ZN22Adafruit_NFCShield_I2C14inDataExchangeEPhhS0_S0_
+                0x00004328      0x128 ./libraries/Adafruit_NFCShield_I2C.o
+                0x00004328                Adafruit_NFCShield_I2C::inDataExchange(unsigned char*, unsigned char, unsigned char*, unsigned char*)
+ .text._ZN22Adafruit_NFCShield_I2C9SAMConfigEv
+                0x00004450       0x52 ./libraries/Adafruit_NFCShield_I2C.o
+                0x00004450                Adafruit_NFCShield_I2C::SAMConfig()
+ .text._ZN22Adafruit_NFCShield_I2C18getFirmwareVersionEv
+                0x000044a2       0xac ./libraries/Adafruit_NFCShield_I2C.o
+                0x000044a2                Adafruit_NFCShield_I2C::getFirmwareVersion()
+ .text._ZN22Adafruit_NFCShield_I2C5beginEv
+                0x0000454e       0x3e ./libraries/Adafruit_NFCShield_I2C.o
+                0x0000454e                Adafruit_NFCShield_I2C::begin()
+ .text._ZN22Adafruit_NFCShield_I2CC1Ehh
+                0x0000458c       0x24 ./libraries/Adafruit_NFCShield_I2C.o
+                0x0000458c                Adafruit_NFCShield_I2C::Adafruit_NFCShield_I2C(unsigned char, unsigned char)
+ .text._ZN15Adafruit_TFTLCD5floodEjm
+                0x000045b0      0x1c6 ./libraries/Adafruit_TFTLCD.o
+                0x000045b0                Adafruit_TFTLCD::flood(unsigned int, unsigned long)
+ .text._ZN15Adafruit_TFTLCD5read8Ev
+                0x00004776       0x10 ./libraries/Adafruit_TFTLCD.o
+                0x00004776                Adafruit_TFTLCD::read8()
+ .text._ZN15Adafruit_TFTLCD14writeRegister8Ehh
+                0x00004786       0x3a ./libraries/Adafruit_TFTLCD.o
+                0x00004786                Adafruit_TFTLCD::writeRegister8(unsigned char, unsigned char)
+ .text._ZN15Adafruit_TFTLCD15writeRegister16Ejj
+                0x000047c0       0x6e ./libraries/Adafruit_TFTLCD.o
+                0x000047c0                Adafruit_TFTLCD::writeRegister16(unsigned int, unsigned int)
+ .text._ZN15Adafruit_TFTLCD17writeRegisterPairEhhj
+                0x0000482e       0x72 ./libraries/Adafruit_TFTLCD.o
+                0x0000482e                Adafruit_TFTLCD::writeRegisterPair(unsigned char, unsigned char, unsigned int)
+ .text._ZN15Adafruit_TFTLCD9drawPixelEiij
+                0x000048a0      0x14e ./libraries/Adafruit_TFTLCD.o
+                0x000048a0                Adafruit_TFTLCD::drawPixel(int, int, unsigned int)
+ .text._ZN15Adafruit_TFTLCD5setLREv
+                0x000049ee       0x36 ./libraries/Adafruit_TFTLCD.o
+                0x000049ee                Adafruit_TFTLCD::setLR()
+ .text._ZN15Adafruit_TFTLCD13setAddrWindowEiiii
+                0x00004a24      0x142 ./libraries/Adafruit_TFTLCD.o
+                0x00004a24                Adafruit_TFTLCD::setAddrWindow(int, int, int, int)
+ .text._ZN15Adafruit_TFTLCD10fillScreenEj
+                0x00004b66       0x9c ./libraries/Adafruit_TFTLCD.o
+                0x00004b66                Adafruit_TFTLCD::fillScreen(unsigned int)
+ .text._ZN15Adafruit_TFTLCD8fillRectEiiiij
+                0x00004c02      0x118 ./libraries/Adafruit_TFTLCD.o
+                0x00004c02                Adafruit_TFTLCD::fillRect(int, int, int, int, unsigned int)
+ .text._ZN15Adafruit_TFTLCD13drawFastVLineEiiij
+                0x00004d1a       0xc2 ./libraries/Adafruit_TFTLCD.o
+                0x00004d1a                Adafruit_TFTLCD::drawFastVLine(int, int, int, unsigned int)
+ .text._ZN15Adafruit_TFTLCD13drawFastHLineEiiij
+                0x00004ddc       0xc4 ./libraries/Adafruit_TFTLCD.o
+                0x00004ddc                Adafruit_TFTLCD::drawFastHLine(int, int, int, unsigned int)
+ .text._ZN15Adafruit_TFTLCD6readIDEv
+                0x00004ea0       0x7e ./libraries/Adafruit_TFTLCD.o
+                0x00004ea0                Adafruit_TFTLCD::readID()
+ .text._ZN15Adafruit_TFTLCD11setRotationEh
+                0x00004f1e       0x9c ./libraries/Adafruit_TFTLCD.o
+                0x00004f1e                Adafruit_TFTLCD::setRotation(unsigned char)
+ .text._ZN15Adafruit_TFTLCD5resetEv
+                0x00004fba       0x54 ./libraries/Adafruit_TFTLCD.o
+                0x00004fba                Adafruit_TFTLCD::reset()
+ .text._ZN15Adafruit_TFTLCD5beginEj
+                0x0000500e       0xf4 ./libraries/Adafruit_TFTLCD.o
+                0x0000500e                Adafruit_TFTLCD::begin(unsigned int)
+ .text._ZN15Adafruit_TFTLCD4initEv
+                0x00005102       0x78 ./libraries/Adafruit_TFTLCD.o
+                0x00005102                Adafruit_TFTLCD::init()
+ .text._ZN15Adafruit_TFTLCDC1Ev
+                0x0000517a       0x16 ./libraries/Adafruit_TFTLCD.o
+                0x0000517a                Adafruit_TFTLCD::Adafruit_TFTLCD()
+ .text._ZN5PointC1Ev
+                0x00005190        0xc ./libraries/TouchScreen.o
+                0x00005190                Point::Point()
+ .text._ZN11TouchScreenC1Ehhhhj
+                0x0000519c       0x24 ./libraries/TouchScreen.o
+                0x0000519c                TouchScreen::TouchScreen(unsigned char, unsigned char, unsigned char, unsigned char, unsigned int)
+ .text._ZN11TouchScreen8getPointEv
+                0x000051c0      0x326 ./libraries/TouchScreen.o
+                0x000051c0                TouchScreen::getPoint()
+ .text._ZN7TwoWire17beginTransmissionEi
+                0x000054e6       0x14 ./libraries/Wire.o
+                0x000054e6                TwoWire::beginTransmission(int)
+ .text._ZN7TwoWire9availableEv
+                0x000054fa       0x12 ./libraries/Wire.o
+                0x000054fa                TwoWire::available()
+ .text._ZN7TwoWire4readEv
+                0x0000550c       0x2a ./libraries/Wire.o
+                0x0000550c                TwoWire::read()
+ .text._ZN7TwoWire4peekEv
+                0x00005536       0x22 ./libraries/Wire.o
+                0x00005536                TwoWire::peek()
+ .text._ZN7TwoWire5flushEv
+                0x00005558        0x2 ./libraries/Wire.o
+                0x00005558                TwoWire::flush()
+ .text._GLOBAL__I__ZN7TwoWire8rxBufferE
+                0x0000555a       0x2e ./libraries/Wire.o
+ .text._ZN7TwoWire5writeEPKhj
+                0x00005588       0x62 ./libraries/Wire.o
+                0x00005588                TwoWire::write(unsigned char const*, unsigned int)
+ .text._ZN7TwoWire5writeEh
+                0x000055ea       0x60 ./libraries/Wire.o
+                0x000055ea                TwoWire::write(unsigned char)
+ .text._ZN7TwoWire15endTransmissionEh
+                0x0000564a       0x26 ./libraries/Wire.o
+                0x0000564a                TwoWire::endTransmission(unsigned char)
+ .text._ZN7TwoWire15endTransmissionEv
+                0x00005670        0x8 ./libraries/Wire.o
+                0x00005670                TwoWire::endTransmission()
+ .text._ZN7TwoWire11requestFromEhhh
+                0x00005678       0x1a ./libraries/Wire.o
+                0x00005678                TwoWire::requestFrom(unsigned char, unsigned char, unsigned char)
+ .text._ZN7TwoWire11requestFromEhh
+                0x00005692        0x8 ./libraries/Wire.o
+                0x00005692                TwoWire::requestFrom(unsigned char, unsigned char)
+ .text._ZN7TwoWire5beginEv
+                0x0000569a       0x16 ./libraries/Wire.o
+                0x0000569a                TwoWire::begin()
+ .text.twi_readFrom
+                0x000056b0       0x92 ./libraries/twi.o
+                0x000056b0                twi_readFrom
+ .text.twi_writeTo
+                0x00005742       0xaa ./libraries/twi.o
+                0x00005742                twi_writeTo
+ .text.twi_transmit
+                0x000057ec       0x36 ./libraries/twi.o
+                0x000057ec                twi_transmit
+ .text.__vector_24
+                0x00005822      0x322 ./libraries/twi.o
+                0x00005822                __vector_24
+ .text.twi_init
+                0x00005b44       0x3c ./libraries/twi.o
+                0x00005b44                twi_init
  .text.avr-libc.fplib
-                0x00005060        0xa d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(addsf3.o)
-                0x00005060                __subsf3
-                0x00005062                __addsf3
+                0x00005b80        0xa d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(addsf3.o)
+                0x00005b80                __subsf3
+                0x00005b82                __addsf3
  .text.avr-libc.fplib
-                0x0000506a       0xc0 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(addsf3x.o)
-                0x00005084                __addsf3x
+                0x00005b8a       0xc0 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(addsf3x.o)
+                0x00005ba4                __addsf3x
  .text.avr-libc.fplib
-                0x0000512a        0x4 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(divsf3.o)
-                0x0000512a                __divsf3
+                0x00005c4a        0x4 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(divsf3.o)
+                0x00005c4a                __divsf3
  .text.avr-libc.fplib
-                0x0000512e       0xcc d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(divsf3x.o)
-                0x00005144                __divsf3x
-                0x00005148                __divsf3_pse
+                0x00005c4e       0xcc d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(divsf3x.o)
+                0x00005c64                __divsf3x
+                0x00005c68                __divsf3_pse
  .text.avr-libc.fplib
-                0x000051fa        0xa d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(fixsfsi.o)
-                0x000051fa                __fixsfsi
+                0x00005d1a        0xa d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(fixsfsi.o)
+                0x00005d1a                __fixsfsi
  .text.avr-libc.fplib
-                0x00005204       0x58 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(fixunssfsi.o)
-                0x00005204                __fixunssfsi
+                0x00005d24       0x58 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(fixunssfsi.o)
+                0x00005d24                __fixunssfsi
  .text.avr-libc.fplib
-                0x0000525c       0x7a d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(floatsisf.o)
-                0x00005260                __floatsisf
-                0x0000525c                __floatunsisf
+                0x00005d7c       0x7a d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(floatsisf.o)
+                0x00005d80                __floatsisf
+                0x00005d7c                __floatunsisf
  .text.avr-libc.fplib
-                0x000052d6        0xc d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(fp_inf.o)
-                0x000052d6                __fp_inf
+                0x00005df6        0xc d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(fp_inf.o)
+                0x00005df6                __fp_inf
  .text.avr-libc.fplib
-                0x000052e2        0x6 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(fp_nan.o)
-                0x000052e2                __fp_nan
+                0x00005e02        0x6 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(fp_nan.o)
+                0x00005e02                __fp_nan
  .text.avr-libc.fplib
-                0x000052e8        0xe d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(fp_pscA.o)
-                0x000052e8                __fp_pscA
+                0x00005e08        0xe d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(fp_pscA.o)
+                0x00005e08                __fp_pscA
  .text.avr-libc.fplib
-                0x000052f6        0xe d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(fp_pscB.o)
-                0x000052f6                __fp_pscB
+                0x00005e16        0xe d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(fp_pscB.o)
+                0x00005e16                __fp_pscB
  .text.avr-libc.fplib
-                0x00005304       0x22 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(fp_round.o)
-                0x00005304                __fp_round
+                0x00005e24       0x22 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(fp_round.o)
+                0x00005e24                __fp_round
  .text.avr-libc.fplib
-                0x00005326       0x44 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(fp_split3.o)
-                0x00005326                __fp_split3
-                0x00005336                __fp_splitA
+                0x00005e46       0x44 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(fp_split3.o)
+                0x00005e46                __fp_split3
+                0x00005e56                __fp_splitA
  .text.avr-libc.fplib
-                0x0000536a        0xe d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(fp_zero.o)
-                0x0000536a                __fp_zero
-                0x0000536c                __fp_szero
+                0x00005e8a        0xe d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(fp_zero.o)
+                0x00005e8a                __fp_zero
+                0x00005e8c                __fp_szero
  .text.avr-libc.fplib
-                0x00005378        0x4 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(mulsf3.o)
-                0x00005378                __mulsf3
+                0x00005e98        0x4 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(mulsf3.o)
+                0x00005e98                __mulsf3
  .text.avr-libc.fplib
-                0x0000537c       0xc2 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(mulsf3x.o)
-                0x00005394                __mulsf3_pse
-                0x00005390                __mulsf3x
- .text.libgcc   0x0000543e       0x3e d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mulsi3.o)
-                0x0000543e                __mulsi3
- .text.libgcc   0x0000547c       0x26 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_divmodhi4.o)
-                0x0000547c                __divmodhi4
-                0x0000547c                _div
- .text.libgcc   0x000054a2       0x44 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
-                0x000054a2                __udivmodsi4
- .text.libgcc   0x000054e6       0x36 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_divmodsi4.o)
-                0x000054e6                __divmodsi4
- .text.libgcc   0x0000551c       0x28 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
-                0x0000551c                __udivmodhi4
- .text.libgcc   0x00005544        0xc d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_tablejump.o)
-                0x00005548                __tablejump__
-                0x00005544                __tablejump2__
+                0x00005e9c       0xc2 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(mulsf3x.o)
+                0x00005eb4                __mulsf3_pse
+                0x00005eb0                __mulsf3x
+ .text.libgcc   0x00005f5e       0x3e d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mulsi3.o)
+                0x00005f5e                __mulsi3
+ .text.libgcc   0x00005f9c       0x26 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_divmodhi4.o)
+                0x00005f9c                __divmodhi4
+                0x00005f9c                _div
+ .text.libgcc   0x00005fc2       0x44 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
+                0x00005fc2                __udivmodsi4
+ .text.libgcc   0x00006006       0x36 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_divmodsi4.o)
+                0x00006006                __divmodsi4
+ .text.libgcc   0x0000603c       0x28 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
+                0x0000603c                __udivmodhi4
+ .text.libgcc   0x00006064        0xc d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_tablejump.o)
+                0x00006068                __tablejump__
+                0x00006064                __tablejump2__
  .text.avr-libc
-                0x00005550       0x3c d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(atoi.o)
-                0x00005550                atoi
+                0x00006070       0x3c d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(atoi.o)
+                0x00006070                atoi
  .text.avr-libc
-                0x0000558c       0x3e d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strlcat.o)
-                0x0000558c                strlcat
+                0x000060ac       0x3e d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strlcat.o)
+                0x000060ac                strlcat
  .text.avr-libc
-                0x000055ca       0x1c d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strncmp.o)
-                0x000055ca                strncmp
+                0x000060ea       0x1c d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strncmp.o)
+                0x000060ea                strncmp
  .text.avr-libc
-                0x000055e6       0x10 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(mul10.o)
-                0x000055e6                __mulhi_const_10
+                0x00006106       0x10 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(mul10.o)
+                0x00006106                __mulhi_const_10
  .text.avr-libc
-                0x000055f6       0x48 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(sprintf.o)
-                0x000055f6                sprintf
+                0x00006116       0x48 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(sprintf.o)
+                0x00006116                sprintf
  .text.avr-libc
-                0x0000563e      0x3ba d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(vfprintf_std.o)
-                0x0000563e                vfprintf
+                0x0000615e      0x3ba d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(vfprintf_std.o)
+                0x0000615e                vfprintf
  .text.avr-libc
-                0x000059f8       0x16 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strnlen_P.o)
-                0x000059f8                strnlen_P
+                0x00006518       0x16 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strnlen_P.o)
+                0x00006518                strnlen_P
  .text.avr-libc
-                0x00005a0e       0x16 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strnlen.o)
-                0x00005a0e                strnlen
+                0x0000652e       0x16 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strnlen.o)
+                0x0000652e                strnlen
  .text.avr-libc
-                0x00005a24       0x58 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(fputc.o)
-                0x00005a24                fputc
+                0x00006544       0x58 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(fputc.o)
+                0x00006544                fputc
  .text.avr-libc
-                0x00005a7c       0xbc d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(ultoa_invert.o)
-                0x00005a7c                __ultoa_invert
- .text.libgcc   0x00005b38       0x38 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_prologue.o)
-                0x00005b38                __prologue_saves__
- .text.libgcc   0x00005b70       0x36 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_epilogue.o)
-                0x00005b70                __epilogue_restores__
-                0x00005ba6                . = ALIGN (0x2)
+                0x0000659c       0xbc d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(ultoa_invert.o)
+                0x0000659c                __ultoa_invert
+ .text.libgcc   0x00006658       0x38 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_prologue.o)
+                0x00006658                __prologue_saves__
+ .text.libgcc   0x00006690       0x36 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_epilogue.o)
+                0x00006690                __epilogue_restores__
+                0x000066c6                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00005ba6        0x0 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
-                0x00005ba6                exit
-                0x00005ba6                _exit
+ .fini9         0x000066c6        0x0 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+                0x000066c6                exit
+                0x000066c6                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -1631,174 +1643,166 @@ LOAD d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00005ba6        0x4 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .fini0         0x000066c6        0x4 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00005baa                _etext = .
+                0x000066ca                _etext = .
 
-.data           0x00800100      0x4e2 load address 0x00005baa
+.data           0x00800100      0x35e load address 0x000066ca
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
- .data          0x00800100      0x21a ./libraries/Adafruit_NFCShield_I2C.o
- .data          0x0080031a      0x15f ./nfc_pos_display.o
- .data          0x00800479       0x40 ./nfc_pos_main.o
- .data          0x008004b9       0xa9 ./nfc_pos_transaction.o
+ .data          0x00800100      0x1b3 ./source/nfc_pos_display.o
+ .data          0x008002b3       0x1f ./source/nfc_pos_main.o
+ .data          0x008002d2       0xd7 ./source/nfc_pos_transaction.o
+ .data          0x008003a9       0x6c ./libraries/Adafruit_NFCShield_I2C.o
  *(.data*)
  .data._ZL9tone_pins
-                0x00800562        0x1 ./src/Tone.o
+                0x00800415        0x1 ./src/Tone.o
  .data.analog_reference
-                0x00800563        0x1 ./src/wiring_analog.o
-                0x00800563                analog_reference
- .data.pn532ack
-                0x00800564        0x6 ./libraries/Adafruit_NFCShield_I2C.o
-                0x00800564                pn532ack
- .data.pn532response_firmwarevers
-                0x0080056a        0x6 ./libraries/Adafruit_NFCShield_I2C.o
-                0x0080056a                pn532response_firmwarevers
+                0x00800416        0x1 ./src/wiring_analog.o
+                0x00800416                analog_reference
  .data.accountNum
-                0x00800570        0x2 ./nfc_pos_main.o
-                0x00800570                accountNum
- .data.outgoing_table
-                0x00800572       0x38 ./nfc_pos_transaction.o
-                0x00800572                outgoing_table
+                0x00800417        0x2 ./source/nfc_pos_main.o
+                0x00800417                accountNum
+ .data.pn532ack
+                0x00800419        0x6 ./libraries/Adafruit_NFCShield_I2C.o
+                0x00800419                pn532ack
+ .data.pn532response_firmwarevers
+                0x0080041f        0x6 ./libraries/Adafruit_NFCShield_I2C.o
+                0x0080041f                pn532response_firmwarevers
  *(.rodata)
  *(.rodata*)
  .rodata._ZTV14HardwareSerial
-                0x008005aa       0x10 ./src/HardwareSerial.o
-                0x008005aa                vtable for HardwareSerial
+                0x00800425       0x10 ./src/HardwareSerial.o
+                0x00800425                vtable for HardwareSerial
  .rodata._ZTV15Adafruit_TFTLCD
-                0x008005ba       0x18 ./libraries/Adafruit_TFTLCD.o
-                0x008005ba                vtable for Adafruit_TFTLCD
+                0x00800435       0x18 ./libraries/Adafruit_TFTLCD.o
+                0x00800435                vtable for Adafruit_TFTLCD
  .rodata._ZTV7TwoWire
-                0x008005d2       0x10 ./libraries/Wire.o
-                0x008005d2                vtable for TwoWire
+                0x0080044d       0x10 ./libraries/Wire.o
+                0x0080044d                vtable for TwoWire
  *(.gnu.linkonce.d*)
-                0x008005e2                . = ALIGN (0x2)
-                0x008005e2                _edata = .
-                0x008005e2                PROVIDE (__data_end, .)
+                0x0080045e                . = ALIGN (0x2)
+ *fill*         0x0080045d        0x1 00
+                0x0080045e                _edata = .
+                0x0080045e                PROVIDE (__data_end, .)
 
-.bss            0x008005e2      0x201
-                0x008005e2                PROVIDE (__bss_start, .)
+.bss            0x0080045e      0x200
+                0x0080045e                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  .bss.rx_buffer
-                0x008005e2       0x44 ./src/HardwareSerial.o
-                0x008005e2                rx_buffer
+                0x0080045e       0x44 ./src/HardwareSerial.o
+                0x0080045e                rx_buffer
  .bss.tx_buffer
-                0x00800626       0x44 ./src/HardwareSerial.o
-                0x00800626                tx_buffer
- .bss.Serial    0x0080066a       0x22 ./src/HardwareSerial.o
-                0x0080066a                Serial
+                0x008004a2       0x44 ./src/HardwareSerial.o
+                0x008004a2                tx_buffer
+ .bss.Serial    0x008004e6       0x22 ./src/HardwareSerial.o
+                0x008004e6                Serial
  .bss.timer2_toggle_count
-                0x0080068c        0x4 ./src/Tone.o
-                0x0080068c                timer2_toggle_count
+                0x00800508        0x4 ./src/Tone.o
+                0x00800508                timer2_toggle_count
  .bss.timer2_pin_port
-                0x00800690        0x2 ./src/Tone.o
-                0x00800690                timer2_pin_port
+                0x0080050c        0x2 ./src/Tone.o
+                0x0080050c                timer2_pin_port
  .bss.timer2_pin_mask
-                0x00800692        0x1 ./src/Tone.o
-                0x00800692                timer2_pin_mask
- .bss.intFunc   0x00800693        0x4 ./src/WInterrupts.o
+                0x0080050e        0x1 ./src/Tone.o
+                0x0080050e                timer2_pin_mask
+ .bss.intFunc   0x0080050f        0x4 ./src/WInterrupts.o
  .bss.timer0_overflow_count
-                0x00800697        0x4 ./src/wiring.o
-                0x00800697                timer0_overflow_count
+                0x00800513        0x4 ./src/wiring.o
+                0x00800513                timer0_overflow_count
  .bss.timer0_millis
-                0x0080069b        0x4 ./src/wiring.o
-                0x0080069b                timer0_millis
+                0x00800517        0x4 ./src/wiring.o
+                0x00800517                timer0_millis
  .bss.timer0_fract
-                0x0080069f        0x1 ./src/wiring.o
+                0x0080051b        0x1 ./src/wiring.o
+ .bss.tft       0x0080051c       0x18 ./source/nfc_pos_display.o
+                0x0080051c                tft
+ .bss.touchScreen
+                0x00800534        0x8 ./source/nfc_pos_display.o
+                0x00800534                touchScreen
+ .bss.state     0x0080053c        0x2 ./source/nfc_pos_main.o
+                0x0080053c                state
+ .bss.saleAmount
+                0x0080053e        0xd ./source/nfc_pos_main.o
+                0x0080053e                saleAmount
+ .bss.pointEntered
+                0x0080054b        0x1 ./source/nfc_pos_main.o
+                0x0080054b                pointEntered
+ .bss.selected  0x0080054c        0x1 ./source/nfc_pos_main.o
+                0x0080054c                selected
+ .bss.nfc       0x0080054d       0x11 ./source/nfc_pos_transaction.o
+                0x0080054d                nfc
  .bss.pn532_packetbuffer
-                0x008006a0       0x40 ./libraries/Adafruit_NFCShield_I2C.o
-                0x008006a0                pn532_packetbuffer
+                0x0080055e       0x40 ./libraries/Adafruit_NFCShield_I2C.o
+                0x0080055e                pn532_packetbuffer
  .bss._ZN7TwoWire8rxBufferE
-                0x008006e0       0x20 ./libraries/Wire.o
-                0x008006e0                TwoWire::rxBuffer
+                0x0080059e       0x20 ./libraries/Wire.o
+                0x0080059e                TwoWire::rxBuffer
  .bss._ZN7TwoWire13rxBufferIndexE
-                0x00800700        0x1 ./libraries/Wire.o
-                0x00800700                TwoWire::rxBufferIndex
+                0x008005be        0x1 ./libraries/Wire.o
+                0x008005be                TwoWire::rxBufferIndex
  .bss._ZN7TwoWire14rxBufferLengthE
-                0x00800701        0x1 ./libraries/Wire.o
-                0x00800701                TwoWire::rxBufferLength
+                0x008005bf        0x1 ./libraries/Wire.o
+                0x008005bf                TwoWire::rxBufferLength
  .bss._ZN7TwoWire9txAddressE
-                0x00800702        0x1 ./libraries/Wire.o
-                0x00800702                TwoWire::txAddress
+                0x008005c0        0x1 ./libraries/Wire.o
+                0x008005c0                TwoWire::txAddress
  .bss._ZN7TwoWire8txBufferE
-                0x00800703       0x20 ./libraries/Wire.o
-                0x00800703                TwoWire::txBuffer
+                0x008005c1       0x20 ./libraries/Wire.o
+                0x008005c1                TwoWire::txBuffer
  .bss._ZN7TwoWire13txBufferIndexE
-                0x00800723        0x1 ./libraries/Wire.o
-                0x00800723                TwoWire::txBufferIndex
+                0x008005e1        0x1 ./libraries/Wire.o
+                0x008005e1                TwoWire::txBufferIndex
  .bss._ZN7TwoWire14txBufferLengthE
-                0x00800724        0x1 ./libraries/Wire.o
-                0x00800724                TwoWire::txBufferLength
+                0x008005e2        0x1 ./libraries/Wire.o
+                0x008005e2                TwoWire::txBufferLength
  .bss._ZN7TwoWire12transmittingE
-                0x00800725        0x1 ./libraries/Wire.o
-                0x00800725                TwoWire::transmitting
- .bss.Wire      0x00800726        0xc ./libraries/Wire.o
-                0x00800726                Wire
+                0x008005e3        0x1 ./libraries/Wire.o
+                0x008005e3                TwoWire::transmitting
+ .bss.Wire      0x008005e4        0xc ./libraries/Wire.o
+                0x008005e4                Wire
  .bss.twi_state
-                0x00800732        0x1 ./libraries/twi.o
+                0x008005f0        0x1 ./libraries/twi.o
  .bss.twi_slarw
-                0x00800733        0x1 ./libraries/twi.o
+                0x008005f1        0x1 ./libraries/twi.o
  .bss.twi_sendStop
-                0x00800734        0x1 ./libraries/twi.o
+                0x008005f2        0x1 ./libraries/twi.o
  .bss.twi_inRepStart
-                0x00800735        0x1 ./libraries/twi.o
+                0x008005f3        0x1 ./libraries/twi.o
  .bss.twi_onSlaveTransmit
-                0x00800736        0x2 ./libraries/twi.o
+                0x008005f4        0x2 ./libraries/twi.o
  .bss.twi_onSlaveReceive
-                0x00800738        0x2 ./libraries/twi.o
+                0x008005f6        0x2 ./libraries/twi.o
  .bss.twi_masterBuffer
-                0x0080073a       0x20 ./libraries/twi.o
+                0x008005f8       0x20 ./libraries/twi.o
  .bss.twi_masterBufferIndex
-                0x0080075a        0x1 ./libraries/twi.o
+                0x00800618        0x1 ./libraries/twi.o
  .bss.twi_masterBufferLength
-                0x0080075b        0x1 ./libraries/twi.o
+                0x00800619        0x1 ./libraries/twi.o
  .bss.twi_txBuffer
-                0x0080075c       0x20 ./libraries/twi.o
+                0x0080061a       0x20 ./libraries/twi.o
  .bss.twi_txBufferIndex
-                0x0080077c        0x1 ./libraries/twi.o
+                0x0080063a        0x1 ./libraries/twi.o
  .bss.twi_txBufferLength
-                0x0080077d        0x1 ./libraries/twi.o
+                0x0080063b        0x1 ./libraries/twi.o
  .bss.twi_rxBuffer
-                0x0080077e       0x20 ./libraries/twi.o
+                0x0080063c       0x20 ./libraries/twi.o
  .bss.twi_rxBufferIndex
-                0x0080079e        0x1 ./libraries/twi.o
+                0x0080065c        0x1 ./libraries/twi.o
  .bss.twi_error
-                0x0080079f        0x1 ./libraries/twi.o
- .bss.tft       0x008007a0       0x18 ./nfc_pos_display.o
-                0x008007a0                tft
- .bss.ts        0x008007b8        0x8 ./nfc_pos_display.o
-                0x008007b8                ts
- .bss.keyDelay  0x008007c0        0x2 ./nfc_pos_display.o
-                0x008007c0                keyDelay
- .bss._ZL6cursor
-                0x008007c2        0x4 ./nfc_pos_display.o
- .bss.state     0x008007c6        0x2 ./nfc_pos_main.o
-                0x008007c6                state
- .bss.keyValue  0x008007c8        0x2 ./nfc_pos_main.o
-                0x008007c8                keyValue
- .bss.keyPressed
-                0x008007ca        0x2 ./nfc_pos_main.o
-                0x008007ca                keyPressed
- .bss.moneyAmount
-                0x008007cc        0x4 ./nfc_pos_main.o
-                0x008007cc                moneyAmount
- .bss.pageNumber
-                0x008007d0        0x2 ./nfc_pos_main.o
-                0x008007d0                pageNumber
- .bss.nfc       0x008007d2       0x11 ./nfc_pos_transaction.o
-                0x008007d2                nfc
+                0x0080065d        0x1 ./libraries/twi.o
  *(COMMON)
-                0x008007e3                PROVIDE (__bss_end, .)
-                0x00005baa                __data_load_start = LOADADDR (.data)
-                0x0000608c                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0080065e                PROVIDE (__bss_end, .)
+                0x000066ca                __data_load_start = LOADADDR (.data)
+                0x00006a28                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x008007e3        0x0
-                0x008007e3                PROVIDE (__noinit_start, .)
+.noinit         0x0080065e        0x0
+                0x0080065e                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x008007e3                PROVIDE (__noinit_end, .)
-                0x008007e3                _end = .
-                0x008007e3                PROVIDE (__heap_start, .)
+                0x0080065e                PROVIDE (__noinit_end, .)
+                0x0080065e                _end = .
+                0x0080065e                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -1816,72 +1820,11 @@ LOAD d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .signature
  *(.signature*)
 
-.stab           0x00000000     0xe6c4
+.stab
  *(.stab)
- .stab          0x00000000      0x3a8 ./src/avr-libc/malloc.o
-                                0x768 (size before relaxing)
- .stab          0x000003a8      0x144 ./src/avr-libc/realloc.o
-                                0x5dc (size before relaxing)
- .stab          0x000004ec      0x51c ./src/CDC.o
-                                0x528 (size before relaxing)
- .stab          0x00000a08      0x51c ./src/HID.o
-                                0x528 (size before relaxing)
- .stab          0x00000f24      0xbdc ./src/HardwareSerial.o
-                               0x1164 (size before relaxing)
- .stab          0x00001b00      0xc6c ./src/Print.o
-                               0x1398 (size before relaxing)
- .stab          0x0000276c      0x540 ./src/SPI.o
-                                0x72c (size before relaxing)
- .stab          0x00002cac      0x5ac ./src/Stream.o
-                                0xec4 (size before relaxing)
- .stab          0x00003258      0x72c ./src/Tone.o
-                                0xa98 (size before relaxing)
- .stab          0x00003984      0x51c ./src/USBCore.o
-                                0x528 (size before relaxing)
- .stab          0x00003ea0      0x450 ./src/WInterrupts.o
-                                0x750 (size before relaxing)
- .stab          0x000042f0      0x294 ./src/WMath.o
-                                0x450 (size before relaxing)
- .stab          0x00004584      0x744 ./src/WString.o
-                               0x2c28 (size before relaxing)
- .stab          0x00004cc8      0x564 ./src/main.o
-                                0x570 (size before relaxing)
- .stab          0x0000522c      0x228 ./src/new.o
-                                0x48c (size before relaxing)
- .stab          0x00005454      0x678 ./src/wiring.o
-                                0xa38 (size before relaxing)
- .stab          0x00005acc      0x324 ./src/wiring_analog.o
-                                0x804 (size before relaxing)
- .stab          0x00005df0      0x864 ./src/wiring_digital.o
-                                0xb94 (size before relaxing)
- .stab          0x00006654      0x240 ./src/wiring_pulse.o
-                                0x774 (size before relaxing)
- .stab          0x00006894      0x24c ./src/wiring_shift.o
-                                0x72c (size before relaxing)
- .stab          0x00006ae0      0xda4 ./libraries/Adafruit_GFX.o
-                               0x1b9c (size before relaxing)
- .stab          0x00007884     0x108c ./libraries/Adafruit_NFCShield_I2C.o
-                               0x1ba8 (size before relaxing)
- .stab          0x00008910     0x1644 ./libraries/Adafruit_TFTLCD.o
-                               0x1ba8 (size before relaxing)
- .stab          0x00009f54      0x924 ./libraries/TouchScreen.o
-                               0x1050 (size before relaxing)
- .stab          0x0000a878      0xbd0 ./libraries/Wire.o
-                               0x10c8 (size before relaxing)
- .stab          0x0000b448      0x138 ./libraries/glcdfont.o
-                                0x39c (size before relaxing)
- .stab          0x0000b580      0x9d8 ./libraries/twi.o
-                                0xe7c (size before relaxing)
- .stab          0x0000bf58      0xff0 ./nfc_pos_display.o
-                               0x1158 (size before relaxing)
- .stab          0x0000cf48      0xad4 ./nfc_pos_main.o
-                                0xb28 (size before relaxing)
- .stab          0x0000da1c      0xca8 ./nfc_pos_transaction.o
-                                0xcfc (size before relaxing)
 
-.stabstr        0x00000000    0x1a166
+.stabstr
  *(.stabstr)
- .stabstr       0x00000000    0x1a166 ./src/avr-libc/malloc.o
 
 .stab.excl
  *(.stab.excl)
@@ -1952,52 +1895,53 @@ Adafruit_GFX::drawCircleHelper(int, int, int, unsigned char, unsigned int) ./lib
 Adafruit_GFX::drawFastHLine(int, int, int, unsigned int) ./libraries/Adafruit_GFX.o
 Adafruit_GFX::drawFastVLine(int, int, int, unsigned int) ./libraries/Adafruit_GFX.o
 Adafruit_GFX::drawLine(int, int, int, int, unsigned int) ./libraries/Adafruit_GFX.o
-                                                  ./nfc_pos_display.o
                                                   ./libraries/Adafruit_TFTLCD.o
 Adafruit_GFX::drawRect(int, int, int, int, unsigned int) ./libraries/Adafruit_GFX.o
                                                   ./libraries/Adafruit_TFTLCD.o
 Adafruit_GFX::drawRoundRect(int, int, int, int, int, unsigned int) ./libraries/Adafruit_GFX.o
+                                                  ./source/nfc_pos_display.o
 Adafruit_GFX::drawTriangle(int, int, int, int, int, int, unsigned int) ./libraries/Adafruit_GFX.o
 Adafruit_GFX::fillCircle(int, int, int, unsigned int) ./libraries/Adafruit_GFX.o
 Adafruit_GFX::fillCircleHelper(int, int, int, unsigned char, int, unsigned int) ./libraries/Adafruit_GFX.o
 Adafruit_GFX::fillRect(int, int, int, int, unsigned int) ./libraries/Adafruit_GFX.o
 Adafruit_GFX::fillRoundRect(int, int, int, int, int, unsigned int) ./libraries/Adafruit_GFX.o
+                                                  ./source/nfc_pos_display.o
 Adafruit_GFX::fillScreen(unsigned int)            ./libraries/Adafruit_GFX.o
 Adafruit_GFX::fillTriangle(int, int, int, int, int, int, unsigned int) ./libraries/Adafruit_GFX.o
 Adafruit_GFX::getRotation()                       ./libraries/Adafruit_GFX.o
 Adafruit_GFX::height()                            ./libraries/Adafruit_GFX.o
-                                                  ./nfc_pos_display.o
+                                                  ./source/nfc_pos_display.o
 Adafruit_GFX::invertDisplay(unsigned char)        ./libraries/Adafruit_GFX.o
                                                   ./libraries/Adafruit_TFTLCD.o
 Adafruit_GFX::setCursor(int, int)                 ./libraries/Adafruit_GFX.o
-                                                  ./nfc_pos_display.o
+                                                  ./source/nfc_pos_display.o
 Adafruit_GFX::setRotation(unsigned char)          ./libraries/Adafruit_GFX.o
                                                   ./libraries/Adafruit_TFTLCD.o
 Adafruit_GFX::setTextColor(unsigned int)          ./libraries/Adafruit_GFX.o
-                                                  ./nfc_pos_display.o
+                                                  ./source/nfc_pos_display.o
 Adafruit_GFX::setTextColor(unsigned int, unsigned int) ./libraries/Adafruit_GFX.o
 Adafruit_GFX::setTextSize(unsigned char)          ./libraries/Adafruit_GFX.o
-                                                  ./nfc_pos_display.o
+                                                  ./source/nfc_pos_display.o
 Adafruit_GFX::setTextWrap(unsigned char)          ./libraries/Adafruit_GFX.o
 Adafruit_GFX::width()                             ./libraries/Adafruit_GFX.o
-                                                  ./nfc_pos_display.o
+                                                  ./source/nfc_pos_display.o
 Adafruit_GFX::write(unsigned char)                ./libraries/Adafruit_GFX.o
                                                   ./libraries/Adafruit_TFTLCD.o
 Adafruit_NFCShield_I2C::Adafruit_NFCShield_I2C(unsigned char, unsigned char) ./libraries/Adafruit_NFCShield_I2C.o
-                                                  ./nfc_pos_transaction.o
 Adafruit_NFCShield_I2C::Adafruit_NFCShield_I2C(unsigned char, unsigned char) ./libraries/Adafruit_NFCShield_I2C.o
+                                                  ./source/nfc_pos_transaction.o
 Adafruit_NFCShield_I2C::PrintHex(unsigned char const*, unsigned long) ./libraries/Adafruit_NFCShield_I2C.o
 Adafruit_NFCShield_I2C::PrintHexChar(unsigned char const*, unsigned long) ./libraries/Adafruit_NFCShield_I2C.o
 Adafruit_NFCShield_I2C::SAMConfig()               ./libraries/Adafruit_NFCShield_I2C.o
-                                                  ./nfc_pos_transaction.o
+                                                  ./source/nfc_pos_transaction.o
 Adafruit_NFCShield_I2C::begin()                   ./libraries/Adafruit_NFCShield_I2C.o
-                                                  ./nfc_pos_transaction.o
+                                                  ./source/nfc_pos_transaction.o
 Adafruit_NFCShield_I2C::getFirmwareVersion()      ./libraries/Adafruit_NFCShield_I2C.o
-                                                  ./nfc_pos_transaction.o
-Adafruit_NFCShield_I2C::inDataExchange(char*, unsigned char, char*, unsigned char*) ./libraries/Adafruit_NFCShield_I2C.o
-                                                  ./nfc_pos_transaction.o
+                                                  ./source/nfc_pos_transaction.o
+Adafruit_NFCShield_I2C::inDataExchange(unsigned char*, unsigned char, unsigned char*, unsigned char*) ./libraries/Adafruit_NFCShield_I2C.o
+                                                  ./source/nfc_pos_transaction.o
 Adafruit_NFCShield_I2C::inListPassiveTarget()     ./libraries/Adafruit_NFCShield_I2C.o
-                                                  ./nfc_pos_transaction.o
+                                                  ./source/nfc_pos_transaction.o
 Adafruit_NFCShield_I2C::mifareclassic_AuthenticateBlock(unsigned char*, unsigned char, unsigned long, unsigned char, unsigned char*) ./libraries/Adafruit_NFCShield_I2C.o
 Adafruit_NFCShield_I2C::mifareclassic_FormatNDEF() ./libraries/Adafruit_NFCShield_I2C.o
 Adafruit_NFCShield_I2C::mifareclassic_IsFirstBlock(unsigned long) ./libraries/Adafruit_NFCShield_I2C.o
@@ -2017,33 +1961,33 @@ Adafruit_NFCShield_I2C::wirereadstatus()          ./libraries/Adafruit_NFCShield
 Adafruit_NFCShield_I2C::wiresendcommand(unsigned char*, unsigned char) ./libraries/Adafruit_NFCShield_I2C.o
 Adafruit_NFCShield_I2C::writeGPIO(unsigned char)  ./libraries/Adafruit_NFCShield_I2C.o
 Adafruit_TFTLCD::Adafruit_TFTLCD()                ./libraries/Adafruit_TFTLCD.o
+                                                  ./source/nfc_pos_display.o
 Adafruit_TFTLCD::Adafruit_TFTLCD()                ./libraries/Adafruit_TFTLCD.o
 Adafruit_TFTLCD::Adafruit_TFTLCD(unsigned char, unsigned char, unsigned char, unsigned char, unsigned char) ./libraries/Adafruit_TFTLCD.o
 Adafruit_TFTLCD::Adafruit_TFTLCD(unsigned char, unsigned char, unsigned char, unsigned char, unsigned char) ./libraries/Adafruit_TFTLCD.o
-                                                  ./nfc_pos_display.o
 Adafruit_TFTLCD::begin(unsigned int)              ./libraries/Adafruit_TFTLCD.o
-                                                  ./nfc_pos_display.o
+                                                  ./source/nfc_pos_display.o
 Adafruit_TFTLCD::color565(unsigned char, unsigned char, unsigned char) ./libraries/Adafruit_TFTLCD.o
 Adafruit_TFTLCD::drawFastHLine(int, int, int, unsigned int) ./libraries/Adafruit_TFTLCD.o
 Adafruit_TFTLCD::drawFastVLine(int, int, int, unsigned int) ./libraries/Adafruit_TFTLCD.o
 Adafruit_TFTLCD::drawPixel(int, int, unsigned int) ./libraries/Adafruit_TFTLCD.o
 Adafruit_TFTLCD::fillRect(int, int, int, int, unsigned int) ./libraries/Adafruit_TFTLCD.o
 Adafruit_TFTLCD::fillScreen(unsigned int)         ./libraries/Adafruit_TFTLCD.o
-                                                  ./nfc_pos_display.o
+                                                  ./source/nfc_pos_display.o
 Adafruit_TFTLCD::flood(unsigned int, unsigned long) ./libraries/Adafruit_TFTLCD.o
 Adafruit_TFTLCD::init()                           ./libraries/Adafruit_TFTLCD.o
 Adafruit_TFTLCD::pushColors(unsigned int*, unsigned char, unsigned char) ./libraries/Adafruit_TFTLCD.o
 Adafruit_TFTLCD::read8()                          ./libraries/Adafruit_TFTLCD.o
 Adafruit_TFTLCD::readID()                         ./libraries/Adafruit_TFTLCD.o
-                                                  ./nfc_pos_display.o
+                                                  ./source/nfc_pos_display.o
 Adafruit_TFTLCD::readPixel(int, int)              ./libraries/Adafruit_TFTLCD.o
 Adafruit_TFTLCD::reset()                          ./libraries/Adafruit_TFTLCD.o
-                                                  ./nfc_pos_display.o
+                                                  ./source/nfc_pos_display.o
 Adafruit_TFTLCD::setAddrWindow(int, int, int, int) ./libraries/Adafruit_TFTLCD.o
 Adafruit_TFTLCD::setLR()                          ./libraries/Adafruit_TFTLCD.o
 Adafruit_TFTLCD::setReadDir()                     ./libraries/Adafruit_TFTLCD.o
 Adafruit_TFTLCD::setRotation(unsigned char)       ./libraries/Adafruit_TFTLCD.o
-                                                  ./nfc_pos_display.o
+                                                  ./source/nfc_pos_display.o
 Adafruit_TFTLCD::setWriteDir()                    ./libraries/Adafruit_TFTLCD.o
 Adafruit_TFTLCD::writeRegister16(unsigned int, unsigned int) ./libraries/Adafruit_TFTLCD.o
 Adafruit_TFTLCD::writeRegister8(unsigned char, unsigned char) ./libraries/Adafruit_TFTLCD.o
@@ -2052,7 +1996,7 @@ HardwareSerial::HardwareSerial(ring_buffer*, ring_buffer*, unsigned char volatil
 HardwareSerial::HardwareSerial(ring_buffer*, ring_buffer*, unsigned char volatile*, unsigned char volatile*, unsigned char volatile*, unsigned char volatile*, unsigned char volatile*, unsigned char volatile*, unsigned char, unsigned char, unsigned char, unsigned char, unsigned char) ./src/HardwareSerial.o
 HardwareSerial::available()                       ./src/HardwareSerial.o
 HardwareSerial::begin(unsigned long)              ./src/HardwareSerial.o
-                                                  ./nfc_pos_main.o
+                                                  ./source/nfc_pos_main.o
 HardwareSerial::begin(unsigned long, unsigned char) ./src/HardwareSerial.o
 HardwareSerial::end()                             ./src/HardwareSerial.o
 HardwareSerial::flush()                           ./src/HardwareSerial.o
@@ -2061,8 +2005,8 @@ HardwareSerial::peek()                            ./src/HardwareSerial.o
 HardwareSerial::read()                            ./src/HardwareSerial.o
 HardwareSerial::write(unsigned char)              ./src/HardwareSerial.o
 Point::Point()                                    ./libraries/TouchScreen.o
-                                                  ./nfc_pos_display.o
 Point::Point()                                    ./libraries/TouchScreen.o
+                                                  ./source/nfc_pos_display.o
 Point::Point(int, int, int)                       ./libraries/TouchScreen.o
 Point::Point(int, int, int)                       ./libraries/TouchScreen.o
 Point::operator!=(Point)                          ./libraries/TouchScreen.o
@@ -2071,48 +2015,47 @@ Print::print(Printable const&)                    ./src/Print.o
 Print::print(String const&)                       ./src/Print.o
 Print::print(__FlashStringHelper const*)          ./src/Print.o
 Print::print(char const*)                         ./src/Print.o
-                                                  ./nfc_pos_transaction.o
                                                   ./libraries/Adafruit_NFCShield_I2C.o
+                                                  ./source/nfc_pos_transaction.o
 Print::print(char)                                ./src/Print.o
-                                                  ./nfc_pos_transaction.o
-                                                  ./nfc_pos_main.o
                                                   ./libraries/Adafruit_NFCShield_I2C.o
+                                                  ./source/nfc_pos_transaction.o
+                                                  ./source/nfc_pos_main.o
 Print::print(double, int)                         ./src/Print.o
 Print::print(int, int)                            ./src/Print.o
                                                   ./libraries/Adafruit_NFCShield_I2C.o
+                                                  ./source/nfc_pos_display.o
 Print::print(long, int)                           ./src/Print.o
-                                                  ./nfc_pos_display.o
 Print::print(unsigned char, int)                  ./src/Print.o
                                                   ./libraries/Adafruit_NFCShield_I2C.o
 Print::print(unsigned int, int)                   ./src/Print.o
 Print::print(unsigned long, int)                  ./src/Print.o
-                                                  ./nfc_pos_transaction.o
+                                                  ./source/nfc_pos_transaction.o
 Print::printFloat(double, unsigned char)          ./src/Print.o
 Print::printNumber(unsigned long, unsigned char)  ./src/Print.o
 Print::println()                                  ./src/Print.o
-                                                  ./nfc_pos_main.o
-                                                  ./nfc_pos_display.o
-                                                  ./libraries/Adafruit_NFCShield_I2C.o
+                                                  ./source/nfc_pos_main.o
+                                                  ./source/nfc_pos_display.o
 Print::println(Printable const&)                  ./src/Print.o
 Print::println(String const&)                     ./src/Print.o
 Print::println(__FlashStringHelper const*)        ./src/Print.o
 Print::println(char const*)                       ./src/Print.o
-                                                  ./nfc_pos_transaction.o
-                                                  ./nfc_pos_display.o
                                                   ./libraries/Adafruit_NFCShield_I2C.o
+                                                  ./source/nfc_pos_transaction.o
+                                                  ./source/nfc_pos_display.o
 Print::println(char)                              ./src/Print.o
 Print::println(double, int)                       ./src/Print.o
-                                                  ./nfc_pos_display.o
+                                                  ./source/nfc_pos_display.o
 Print::println(int, int)                          ./src/Print.o
-                                                  ./nfc_pos_transaction.o
-                                                  ./libraries/Adafruit_NFCShield_I2C.o
+                                                  ./source/nfc_pos_transaction.o
+                                                  ./source/nfc_pos_display.o
 Print::println(long, int)                         ./src/Print.o
 Print::println(unsigned char, int)                ./src/Print.o
                                                   ./libraries/Adafruit_NFCShield_I2C.o
 Print::println(unsigned int, int)                 ./src/Print.o
 Print::println(unsigned long, int)                ./src/Print.o
-                                                  ./nfc_pos_transaction.o
-                                                  ./nfc_pos_display.o
+                                                  ./source/nfc_pos_transaction.o
+                                                  ./source/nfc_pos_display.o
 Print::write(char const*)                         ./src/Print.o
 Print::write(unsigned char const*, unsigned int)  ./src/Print.o
                                                   ./libraries/Wire.o
@@ -2125,9 +2068,10 @@ SPIClass::setBitOrder(unsigned char)              ./src/SPI.o
 SPIClass::setClockDivider(unsigned char)          ./src/SPI.o
 SPIClass::setDataMode(unsigned char)              ./src/SPI.o
 Serial                                            ./src/HardwareSerial.o
-                                                  ./nfc_pos_transaction.o
-                                                  ./nfc_pos_main.o
                                                   ./libraries/Adafruit_NFCShield_I2C.o
+                                                  ./source/nfc_pos_transaction.o
+                                                  ./source/nfc_pos_main.o
+                                                  ./source/nfc_pos_display.o
 Stream::find(char*)                               ./src/Stream.o
 Stream::find(char*, unsigned int)                 ./src/Stream.o
 Stream::findUntil(char*, char*)                   ./src/Stream.o
@@ -2216,9 +2160,9 @@ TouchScreen::TouchScreen(unsigned char, unsigned char, unsigned char, unsigned c
 TouchScreen::TouchScreen(unsigned char, unsigned char, unsigned char, unsigned char) ./libraries/TouchScreen.o
 TouchScreen::TouchScreen(unsigned char, unsigned char, unsigned char, unsigned char, unsigned int) ./libraries/TouchScreen.o
 TouchScreen::TouchScreen(unsigned char, unsigned char, unsigned char, unsigned char, unsigned int) ./libraries/TouchScreen.o
-                                                  ./nfc_pos_display.o
+                                                  ./source/nfc_pos_display.o
 TouchScreen::getPoint()                           ./libraries/TouchScreen.o
-                                                  ./nfc_pos_display.o
+                                                  ./source/nfc_pos_display.o
 TouchScreen::pressure()                           ./libraries/TouchScreen.o
 TouchScreen::readTouchX()                         ./libraries/TouchScreen.o
 TouchScreen::readTouchY()                         ./libraries/TouchScreen.o
@@ -2292,7 +2236,6 @@ __divmodhi4                                       d:/winavr-20100110/bin/../lib/
                                                   ./libraries/Adafruit_GFX.o
 __divmodsi4                                       d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_divmodsi4.o)
                                                   d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(random.o)
-                                                  ./nfc_pos_main.o
                                                   ./src/WMath.o
 __divsf3                                          d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(divsf3.o)
                                                   ./libraries/TouchScreen.o
@@ -2301,12 +2244,12 @@ __divsf3_pse                                      d:/winavr-20100110/bin/../lib/
 __divsf3x                                         d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(divsf3x.o)
                                                   d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(divsf3.o)
 __do_clear_bss                                    d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
-                                                  ./nfc_pos_transaction.o
-                                                  ./nfc_pos_main.o
-                                                  ./nfc_pos_display.o
                                                   ./libraries/twi.o
                                                   ./libraries/Wire.o
                                                   ./libraries/Adafruit_NFCShield_I2C.o
+                                                  ./source/nfc_pos_transaction.o
+                                                  ./source/nfc_pos_main.o
+                                                  ./source/nfc_pos_display.o
                                                   ./src/wiring.o
                                                   ./src/WString.o
                                                   ./src/WInterrupts.o
@@ -2316,12 +2259,12 @@ __do_clear_bss                                    d:/winavr-20100110/bin/../lib/
                                                   ./src/avr-libc/malloc.o
 __do_copy_data                                    d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
                                                   d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(random.o)
-                                                  ./nfc_pos_transaction.o
-                                                  ./nfc_pos_main.o
-                                                  ./nfc_pos_display.o
                                                   ./libraries/Wire.o
                                                   ./libraries/Adafruit_TFTLCD.o
                                                   ./libraries/Adafruit_NFCShield_I2C.o
+                                                  ./source/nfc_pos_transaction.o
+                                                  ./source/nfc_pos_main.o
+                                                  ./source/nfc_pos_display.o
                                                   ./src/wiring_analog.o
                                                   ./src/WString.o
                                                   ./src/Tone.o
@@ -2330,9 +2273,9 @@ __do_copy_data                                    d:/winavr-20100110/bin/../lib/
                                                   ./src/HardwareSerial.o
                                                   ./src/avr-libc/malloc.o
 __do_global_ctors                                 d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_ctors.o)
-                                                  ./nfc_pos_transaction.o
-                                                  ./nfc_pos_display.o
                                                   ./libraries/Wire.o
+                                                  ./source/nfc_pos_transaction.o
+                                                  ./source/nfc_pos_display.o
                                                   ./src/HardwareSerial.o
 __epilogue_restores__                             d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_epilogue.o)
                                                   d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(vfprintf_std.o)
@@ -2419,7 +2362,6 @@ __mulsf3x                                         d:/winavr-20100110/bin/../lib/
                                                   d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libm.a(mulsf3.o)
 __mulsi3                                          d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mulsi3.o)
                                                   d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(random.o)
-                                                  ./nfc_pos_main.o
                                                   ./libraries/Adafruit_TFTLCD.o
                                                   ./src/wiring_pulse.o
                                                   ./src/WMath.o
@@ -2491,21 +2433,29 @@ __vector_default                                  d:/winavr-20100110/bin/../lib/
 __vectors                                         d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm328p.o
 _div                                              d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_divmodhi4.o)
 _exit                                             d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
-accountNum                                        ./nfc_pos_main.o
+accountNum                                        ./source/nfc_pos_main.o
 analogRead                                        ./src/wiring_analog.o
                                                   ./libraries/TouchScreen.o
 analogReference                                   ./src/wiring_analog.o
 analogWrite                                       ./src/wiring_analog.o
 analog_reference                                  ./src/wiring_analog.o
 atoi                                              d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(atoi.o)
-                                                  ./nfc_pos_transaction.o
+                                                  ./source/nfc_pos_transaction.o
 atol                                              d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(atol.o)
                                                   ./src/WString.o
 attachInterrupt                                   ./src/WInterrupts.o
-authCode                                          ./nfc_pos_main.o
+authCode                                          ./source/nfc_pos_main.o
+cancelSale(char const*)                           ./source/nfc_pos_display.o
+                                                  ./source/nfc_pos_main.o
+confirmSale(char const*)                          ./source/nfc_pos_display.o
+                                                  ./source/nfc_pos_main.o
+confirmation(char*)                               ./source/nfc_pos_display.o
+                                                  ./source/nfc_pos_main.o
 delay                                             ./src/wiring.o
                                                   ./libraries/Adafruit_TFTLCD.o
                                                   ./libraries/Adafruit_NFCShield_I2C.o
+                                                  ./source/nfc_pos_transaction.o
+                                                  ./source/nfc_pos_main.o
 delayMicroseconds                                 ./src/wiring.o
                                                   ./libraries/Adafruit_TFTLCD.o
 detachInterrupt                                   ./src/WInterrupts.o
@@ -2532,21 +2482,6 @@ digital_pin_to_port_PGM                           ./src/wiring_digital.o
 digital_pin_to_timer_PGM                          ./src/wiring_digital.o
                                                   ./src/wiring_analog.o
 disableTimer(unsigned char)                       ./src/Tone.o
-displayIdle()                                     ./nfc_pos_display.o
-                                                  ./nfc_pos_main.o
-displayLine(char const*)                          ./nfc_pos_display.o
-                                                  ./nfc_pos_transaction.o
-                                                  ./nfc_pos_main.o
-displayMenu(unsigned char)                        ./nfc_pos_display.o
-                                                  ./nfc_pos_main.o
-displayPayment()                                  ./nfc_pos_display.o
-                                                  ./nfc_pos_main.o
-displayRefreshAmount()                            ./nfc_pos_display.o
-                                                  ./nfc_pos_main.o
-displaySetting(unsigned char)                     ./nfc_pos_display.o
-                                                  ./nfc_pos_main.o
-displayTransaction()                              ./nfc_pos_display.o
-                                                  ./nfc_pos_main.o
 exit                                              d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
                                                   d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm328p.o
 fputc                                             d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(fputc.o)
@@ -2555,20 +2490,21 @@ free                                              ./src/avr-libc/malloc.o
                                                   ./src/new.o
                                                   ./src/WString.o
                                                   ./src/avr-libc/realloc.o
+getSaleAmount(char const*)                        ./source/nfc_pos_display.o
+                                                  ./source/nfc_pos_main.o
+homeScreen()                                      ./source/nfc_pos_display.o
+                                                  ./source/nfc_pos_main.o
 init                                              ./src/wiring.o
                                                   ./src/main.o
-initialDisplay()                                  ./nfc_pos_display.o
-                                                  ./nfc_pos_main.o
+initialDisplay()                                  ./source/nfc_pos_display.o
+                                                  ./source/nfc_pos_main.o
 isspace                                           d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(isspace.o)
                                                   ./src/WString.o
 itoa                                              d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(itoa.o)
                                                   ./src/WString.o
-keyDelay                                          ./nfc_pos_display.o
-keyPressed                                        ./nfc_pos_main.o
-                                                  ./nfc_pos_display.o
-keyValue                                          ./nfc_pos_main.o
-                                                  ./nfc_pos_display.o
-loop                                              ./nfc_pos_main.o
+keyDelay                                          ./source/nfc_pos_display.o
+keyValue                                          ./source/nfc_pos_main.o
+loop                                              ./source/nfc_pos_main.o
                                                   ./src/main.o
 ltoa                                              d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(ltoa.o)
                                                   ./src/WString.o
@@ -2580,7 +2516,7 @@ malloc                                            ./src/avr-libc/malloc.o
                                                   ./src/new.o
                                                   ./src/avr-libc/realloc.o
 map(long, long, long, long, long)                 ./src/WMath.o
-                                                  ./nfc_pos_display.o
+                                                  ./source/nfc_pos_display.o
 memcpy                                            d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(memcpy.o)
                                                   d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(memmove.o)
                                                   ./libraries/Adafruit_NFCShield_I2C.o
@@ -2589,20 +2525,19 @@ memcpy                                            d:/winavr-20100110/bin/../lib/
 memmove                                           d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(memmove.o)
                                                   ./src/WString.o
 micros                                            ./src/wiring.o
-                                                  ./nfc_pos_display.o
+                                                  ./source/nfc_pos_display.o
 millis                                            ./src/wiring.o
                                                   ./src/Stream.o
-moneyAmount                                       ./nfc_pos_main.o
-                                                  ./nfc_pos_display.o
-nfc                                               ./nfc_pos_transaction.o
-nfc_pos_configure_board()                         ./nfc_pos_transaction.o
-                                                  ./nfc_pos_main.o
-nfc_pos_message_mobile(int, char*, int)           ./nfc_pos_transaction.o
-nfc_pos_mobile_peer_ready()                       ./nfc_pos_transaction.o
-nfc_pos_transaction_error(nfc_pos_transaction_error_code_type) ./nfc_pos_transaction.o
-nfc_pos_transaction_handler(int, char*)           ./nfc_pos_transaction.o
-                                                  ./nfc_pos_main.o
-nfc_pos_verify_transaction(int)                   ./nfc_pos_main.o
+mobileDetected(char*)                             ./source/nfc_pos_display.o
+                                                  ./source/nfc_pos_transaction.o
+nfc                                               ./source/nfc_pos_transaction.o
+nfc_pos_configure_board()                         ./source/nfc_pos_transaction.o
+                                                  ./source/nfc_pos_main.o
+nfc_pos_message_mobile(int, char*, int)           ./source/nfc_pos_transaction.o
+nfc_pos_mobile_peer_ready()                       ./source/nfc_pos_transaction.o
+nfc_pos_transaction_error(nfc_pos_transaction_error_code_type) ./source/nfc_pos_transaction.o
+nfc_pos_transaction_handler(char*, char*)         ./source/nfc_pos_transaction.o
+                                                  ./source/nfc_pos_main.o
 noTone(unsigned char)                             ./src/Tone.o
 operator delete(void*)                            ./src/new.o
 operator delete[](void*)                          ./src/new.o
@@ -2616,32 +2551,33 @@ operator+(StringSumHelper const&, long)           ./src/WString.o
 operator+(StringSumHelper const&, unsigned char)  ./src/WString.o
 operator+(StringSumHelper const&, unsigned int)   ./src/WString.o
 operator+(StringSumHelper const&, unsigned long)  ./src/WString.o
-outgoing_table                                    ./nfc_pos_transaction.o
-pageNumber                                        ./nfc_pos_main.o
+outgoing_table                                    ./source/nfc_pos_transaction.o
+pageNumber                                        ./source/nfc_pos_main.o
 pinMode                                           ./src/wiring_digital.o
-                                                  ./nfc_pos_display.o
                                                   ./libraries/TouchScreen.o
                                                   ./libraries/Adafruit_TFTLCD.o
                                                   ./libraries/Adafruit_NFCShield_I2C.o
+                                                  ./source/nfc_pos_display.o
                                                   ./src/wiring_analog.o
                                                   ./src/Tone.o
                                                   ./src/SPI.o
 pn532_packetbuffer                                ./libraries/Adafruit_NFCShield_I2C.o
 pn532ack                                          ./libraries/Adafruit_NFCShield_I2C.o
 pn532response_firmwarevers                        ./libraries/Adafruit_NFCShield_I2C.o
+pointEntered                                      ./source/nfc_pos_main.o
 port_to_input_PGM                                 ./src/wiring_digital.o
                                                   ./src/wiring_pulse.o
 port_to_mode_PGM                                  ./src/wiring_digital.o
 port_to_output_PGM                                ./src/wiring_digital.o
                                                   ./libraries/TouchScreen.o
                                                   ./src/Tone.o
-processMain()                                     ./nfc_pos_main.o
-processTouch()                                    ./nfc_pos_display.o
-                                                  ./nfc_pos_main.o
-progmemPrint(char const*)                         ./nfc_pos_main.o
-                                                  ./nfc_pos_transaction.o
-progmemPrintln(char const*)                       ./nfc_pos_main.o
-                                                  ./nfc_pos_transaction.o
+processMain()                                     ./source/nfc_pos_main.o
+progmemPrint(char const*)                         ./source/nfc_pos_main.o
+                                                  ./source/nfc_pos_transaction.o
+                                                  ./source/nfc_pos_display.o
+progmemPrintln(char const*)                       ./source/nfc_pos_main.o
+                                                  ./source/nfc_pos_transaction.o
+                                                  ./source/nfc_pos_display.o
 pulseIn                                           ./src/wiring_pulse.o
 random                                            d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(random.o)
                                                   ./src/WMath.o
@@ -2652,18 +2588,21 @@ random_r                                          d:/winavr-20100110/bin/../lib/
 realloc                                           ./src/avr-libc/realloc.o
                                                   ./src/WString.o
 rx_buffer                                         ./src/HardwareSerial.o
+saleAmount                                        ./source/nfc_pos_main.o
+screenPressed                                     ./source/nfc_pos_main.o
+selected                                          ./source/nfc_pos_main.o
 serialEvent()                                     ./src/HardwareSerial.o
 serialEventRun()                                  ./src/HardwareSerial.o
                                                   ./src/main.o
-setup                                             ./nfc_pos_main.o
+setup                                             ./source/nfc_pos_main.o
                                                   ./src/main.o
 shiftIn                                           ./src/wiring_shift.o
 shiftOut                                          ./src/wiring_shift.o
 sprintf                                           d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(sprintf.o)
-                                                  ./nfc_pos_transaction.o
+                                                  ./source/nfc_pos_transaction.o
 srandom                                           d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(random.o)
                                                   ./src/WMath.o
-state                                             ./nfc_pos_main.o
+state                                             ./source/nfc_pos_main.o
 strchr                                            d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strchr.o)
                                                   ./src/WString.o
 strcmp                                            d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strcmp.o)
@@ -2671,7 +2610,8 @@ strcmp                                            d:/winavr-20100110/bin/../lib/
 strcpy                                            d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strcpy.o)
                                                   ./src/WString.o
 strlcat                                           d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strlcat.o)
-                                                  ./nfc_pos_transaction.o
+                                                  ./source/nfc_pos_transaction.o
+                                                  ./source/nfc_pos_main.o
 strncmp                                           d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strncmp.o)
                                                   ./libraries/Adafruit_NFCShield_I2C.o
                                                   ./src/WString.o
@@ -2690,8 +2630,8 @@ strrev                                            d:/winavr-20100110/bin/../lib/
                                                   d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(itoa.o)
 strstr                                            d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strstr.o)
                                                   ./src/WString.o
-testText()                                        ./nfc_pos_display.o
-tft                                               ./nfc_pos_display.o
+testText()                                        ./source/nfc_pos_display.o
+tft                                               ./source/nfc_pos_display.o
 timer0_millis                                     ./src/wiring.o
 timer0_overflow_count                             ./src/wiring.o
 timer0_pin_mask                                   ./src/Tone.o
@@ -2706,9 +2646,14 @@ timer2_toggle_count                               ./src/Tone.o
 tolower                                           d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(tolower.o)
                                                   ./src/WString.o
 tone(unsigned char, unsigned int, unsigned long)  ./src/Tone.o
+touchScreen                                       ./source/nfc_pos_display.o
+touch_table                                       ./source/nfc_pos_display.o
+touchedRegion(nfc_pos_touch_screen_type)          ./source/nfc_pos_display.o
+                                                  ./source/nfc_pos_main.o
 toupper                                           d:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(toupper.o)
                                                   ./src/WString.o
-ts                                                ./nfc_pos_display.o
+transactionResult(char*, char*)                   ./source/nfc_pos_display.o
+                                                  ./source/nfc_pos_transaction.o
 twi_attachSlaveRxEvent                            ./libraries/twi.o
                                                   ./libraries/Wire.o
 twi_attachSlaveTxEvent                            ./libraries/twi.o

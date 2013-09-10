@@ -32,6 +32,6 @@ SIZEDUMMY :=
 SUBDIRS := \
 src \
 src/avr-libc \
-. \
+source \
 libraries \
 
